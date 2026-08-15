@@ -3,3 +3,15 @@ dist
 .git
 *.swp
 *.log
+
+# 运行时/敏感内容不入镜像（运行时由 boot.ts 从 assets 重新生成）
+uploads
+.env
+.env.local
+.env.*.local
+
+# AI 工具目录与生成物
+.workbuddy
+.trae-html-share-packages
+project-interpretation
+.backend-features.json
