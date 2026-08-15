@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="380" viewBox="0 0 820 380" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="820" height="380" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="820" height="44" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="32" width="820" height="12" fill="url(#gTitle)"/>
+  <text x="410" y="26" text-anchor="middle" fill="white" font-size="15" font-weight="bold">三个认知颠覆</text>
+
+  <!-- 颠覆1 -->
+  <rect x="20" y="56" width="244" height="300" rx="10" fill="#2D3E56" filter="url(#s)"/>
+  <rect x="20" y="56" width="244" height="34" rx="10" fill="#1A2D46"/>
+  <text x="142" y="77" text-anchor="middle" fill="white" font-size="13" font-weight="bold">颠覆一：任务规划</text>
+  <text x="32" y="110" fill="#AACCFF" font-size="11" font-weight="bold">旧认知</text>
+  <rect x="32" y="118" width="220" height="52" rx="6" fill="#3A4E62"/>
+  <text x="142" y="138" text-anchor="middle" fill="#88AACC" font-size="10">AI 是随时可问的 "副驾驶"</text>
+  <text x="142" y="156" text-anchor="middle" fill="#88AACC" font-size="10">开发中遇到问题再问就行</text>
+  <text x="32" y="196" fill="#AACCFF" font-size="11" font-weight="bold">新认知</text>
+  <rect x="32" y="204" width="220" height="66" rx="6" fill="#445570"/>
+  <text x="142" y="224" text-anchor="middle" fill="white" font-size="10">AI 在"任务开始时"</text>
+  <text x="142" y="240" text-anchor="middle" fill="white" font-size="10">价值最高</text>
+  <text x="142" y="256" text-anchor="middle" fill="white" font-size="10">好的开始 = 70% 的胜利</text>
+  <text x="32" y="300" fill="#66AACC" font-size="10">→ 花 20 分钟做方案结构</text>
+  <text x="32" y="318" fill="#66AACC" font-size="10">比花 2 小时改 AI 代码</text>
+  <text x="32" y="334" fill="#66AACC" font-size="10">节省更多精力</text>
+
+  <!-- 颠覆2 -->
+  <rect x="288" y="56" width="244" height="300" rx="10" fill="#2D3E56" filter="url(#s)"/>
+  <rect x="288" y="56" width="244" height="34" rx="10" fill="#1A2D46"/>
+  <text x="410" y="77" text-anchor="middle" fill="white" font-size="13" font-weight="bold">颠覆二：质量保障</text>
+  <text x="300" y="110" fill="#AACCFF" font-size="11" font-weight="bold">旧认知</text>
+  <rect x="300" y="118" width="220" height="52" rx="6" fill="#3A4E62"/>
+  <text x="410" y="138" text-anchor="middle" fill="#88AACC" font-size="10">靠人工审查 AI 输出的质量</text>
+  <text x="410" y="156" text-anchor="middle" fill="#88AACC" font-size="10">CR 时候仔细看一遍</text>
+  <text x="300" y="196" fill="#AACCFF" font-size="11" font-weight="bold">新认知</text>
+  <rect x="300" y="204" width="220" height="66" rx="6" fill="#445570"/>
+  <text x="410" y="224" text-anchor="middle" fill="white" font-size="10">AI 行为的保障者</text>
+  <text x="410" y="240" text-anchor="middle" fill="white" font-size="10">不是人眼，而是约束系统</text>
+  <text x="410" y="256" text-anchor="middle" fill="white" font-size="10">（AGENTS.md + 自动化测试）</text>
+  <text x="300" y="300" fill="#66AACC" font-size="10">→ 纠错 1 次后写入规则</text>
+  <text x="300" y="318" fill="#66AACC" font-size="10">而非只纠这一次</text>
+  <text x="300" y="334" fill="#66AACC" font-size="10">约束比审查更持久</text>
+
+  <!-- 颠覆3 -->
+  <rect x="556" y="56" width="244" height="300" rx="10" fill="#2D3E56" filter="url(#s)"/>
+  <rect x="556" y="56" width="244" height="34" rx="10" fill="#1A2D46"/>
+  <text x="678" y="77" text-anchor="middle" fill="white" font-size="13" font-weight="bold">颠覆三：知识资产</text>
+  <text x="568" y="110" fill="#AACCFF" font-size="11" font-weight="bold">旧认知</text>
+  <rect x="568" y="118" width="220" height="52" rx="6" fill="#3A4E62"/>
+  <text x="678" y="138" text-anchor="middle" fill="#88AACC" font-size="10">代码是最核心的交付物</text>
+  <text x="678" y="156" text-anchor="middle" fill="#88AACC" font-size="10">文档是额外负担</text>
+  <text x="568" y="196" fill="#AACCFF" font-size="11" font-weight="bold">新认知</text>
+  <rect x="568" y="204" width="220" height="66" rx="6" fill="#445570"/>
+  <text x="678" y="224" text-anchor="middle" fill="white" font-size="10">结构化知识文档</text>
+  <text x="678" y="240" text-anchor="middle" fill="white" font-size="10">是 AI 时代最核心的资产</text>
+  <text x="678" y="256" text-anchor="middle" fill="white" font-size="10">代码可以重写，知识难以复现</text>
+  <text x="568" y="300" fill="#66AACC" font-size="10">→ 维护 Spec 文档</text>
+  <text x="568" y="318" fill="#66AACC" font-size="10">是为未来的自己和 AI</text>
+  <text x="568" y="334" fill="#66AACC" font-size="10">打造更好的工作环境</text>
+</svg>

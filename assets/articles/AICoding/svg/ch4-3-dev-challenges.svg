@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 500"
+     font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+    <linearGradient id="gOut" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1B5E20"/>
+      <stop offset="100%" style="stop-color:#2E7D32"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="860" height="500" fill="#F2F5FA"/>
+  <rect x="0" y="0" width="860" height="50" fill="url(#gTitle)"/>
+  <text x="430" y="27" text-anchor="middle" fill="white" font-size="17" font-weight="bold">开发阶段：三大核心挑战</text>
+  <text x="430" y="43" text-anchor="middle" fill="#AACCFF" font-size="11">AI 偷懒 · 上下文断层 · 影响面未覆盖</text>
+
+  <!-- 挑战1 -->
+  <rect x="30" y="65" width="248" height="320" rx="12" fill="white" stroke="#E53935" stroke-width="1.8" filter="url(#s)"/>
+  <rect x="30" y="65" width="248" height="40" rx="12" fill="#C62828"/>
+  <rect x="30" y="92" width="248" height="13" fill="#C62828"/>
+  <text x="154" y="90" text-anchor="middle" fill="white" font-size="13" font-weight="bold">挑战一：AI 偷懒</text>
+
+  <rect x="46" y="112" width="216" height="55" rx="6" fill="#FFEBEE"/>
+  <text x="58" y="130" fill="#C62828" font-size="11" font-weight="bold">表现</text>
+  <text x="58" y="146" fill="#555" font-size="10">代码「结构对、细节错」</text>
+  <text x="58" y="159" fill="#555" font-size="10">省略号代替复杂逻辑</text>
+
+  <rect x="46" y="174" width="216" height="55" rx="6" fill="#FFF8F8"/>
+  <text x="58" y="192" fill="#C62828" font-size="11" font-weight="bold">根因</text>
+  <text x="58" y="208" fill="#555" font-size="10">长编码任务中 AI 倾向</text>
+  <text x="58" y="221" fill="#555" font-size="10">跳过细节、简化实现</text>
+
+  <rect x="46" y="236" width="216" height="70" rx="6" fill="#FFEBEE"/>
+  <text x="58" y="254" fill="#C62828" font-size="11" font-weight="bold">解法</text>
+  <text x="58" y="270" fill="#555" font-size="10">分而治之，拆成小节点</text>
+  <text x="58" y="284" fill="#555" font-size="10">每节点编码完立即验证</text>
+  <text x="58" y="298" fill="#555" font-size="10">追问「还有什么没实现的」</text>
+
+  <text x="154" y="360" text-anchor="middle" fill="#C62828" font-size="10">→ 核心原则：先方案后编码</text>
+
+  <!-- 挑战2 -->
+  <rect x="306" y="65" width="248" height="320" rx="12" fill="white" stroke="#E65100" stroke-width="1.8" filter="url(#s)"/>
+  <rect x="306" y="65" width="248" height="40" rx="12" fill="#BF360C"/>
+  <rect x="306" y="92" width="248" height="13" fill="#BF360C"/>
+  <text x="430" y="90" text-anchor="middle" fill="white" font-size="13" font-weight="bold">挑战二：上下文断层</text>
+
+  <rect x="322" y="112" width="216" height="55" rx="6" fill="#FFF3E0"/>
+  <text x="334" y="130" fill="#BF360C" font-size="11" font-weight="bold">表现</text>
+  <text x="334" y="146" fill="#555" font-size="10">遗忘前面确认的约束</text>
+  <text x="334" y="159" fill="#555" font-size="10">重复犯同一个错误</text>
+
+  <rect x="322" y="174" width="216" height="55" rx="6" fill="#FFF8F3"/>
+  <text x="334" y="192" fill="#BF360C" font-size="11" font-weight="bold">根因</text>
+  <text x="334" y="208" fill="#555" font-size="10">对话越长，AI 越容易</text>
+  <text x="334" y="221" fill="#555" font-size="10">「忘记」早期约束</text>
+
+  <rect x="322" y="236" width="216" height="70" rx="6" fill="#FFF3E0"/>
+  <text x="334" y="254" fill="#BF360C" font-size="11" font-weight="bold">解法</text>
+  <text x="334" y="270" fill="#555" font-size="10">核心约束每次新对话重声明</text>
+  <text x="334" y="284" fill="#555" font-size="10">示例：needBuildLongConnection</text>
+  <text x="334" y="298" fill="#555" font-size="10">分支约束写在 Prompt 开头</text>
+
+  <text x="430" y="360" text-anchor="middle" fill="#BF360C" font-size="10">→ 核心原则：约束每次重声明</text>
+
+  <!-- 挑战3 -->
+  <rect x="582" y="65" width="248" height="320" rx="12" fill="white" stroke="#7B1FA2" stroke-width="1.8" filter="url(#s)"/>
+  <rect x="582" y="65" width="248" height="40" rx="12" fill="#6A1B9A"/>
+  <rect x="582" y="92" width="248" height="13" fill="#6A1B9A"/>
+  <text x="706" y="90" text-anchor="middle" fill="white" font-size="13" font-weight="bold">挑战三：影响面未覆盖</text>
+
+  <rect x="598" y="112" width="216" height="55" rx="6" fill="#F3E5F5"/>
+  <text x="610" y="130" fill="#6A1B9A" font-size="11" font-weight="bold">表现</text>
+  <text x="610" y="146" fill="#555" font-size="10">改动给出但影响分析缺失</text>
+  <text x="610" y="159" fill="#555" font-size="10">上下游影响不主动评估</text>
+
+  <rect x="598" y="174" width="216" height="55" rx="6" fill="#FAF0FF"/>
+  <text x="610" y="192" fill="#6A1B9A" font-size="11" font-weight="bold">根因</text>
+  <text x="610" y="208" fill="#555" font-size="10">礼物链路「上下游依赖链</text>
+  <text x="610" y="221" fill="#555" font-size="10">超长」问题最易爆发</text>
+
+  <rect x="598" y="236" width="216" height="70" rx="6" fill="#F3E5F5"/>
+  <text x="610" y="254" fill="#6A1B9A" font-size="11" font-weight="bold">解法</text>
+  <text x="610" y="270" fill="#555" font-size="10">每次改动后主动追问：</text>
+  <text x="610" y="284" fill="#555" font-size="10">「列影响范围+按严重程度倒排」</text>
+  <text x="610" y="298" fill="#555" font-size="10">标记重要程度（高/中/低）</text>
+
+  <text x="706" y="360" text-anchor="middle" fill="#6A1B9A" font-size="10">→ 核心原则：影响面主动追问</text>
+
+  <!-- 底部汇聚 -->
+  <rect x="30" y="418" width="800" height="60" rx="10" fill="url(#gOut)" filter="url(#s)"/>
+  <text x="430" y="441" text-anchor="middle" fill="white" font-size="14" font-weight="bold">三个挑战的底层解法：让 AI 在有约束的轨道上高速执行</text>
+  <text x="215" y="463" text-anchor="middle" fill="#A5D6A7" font-size="11">分而治之 + 立即验证</text>
+  <text x="430" y="463" text-anchor="middle" fill="#A5D6A7" font-size="11">核心约束重声明</text>
+  <text x="655" y="463" text-anchor="middle" fill="#A5D6A7" font-size="11">影响面分级追问</text>
+</svg>

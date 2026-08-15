@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="280" viewBox="0 0 820 280" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.10"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="820" height="280" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="820" height="44" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="32" width="820" height="12" fill="url(#gTitle)"/>
+  <text x="410" y="26" text-anchor="middle" fill="white" font-size="14" font-weight="bold">三个实战需求 × 技术挑战类型</text>
+
+  <!-- 需求1 -->
+  <rect x="20" y="56" width="250" height="196" rx="10" fill="white" stroke="#5B8DD9" stroke-width="2" filter="url(#s)"/>
+  <rect x="20" y="56" width="250" height="36" rx="10" fill="#5B8DD9"/>
+  <rect x="20" y="80" width="250" height="12" fill="#5B8DD9"/>
+  <text x="145" y="80" text-anchor="middle" fill="white" font-size="13" font-weight="bold">需求 1：礼物贴纸</text>
+  <rect x="36" y="100" width="218" height="20" rx="4" fill="#FFF8E8"/>
+  <text x="145" y="114" text-anchor="middle" fill="#7A4000" font-size="10" font-weight="bold">挑战类型：新技术栈 KRN</text>
+  <text x="36" y="140" fill="#2B5090" font-size="11" font-weight="bold">原痛点</text>
+  <text x="36" y="156" fill="#5A7AAA" font-size="10">对 KRN 不熟悉，学习成本高</text>
+  <text x="36" y="176" fill="#2B5090" font-size="11" font-weight="bold">AI 解决了什么</text>
+  <text x="36" y="192" fill="#5A7AAA" font-size="10">扩展认知边界，提供多种方案对比</text>
+  <text x="36" y="214" fill="#C03030" font-size="11" font-weight="bold">AI 带来的新问题</text>
+  <text x="36" y="230" fill="#CC6060" font-size="10">不熟悉的技术栈，如何验收 AI 输出？</text>
+
+  <!-- 需求2 -->
+  <rect x="285" y="56" width="250" height="196" rx="10" fill="white" stroke="#9B6DC8" stroke-width="2" filter="url(#s)"/>
+  <rect x="285" y="56" width="250" height="36" rx="10" fill="#9B6DC8"/>
+  <rect x="285" y="80" width="250" height="12" fill="#9B6DC8"/>
+  <text x="410" y="80" text-anchor="middle" fill="white" font-size="13" font-weight="bold">需求 2：成组送</text>
+  <rect x="301" y="100" width="218" height="20" rx="4" fill="#FFF8E8"/>
+  <text x="410" y="114" text-anchor="middle" fill="#7A4000" font-size="10" font-weight="bold">挑战类型：业务上下文重、链路长</text>
+  <text x="301" y="140" fill="#4A2070" font-size="11" font-weight="bold">原痛点</text>
+  <text x="301" y="156" fill="#7A4AAA" font-size="10">技术链路长，理解成本大，改动易遗漏</text>
+  <text x="301" y="176" fill="#4A2070" font-size="11" font-weight="bold">AI 解决了什么</text>
+  <text x="301" y="192" fill="#7A4AAA" font-size="10">链路梳理 + 上下文拆解 + 影响范围评估</text>
+  <text x="301" y="214" fill="#C03030" font-size="11" font-weight="bold">AI 带来的新问题</text>
+  <text x="301" y="230" fill="#CC6060" font-size="10">如何解决 AI "偷懒" + 上下文受限？</text>
+
+  <!-- 需求3 -->
+  <rect x="550" y="56" width="250" height="196" rx="10" fill="white" stroke="#E08020" stroke-width="2" filter="url(#s)"/>
+  <rect x="550" y="56" width="250" height="36" rx="10" fill="#E08020"/>
+  <rect x="550" y="80" width="250" height="12" fill="#E08020"/>
+  <text x="675" y="80" text-anchor="middle" fill="white" font-size="13" font-weight="bold">需求 3：连线模块迁移</text>
+  <rect x="566" y="100" width="218" height="20" rx="4" fill="#FFF8E8"/>
+  <text x="675" y="114" text-anchor="middle" fill="#7A4000" font-size="10" font-weight="bold">挑战类型：架构重、技术决策成本高</text>
+  <text x="566" y="140" fill="#7A4000" font-size="11" font-weight="bold">原痛点</text>
+  <text x="566" y="156" fill="#AA6020" font-size="10">模块多、依赖重，量化数据成本高</text>
+  <text x="566" y="176" fill="#7A4000" font-size="11" font-weight="bold">AI 解决了什么</text>
+  <text x="566" y="192" fill="#AA6020" font-size="10">超级大脑扩展思维边界、降低试错成本</text>
+  <text x="566" y="214" fill="#C03030" font-size="11" font-weight="bold">AI 带来的新问题</text>
+  <text x="566" y="230" fill="#CC6060" font-size="10">复杂上下文如何拆解并协同？</text>
+</svg>

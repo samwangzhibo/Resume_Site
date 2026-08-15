@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400">
+  <defs>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1e293b"/>
+      <stop offset="100%" style="stop-color:#334155"/>
+    </linearGradient>
+    <linearGradient id="gConstitution" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fef3c7"/>
+      <stop offset="100%" style="stop-color:#fde68a"/>
+    </linearGradient>
+    <linearGradient id="gSpec" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0f9ff"/>
+      <stop offset="100%" style="stop-color:#e0f2fe"/>
+    </linearGradient>
+    <linearGradient id="gRules" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0fdf4"/>
+      <stop offset="100%" style="stop-color:#dcfce7"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="900" height="44" fill="url(#gTitle)" rx="6"/>
+  <text x="450" y="28" text-anchor="middle" fill="white" font-size="16" font-weight="bold">SDD 规范文件体系：三层约束结构</text>
+  
+  <!-- Layer 1: Constitution (Project Level) -->
+  <g transform="translate(30, 60)">
+    <rect x="0" y="0" width="260" height="160" fill="url(#gConstitution)" rx="10" filter="url(#shadow)" stroke="#f59e0b" stroke-width="2"/>
+    <rect x="0" y="0" width="260" height="32" fill="#f59e0b" rx="10"/>
+    <rect x="0" y="16" width="260" height="16" fill="#f59e0b"/>
+    <text x="130" y="22" text-anchor="middle" fill="white" font-size="12" font-weight="bold">🏛️ Constitution.md</text>
+    <text x="130" y="45" text-anchor="middle" fill="#92400e" font-size="10">项目级架构原则（跨需求复用）</text>
+    
+    <line x1="20" y1="55" x2="240" y2="55" stroke="#d97706" stroke-width="1" stroke-dasharray="3,3"/>
+    
+    <text x="20" y="75" fill="#1e3a5f" font-size="10" font-weight="bold">核心内容：</text>
+    <text x="20" y="92" fill="#475569" font-size="9">• 架构设计原则（分层、模块化）</text>
+    <text x="20" y="107" fill="#475569" font-size="9">• 技术栈约束（框架版本、依赖）</text>
+    <text x="20" y="122" fill="#475569" font-size="9">• 编码规范（命名、日志、异常）</text>
+    <text x="20" y="137" fill="#475569" font-size="9">• 安全与合规要求</text>
+    <text x="20" y="152" fill="#475569" font-size="9">• 工作流程约定</text>
+  </g>
+  
+  <!-- Layer 2: Spec (Feature Level) -->
+  <g transform="translate(320, 60)">
+    <rect x="0" y="0" width="260" height="160" fill="url(#gSpec)" rx="10" filter="url(#shadow)" stroke="#0ea5e9" stroke-width="2"/>
+    <rect x="0" y="0" width="260" height="32" fill="#0ea5e9" rx="10"/>
+    <rect x="0" y="16" width="260" height="16" fill="#0ea5e9"/>
+    <text x="130" y="22" text-anchor="middle" fill="white" font-size="12" font-weight="bold">📋 spec.md</text>
+    <text x="130" y="45" text-anchor="middle" fill="#0369a1" font-size="10">功能级规格说明（单需求）</text>
+    
+    <line x1="20" y1="55" x2="240" y2="55" stroke="#0284c7" stroke-width="1" stroke-dasharray="3,3"/>
+    
+    <text x="20" y="75" fill="#1e3a5f" font-size="10" font-weight="bold">核心内容：</text>
+    <text x="20" y="92" fill="#475569" font-size="9">• 功能需求 (FR)</text>
+    <text x="20" y="107" fill="#475569" font-size="9">• 非功能需求 (NFR)</text>
+    <text x="20" y="122" fill="#475569" font-size="9">• 验收标准</text>
+    <text x="20" y="137" fill="#475569" font-size="9">• 测试用例 (TC)</text>
+    <text x="20" y="152" fill="#475569" font-size="9">• 前置/后置条件</text>
+  </g>
+  
+  <!-- Layer 3: Rules (Team Level) -->
+  <g transform="translate(610, 60)">
+    <rect x="0" y="0" width="260" height="160" fill="url(#gRules)" rx="10" filter="url(#shadow)" stroke="#22c55e" stroke-width="2"/>
+    <rect x="0" y="0" width="260" height="32" fill="#22c55e" rx="10"/>
+    <rect x="0" y="16" width="260" height="16" fill="#22c55e"/>
+    <text x="130" y="22" text-anchor="middle" fill="white" font-size="12" font-weight="bold">📏 Rules 文件</text>
+    <text x="130" y="45" text-anchor="middle" fill="#166534" font-size="10">团队级编码约束</text>
+    
+    <line x1="20" y1="55" x2="240" y2="55" stroke="#16a34a" stroke-width="1" stroke-dasharray="3,3"/>
+    
+    <text x="20" y="75" fill="#1e3a5f" font-size="10" font-weight="bold">文件类型：</text>
+    <text x="20" y="92" fill="#475569" font-size="9">• code-style.aonerule</text>
+    <text x="20" y="107" fill="#475569" font-size="9">• project-structure.aonerule</text>
+    <text x="20" y="122" fill="#475569" font-size="9">• features.aonerule</text>
+    <text x="20" y="137" fill="#475569" font-size="9">• 包含代码示例</text>
+    <text x="20" y="152" fill="#475569" font-size="9">• 命名规范、注解使用</text>
+  </g>
+  
+  <!-- Hierarchy arrows -->
+  <path d="M160 230 L160 250 L450 250 L450 270" stroke="#94a3b8" stroke-width="2" fill="none"/>
+  <path d="M450 230 L450 270" stroke="#94a3b8" stroke-width="2" fill="none"/>
+  <path d="M740 230 L740 250 L450 250" stroke="#94a3b8" stroke-width="2" fill="none"/>
+  
+  <!-- Central node -->
+  <circle cx="450" cy="290" r="20" fill="#6366f1"/>
+  <text x="450" y="295" text-anchor="middle" fill="white" font-size="10" font-weight="bold">AI</text>
+  
+  <!-- Bottom explanation -->
+  <g transform="translate(30, 330)">
+    <rect x="0" y="0" width="840" height="60" fill="#f8fafc" rx="8" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="420" y="20" text-anchor="middle" fill="#475569" font-size="11" font-weight="bold">三者关系</text>
+    <text x="420" y="38" text-anchor="middle" fill="#64748b" font-size="10">Constitution 定义全局架构原则 → Spec 定义单功能行为 → Rules 定义编码细节</text>
+    <text x="420" y="54" text-anchor="middle" fill="#64748b" font-size="10">AI 在三层约束下生成代码，确保架构一致性 + 功能正确性 + 风格统一</text>
+  </g>
+</svg>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 580"
+     font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#90a4ae"/>
+    </marker>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1040" height="580" fill="#F2F5FA"/>
+  <rect x="0" y="0" width="1040" height="50" fill="url(#gTitle)"/>
+  <text x="520" y="28" text-anchor="middle" fill="white" font-size="17" font-weight="bold">第4章：七阶段研发流水线</text>
+  <text x="520" y="43" text-anchor="middle" fill="#AACCFF" font-size="11">贯穿全链路：锚点质量决定AI表现 · 人给骨架方向 · 每阶段产出沉淀为可复用知识</text>
+
+  <!-- 列标题 -->
+  <rect x="10" y="58" width="140" height="30" rx="4" fill="#37474F"/>
+  <text x="80" y="77" text-anchor="middle" fill="white" font-size="11" font-weight="bold">阶段</text>
+  <rect x="158" y="58" width="170" height="30" rx="4" fill="#37474F"/>
+  <text x="243" y="77" text-anchor="middle" fill="white" font-size="11" font-weight="bold">核心输入</text>
+  <rect x="336" y="58" width="170" height="30" rx="4" fill="#37474F"/>
+  <text x="421" y="77" text-anchor="middle" fill="white" font-size="11" font-weight="bold">核心输出</text>
+  <rect x="514" y="58" width="240" height="30" rx="4" fill="#37474F"/>
+  <text x="634" y="77" text-anchor="middle" fill="white" font-size="11" font-weight="bold">AI 甜点区</text>
+  <rect x="762" y="58" width="268" height="30" rx="4" fill="#37474F"/>
+  <text x="896" y="77" text-anchor="middle" fill="white" font-size="11" font-weight="bold">人的决策点</text>
+
+  <!-- 行1: 需求拆解 -->
+  <rect x="10" y="96" width="140" height="72" rx="6" fill="#1565C0" filter="url(#s)"/>
+  <text x="80" y="120" text-anchor="middle" fill="white" font-size="12" font-weight="bold">4.1</text>
+  <text x="80" y="137" text-anchor="middle" fill="white" font-size="11">需求拆解</text>
+  <text x="80" y="155" text-anchor="middle" fill="#AACCFF" font-size="9">AI 最弱环节</text>
+
+  <rect x="158" y="96" width="170" height="72" rx="6" fill="white" filter="url(#s)"/>
+  <text x="168" y="113" fill="#333" font-size="10">PRD + 架构经验</text>
+  <line x1="168" y1="118" x2="320" y2="118" stroke="#EEE" stroke-width="1"/>
+  <text x="168" y="131" fill="#666" font-size="9">业务背景文档</text>
+  <text x="168" y="144" fill="#666" font-size="9">历史代码结构</text>
+
+  <rect x="336" y="96" width="170" height="72" rx="6" fill="white" filter="url(#s)"/>
+  <text x="346" y="113" fill="#333" font-size="10">技术模块边界</text>
+  <line x1="346" y1="118" x2="498" y2="118" stroke="#EEE" stroke-width="1"/>
+  <text x="346" y="131" fill="#666" font-size="9">风险点清单</text>
+  <text x="346" y="144" fill="#666" font-size="9">优先级排序</text>
+
+  <rect x="514" y="96" width="240" height="72" rx="6" fill="#E8F5E9" filter="url(#s)"/>
+  <text x="524" y="113" fill="#1B5E20" font-size="10" font-weight="bold">✅ 追问遗漏、反挑边界</text>
+  <line x1="524" y1="118" x2="746" y2="118" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="524" y="131" fill="#388E3C" font-size="9">识别隐式约束</text>
+  <text x="524" y="144" fill="#388E3C" font-size="9">批量场景枚举</text>
+
+  <rect x="762" y="96" width="268" height="72" rx="6" fill="#FFF3E0" filter="url(#s)"/>
+  <text x="772" y="113" fill="#E65100" font-size="10" font-weight="bold">⚡ 模块粒度、优先级判断</text>
+  <line x1="772" y1="118" x2="1022" y2="118" stroke="#FFE0B2" stroke-width="1"/>
+  <text x="772" y="131" fill="#BF360C" font-size="9">业务语义完整性确认</text>
+  <text x="772" y="144" fill="#BF360C" font-size="9">架构方向决策</text>
+
+  <!-- 行2: 技术方案 -->
+  <rect x="10" y="176" width="140" height="72" rx="6" fill="#0277BD" filter="url(#s)"/>
+  <text x="80" y="200" text-anchor="middle" fill="white" font-size="12" font-weight="bold">4.2</text>
+  <text x="80" y="217" text-anchor="middle" fill="white" font-size="11">技术方案</text>
+  <text x="80" y="235" text-anchor="middle" fill="#BBDDFF" font-size="9">AI ROI 最高</text>
+
+  <rect x="158" y="176" width="170" height="72" rx="6" fill="white" filter="url(#s)"/>
+  <text x="168" y="193" fill="#333" font-size="10">模块边界 + 约束清单</text>
+  <line x1="168" y1="198" x2="320" y2="198" stroke="#EEE" stroke-width="1"/>
+  <text x="168" y="211" fill="#666" font-size="9">项目内已有实现</text>
+  <text x="168" y="224" fill="#666" font-size="9">技术选型要求</text>
+
+  <rect x="336" y="176" width="170" height="72" rx="6" fill="white" filter="url(#s)"/>
+  <text x="346" y="193" fill="#333" font-size="10">架构设计 + 实现路径</text>
+  <line x1="346" y1="198" x2="498" y2="198" stroke="#EEE" stroke-width="1"/>
+  <text x="346" y="211" fill="#666" font-size="9">Mermaid 流程图</text>
+  <text x="346" y="224" fill="#666" font-size="9">多方案对比</text>
+
+  <rect x="514" y="176" width="240" height="72" rx="6" fill="#E8F5E9" filter="url(#s)"/>
+  <text x="524" y="193" fill="#1B5E20" font-size="10" font-weight="bold">✅ 方案生成、图表输出</text>
+  <line x1="524" y1="198" x2="746" y2="198" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="524" y="211" fill="#388E3C" font-size="9">多方案对比（含优缺点）</text>
+  <text x="524" y="224" fill="#388E3C" font-size="9">依赖图 + 接口三态分析</text>
+
+  <rect x="762" y="176" width="268" height="72" rx="6" fill="#FFF3E0" filter="url(#s)"/>
+  <text x="772" y="193" fill="#E65100" font-size="10" font-weight="bold">⚡ 方案选型、规范对齐</text>
+  <line x1="772" y1="198" x2="1022" y2="198" stroke="#FFE0B2" stroke-width="1"/>
+  <text x="772" y="211" fill="#BF360C" font-size="9">项目内轮子确认</text>
+  <text x="772" y="224" fill="#BF360C" font-size="9">架构边界决策</text>
+
+  <!-- 行3: 开发 -->
+  <rect x="10" y="256" width="140" height="72" rx="6" fill="#00838F" filter="url(#s)"/>
+  <text x="80" y="280" text-anchor="middle" fill="white" font-size="12" font-weight="bold">4.3</text>
+  <text x="80" y="297" text-anchor="middle" fill="white" font-size="11">开发</text>
+  <text x="80" y="315" text-anchor="middle" fill="#AAFFFF" font-size="9">边界追问关键</text>
+
+  <rect x="158" y="256" width="170" height="72" rx="6" fill="white" filter="url(#s)"/>
+  <text x="168" y="273" fill="#333" font-size="10">技术方案 + 约束声明</text>
+  <line x1="168" y1="278" x2="320" y2="278" stroke="#EEE" stroke-width="1"/>
+  <text x="168" y="291" fill="#666" font-size="9">项目规范约束</text>
+  <text x="168" y="304" fill="#666" font-size="9">历史代码上下文</text>
+
+  <rect x="336" y="256" width="170" height="72" rx="6" fill="white" filter="url(#s)"/>
+  <text x="346" y="273" fill="#333" font-size="10">可运行代码</text>
+  <line x1="346" y1="278" x2="498" y2="278" stroke="#EEE" stroke-width="1"/>
+  <text x="346" y="291" fill="#666" font-size="9">Prompt 调优记录</text>
+  <text x="346" y="304" fill="#666" font-size="9">边界覆盖清单</text>
+
+  <rect x="514" y="256" width="240" height="72" rx="6" fill="#E8F5E9" filter="url(#s)"/>
+  <text x="524" y="273" fill="#1B5E20" font-size="10" font-weight="bold">✅ 编码实现、边界补充</text>
+  <line x1="524" y1="278" x2="746" y2="278" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="524" y="291" fill="#388E3C" font-size="9">先方案后编码</text>
+  <text x="524" y="304" fill="#388E3C" font-size="9">追问影响面 + 边界场景</text>
+
+  <rect x="762" y="256" width="268" height="72" rx="6" fill="#FFF3E0" filter="url(#s)"/>
+  <text x="772" y="273" fill="#E65100" font-size="10" font-weight="bold">⚡ 影响面评估、约束重声明</text>
+  <line x1="772" y1="278" x2="1022" y2="278" stroke="#FFE0B2" stroke-width="1"/>
+  <text x="772" y="291" fill="#BF360C" font-size="9">上下文断层时重声明约束</text>
+  <text x="772" y="304" fill="#BF360C" font-size="9">多根因交织时给骨架方向</text>
+
+  <!-- 行4: Debug -->
+  <rect x="10" y="336" width="140" height="72" rx="6" fill="#6A1B9A" filter="url(#s)"/>
+  <text x="80" y="360" text-anchor="middle" fill="white" font-size="12" font-weight="bold">4.4</text>
+  <text x="80" y="377" text-anchor="middle" fill="white" font-size="11">Debug</text>
+  <text x="80" y="395" text-anchor="middle" fill="#E1BEE7" font-size="9">锚点质量决定效果</text>
+
+  <rect x="158" y="336" width="170" height="72" rx="6" fill="white" filter="url(#s)"/>
+  <text x="168" y="353" fill="#333" font-size="10">代码 + 错误现象</text>
+  <line x1="168" y1="358" x2="320" y2="358" stroke="#EEE" stroke-width="1"/>
+  <text x="168" y="371" fill="#666" font-size="9">堆栈 / 错误日志</text>
+  <text x="168" y="384" fill="#666" font-size="9">行号 + 报错信息</text>
+
+  <rect x="336" y="336" width="170" height="72" rx="6" fill="white" filter="url(#s)"/>
+  <text x="346" y="353" fill="#333" font-size="10">根因定位 + 修复</text>
+  <line x1="346" y1="358" x2="498" y2="358" stroke="#EEE" stroke-width="1"/>
+  <text x="346" y="371" fill="#666" font-size="9">原因推演 + 修复建议</text>
+  <text x="346" y="384" fill="#666" font-size="9">影响面评估</text>
+
+  <rect x="514" y="336" width="240" height="72" rx="6" fill="#E8F5E9" filter="url(#s)"/>
+  <text x="524" y="353" fill="#1B5E20" font-size="10" font-weight="bold">✅ 堆栈分析、边界推演</text>
+  <line x1="524" y1="358" x2="746" y2="358" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="524" y="371" fill="#388E3C" font-size="9">完整堆栈一次命中</text>
+  <text x="524" y="384" fill="#388E3C" font-size="9">数值边界推演（Float/Double）</text>
+
+  <rect x="762" y="336" width="268" height="72" rx="6" fill="#FFF3E0" filter="url(#s)"/>
+  <text x="772" y="353" fill="#E65100" font-size="10" font-weight="bold">⚡ 多根因时的骨架方向</text>
+  <line x1="772" y1="358" x2="1022" y2="358" stroke="#FFE0B2" stroke-width="1"/>
+  <text x="772" y="371" fill="#BF360C" font-size="9">人先做初步定位</text>
+  <text x="772" y="384" fill="#BF360C" font-size="9">打地鼠循环时必须介入</text>
+
+  <!-- 行5: 测试准入 -->
+  <rect x="10" y="416" width="140" height="72" rx="6" fill="#E65100" filter="url(#s)"/>
+  <text x="80" y="440" text-anchor="middle" fill="white" font-size="12" font-weight="bold">4.5</text>
+  <text x="80" y="457" text-anchor="middle" fill="white" font-size="11">测试准入</text>
+  <text x="80" y="475" text-anchor="middle" fill="#FFCCBB" font-size="9">三层防御</text>
+
+  <rect x="158" y="416" width="170" height="72" rx="6" fill="white" filter="url(#s)"/>
+  <text x="168" y="433" fill="#333" font-size="10">代码变更</text>
+  <line x1="168" y1="438" x2="320" y2="438" stroke="#EEE" stroke-width="1"/>
+  <text x="168" y="451" fill="#666" font-size="9">git diff</text>
+  <text x="168" y="464" fill="#666" font-size="9">CR Skill 规则文件</text>
+
+  <rect x="336" y="416" width="170" height="72" rx="6" fill="white" filter="url(#s)"/>
+  <text x="346" y="433" fill="#333" font-size="10">CR拦截 + 影响面清单</text>
+  <line x1="346" y1="438" x2="498" y2="438" stroke="#EEE" stroke-width="1"/>
+  <text x="346" y="451" fill="#666" font-size="9">逻辑问题清单（倒排）</text>
+  <text x="346" y="464" fill="#666" font-size="9">影响范围分级清单</text>
+
+  <rect x="514" y="416" width="240" height="72" rx="6" fill="#E8F5E9" filter="url(#s)"/>
+  <text x="524" y="433" fill="#1B5E20" font-size="10" font-weight="bold">✅ 规则扫描、自我Review</text>
+  <line x1="524" y1="438" x2="746" y2="438" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="524" y="451" fill="#388E3C" font-size="9">CR Skill 拦截率 60-70%</text>
+  <text x="524" y="464" fill="#388E3C" font-size="9">影响范围优先级分级</text>
+
+  <rect x="762" y="416" width="268" height="72" rx="6" fill="#FFF3E0" filter="url(#s)"/>
+  <text x="772" y="433" fill="#E65100" font-size="10" font-weight="bold">⚡ 人工Review、验收决策</text>
+  <line x1="772" y1="438" x2="1022" y2="438" stroke="#FFE0B2" stroke-width="1"/>
+  <text x="772" y="451" fill="#BF360C" font-size="9">架构边界判断</text>
+  <text x="772" y="464" fill="#BF360C" font-size="9">上线决策</text>
+
+  <!-- 行6: 线上Bug -->
+  <rect x="10" y="496" width="140" height="62" rx="6" fill="#B71C1C" filter="url(#s)"/>
+  <text x="80" y="518" text-anchor="middle" fill="white" font-size="12" font-weight="bold">4.6</text>
+  <text x="80" y="535" text-anchor="middle" fill="white" font-size="11">线上 Bug</text>
+  <text x="80" y="549" text-anchor="middle" fill="#FFCCCC" font-size="9">重建现场</text>
+
+  <rect x="158" y="496" width="170" height="62" rx="6" fill="white" filter="url(#s)"/>
+  <text x="168" y="516" fill="#333" font-size="10">日志 + 堆栈 + 用户路径</text>
+  <text x="168" y="530" fill="#666" font-size="9">版本号 + AB 实验配置</text>
+  <text x="168" y="544" fill="#666" font-size="9">多团队排查信息</text>
+
+  <rect x="336" y="496" width="170" height="62" rx="6" fill="white" filter="url(#s)"/>
+  <text x="346" y="516" fill="#333" font-size="10">根因假设 + 排查清单</text>
+  <text x="346" y="530" fill="#666" font-size="9">时序推演 + 影响面</text>
+  <text x="346" y="544" fill="#666" font-size="9">修复方案 + 回测清单</text>
+
+  <rect x="514" y="496" width="240" height="62" rx="6" fill="#E8F5E9" filter="url(#s)"/>
+  <text x="524" y="516" fill="#1B5E20" font-size="10" font-weight="bold">✅ 现场重建、假设排序</text>
+  <text x="524" y="530" fill="#388E3C" font-size="9">多来源信息拼成时间线</text>
+  <text x="524" y="544" fill="#388E3C" font-size="9">代码路径时序推演</text>
+
+  <rect x="762" y="496" width="268" height="62" rx="6" fill="#FFF3E0" filter="url(#s)"/>
+  <text x="772" y="516" fill="#E65100" font-size="10" font-weight="bold">⚡ 假设验证、Skill 沉淀</text>
+  <text x="772" y="530" fill="#BF360C" font-size="9">按假设列表逐个验证</text>
+  <text x="772" y="544" fill="#BF360C" font-size="9">排查完后沉淀历史案例</text>
+</svg>

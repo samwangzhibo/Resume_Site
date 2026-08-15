@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="380" viewBox="0 0 560 380" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#5B8DD9"/>
+    </marker>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.13"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="560" height="380" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="560" height="50" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="38" width="560" height="12" fill="url(#gTitle)"/>
+  <text x="280" y="31" text-anchor="middle" fill="white" font-size="16" font-weight="bold">AI Coding 落地路径</text>
+
+  <!-- 步骤1 -->
+  <rect x="60" y="68" width="440" height="52" rx="8" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.5" filter="url(#s)"/>
+  <circle cx="95" cy="94" r="16" fill="#5B8DD9"/>
+  <text x="95" y="99" text-anchor="middle" fill="white" font-size="13" font-weight="bold">1</text>
+  <text x="124" y="88" fill="#2B5090" font-size="13" font-weight="bold">研发数字资产</text>
+  <text x="124" y="108" fill="#5A7AAA" font-size="11">代码库知识 + 业务 Spec + 团队规范 + 度量体系</text>
+
+  <!-- 箭头1 -->
+  <line x1="280" y1="120" x2="280" y2="142" stroke="#5B8DD9" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 步骤2 -->
+  <rect x="60" y="144" width="440" height="52" rx="8" fill="#F0E8FC" stroke="#9B6DC8" stroke-width="1.5" filter="url(#s)"/>
+  <circle cx="95" cy="170" r="16" fill="#9B6DC8"/>
+  <text x="95" y="175" text-anchor="middle" fill="white" font-size="13" font-weight="bold">2</text>
+  <text x="124" y="164" fill="#4A2070" font-size="13" font-weight="bold">AI 基础设施</text>
+  <text x="124" y="184" fill="#7A4AAA" font-size="11">AI Infra + AI 友好架构 + Agent 脚手架 + Skill 体系</text>
+
+  <!-- 箭头2 -->
+  <line x1="280" y1="196" x2="280" y2="218" stroke="#5B8DD9" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 步骤3 -->
+  <rect x="60" y="220" width="440" height="52" rx="8" fill="#FFF8E8" stroke="#E08020" stroke-width="1.5" filter="url(#s)"/>
+  <circle cx="95" cy="246" r="16" fill="#E08020"/>
+  <text x="95" y="251" text-anchor="middle" fill="white" font-size="13" font-weight="bold">3</text>
+  <text x="124" y="240" fill="#7A4000" font-size="13" font-weight="bold">全链路 AI 能力覆盖</text>
+  <text x="124" y="260" fill="#AA6020" font-size="11">需求拆解 → 技术方案 → 编码 → CR → 测试 → 上线</text>
+
+  <!-- 箭头3 -->
+  <line x1="280" y1="272" x2="280" y2="294" stroke="#5B8DD9" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 步骤4 -->
+  <rect x="60" y="296" width="440" height="52" rx="8" fill="#2D3E56" filter="url(#s)"/>
+  <circle cx="95" cy="322" r="16" fill="#445570"/>
+  <text x="95" y="327" text-anchor="middle" fill="white" font-size="13" font-weight="bold">4</text>
+  <text x="124" y="316" fill="white" font-size="13" font-weight="bold">端到端自主交付</text>
+  <text x="124" y="336" fill="#AACCFF" font-size="11">AI 能力 × 数字资产 × 工程基础 → 真正落地</text>
+
+  <!-- 右侧核心洞察 -->
+  <text x="280" y="366" text-anchor="middle" fill="#9B6DC8" font-size="10.5">数字资产越充分，AI 天花板越高；工程基础越扎实，AI 落地越稳</text>
+</svg>

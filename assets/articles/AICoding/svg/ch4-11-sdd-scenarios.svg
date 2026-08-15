@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 280">
+  <defs>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1e293b"/>
+      <stop offset="100%" style="stop-color:#334155"/>
+    </linearGradient>
+    <linearGradient id="gYes" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0fdf4"/>
+      <stop offset="100%" style="stop-color:#dcfce7"/>
+    </linearGradient>
+    <linearGradient id="gNo" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fef2f2"/>
+      <stop offset="100%" style="stop-color:#fee2e2"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="900" height="40" fill="url(#gTitle)" rx="6"/>
+  <text x="450" y="26" text-anchor="middle" fill="white" font-size="14" font-weight="bold">SDD 适用场景判断</text>
+  
+  <!-- YES Section -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="410" height="200" fill="url(#gYes)" rx="10" filter="url(#shadow)" stroke="#22c55e" stroke-width="2"/>
+    <rect x="0" y="0" width="410" height="36" fill="#22c55e" rx="10"/>
+    <rect x="0" y="18" width="410" height="18" fill="#22c55e"/>
+    <text x="205" y="24" text-anchor="middle" fill="white" font-size="13" font-weight="bold">✅ 适合使用 SDD</text>
+    
+    <g transform="translate(20, 50)">
+      <circle cx="8" cy="8" r="4" fill="#22c55e"/>
+      <text x="20" y="12" fill="#166534" font-size="11">全新的项目或模块</text>
+      
+      <circle cx="8" cy="33" r="4" fill="#22c55e"/>
+      <text x="20" y="37" fill="#166534" font-size="11">核心业务逻辑，需要长期维护</text>
+      
+      <circle cx="8" cy="58" r="4" fill="#22c55e"/>
+      <text x="20" y="62" fill="#166534" font-size="11">复杂度高，需要详细设计</text>
+      
+      <circle cx="8" cy="83" r="4" fill="#22c55e"/>
+      <text x="20" y="87" fill="#166534" font-size="11">多人协作的大型需求</text>
+      
+      <circle cx="8" cy="108" r="4" fill="#22c55e"/>
+      <text x="20" y="112" fill="#166534" font-size="11">对代码质量要求极高的场景</text>
+      
+      <circle cx="8" cy="133" r="4" fill="#22c55e"/>
+      <text x="20" y="137" fill="#166534" font-size="11">存量代码重构（可反推规范）</text>
+    </g>
+  </g>
+  
+  <!-- NO Section -->
+  <g transform="translate(460, 55)">
+    <rect x="0" y="0" width="410" height="200" fill="url(#gNo)" rx="10" filter="url(#shadow)" stroke="#ef4444" stroke-width="2"/>
+    <rect x="0" y="0" width="410" height="36" fill="#ef4444" rx="10"/>
+    <rect x="0" y="18" width="410" height="18" fill="#ef4444"/>
+    <text x="205" y="24" text-anchor="middle" fill="white" font-size="13" font-weight="bold">❌ 不适合使用 SDD</text>
+    
+    <g transform="translate(20, 50)">
+      <circle cx="8" cy="8" r="4" fill="#ef4444"/>
+      <text x="20" y="12" fill="#991b1b" font-size="11">简单的工具函数或配置修改</text>
+      
+      <circle cx="8" cy="33" r="4" fill="#ef4444"/>
+      <text x="20" y="37" fill="#991b1b" font-size="11">快速验证的实验性功能</text>
+      
+      <circle cx="8" cy="58" r="4" fill="#ef4444"/>
+      <text x="20" y="62" fill="#991b1b" font-size="11">一次性的临时需求</text>
+      
+      <circle cx="8" cy="83" r="4" fill="#ef4444"/>
+      <text x="20" y="87" fill="#991b1b" font-size="11">对现有代码的小改动（增量）</text>
+      
+      <circle cx="8" cy="108" r="4" fill="#ef4444"/>
+      <text x="20" y="112" fill="#991b1b" font-size="11">新技术栈探索阶段</text>
+      
+      <circle cx="8" cy="133" r="4" fill="#ef4444"/>
+      <text x="20" y="137" fill="#991b1b" font-size="11">紧急上线，时间成本敏感</text>
+    </g>
+  </g>
+</svg>

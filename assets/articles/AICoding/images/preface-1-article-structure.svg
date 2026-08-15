@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="520" viewBox="0 0 860 520" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#5B8DD9"/>
+    </marker>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.13"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="860" height="520" fill="#F7FAFF" rx="8"/>
+
+  <!-- 标题 -->
+  <rect x="0" y="0" width="860" height="54" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="40" width="860" height="14" fill="url(#gTitle)"/>
+  <text x="430" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">文章结构总览</text>
+
+  <!-- 3个需求卡片（左侧） -->
+  <text x="48" y="90" fill="#2B5090" font-size="12" font-weight="bold">本文以三个真实需求为载体</text>
+
+  <!-- 需求1 -->
+  <rect x="30" y="100" width="230" height="80" rx="8" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="30" y="100" width="230" height="28" rx="8" fill="#5B8DD9"/>
+  <rect x="30" y="118" width="230" height="10" fill="#5B8DD9"/>
+  <text x="145" y="119" text-anchor="middle" fill="white" font-size="12" font-weight="bold">需求 1：礼物贴纸</text>
+  <text x="50" y="145" fill="#2B5090" font-size="11">• 新技术栈 KRN</text>
+  <text x="50" y="162" fill="#5A7AAA" font-size="10">如何用 AI 扩展认知边界</text>
+
+  <!-- 需求2 -->
+  <rect x="30" y="195" width="230" height="80" rx="8" fill="#F0E8FC" stroke="#9B6DC8" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="30" y="195" width="230" height="28" rx="8" fill="#9B6DC8"/>
+  <rect x="30" y="213" width="230" height="10" fill="#9B6DC8"/>
+  <text x="145" y="214" text-anchor="middle" fill="white" font-size="12" font-weight="bold">需求 2：成组送</text>
+  <text x="50" y="240" fill="#4A2070" font-size="11">• 业务上下文重、链路长</text>
+  <text x="50" y="257" fill="#7A4AAA" font-size="10">如何降低理解和影响面评估成本</text>
+
+  <!-- 需求3 -->
+  <rect x="30" y="290" width="230" height="80" rx="8" fill="#FFF8E8" stroke="#E08020" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="30" y="290" width="230" height="28" rx="8" fill="#E08020"/>
+  <rect x="30" y="308" width="230" height="10" fill="#E08020"/>
+  <text x="145" y="309" text-anchor="middle" fill="white" font-size="12" font-weight="bold">需求 3：连线模块迁移</text>
+  <text x="50" y="335" fill="#7A4000" font-size="11">• 架构重、技术决策成本高</text>
+  <text x="50" y="352" fill="#AA6020" font-size="10">如何用 AI 做超级大脑扩展</text>
+
+  <!-- 核心问题 -->
+  <rect x="30" y="388" width="230" height="50" rx="8" fill="#2D3E56"/>
+  <text x="145" y="410" text-anchor="middle" fill="white" font-size="11" font-weight="bold">核心问题</text>
+  <text x="145" y="428" text-anchor="middle" fill="#AACCFF" font-size="10">AI 和人各自能做什么？</text>
+  <text x="145" y="443" text-anchor="middle" fill="#AACCFF" font-size="10">边界在哪里？</text>
+
+  <!-- 章节流程（右侧） -->
+  <text x="320" y="90" fill="#2B5090" font-size="12" font-weight="bold">八章结构</text>
+
+  <!-- 章节连线竖线 -->
+  <line x1="470" y1="102" x2="470" y2="460" stroke="#5B8DD9" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+  <!-- 各章节卡片 -->
+  <!-- 第1章 -->
+  <rect x="310" y="98" width="320" height="42" rx="6" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.5"/>
+  <circle cx="340" cy="119" r="12" fill="#5B8DD9"/>
+  <text x="340" y="123" text-anchor="middle" fill="white" font-size="11" font-weight="bold">1</text>
+  <text x="370" y="114" fill="#2B5090" font-size="12" font-weight="bold">AI Coding 的理解</text>
+  <text x="370" y="130" fill="#5A7AAA" font-size="10">向内看（公司方向）+ 向外看（字节/Google）</text>
+
+  <!-- 第2章 -->
+  <rect x="310" y="152" width="320" height="42" rx="6" fill="#FFF0F0" stroke="#C03030" stroke-width="1.5"/>
+  <circle cx="340" cy="173" r="12" fill="#C03030"/>
+  <text x="340" y="177" text-anchor="middle" fill="white" font-size="11" font-weight="bold">2</text>
+  <text x="370" y="168" fill="#B03030" font-size="12" font-weight="bold">挑战与解法</text>
+  <text x="370" y="184" fill="#C06060" font-size="10">三大挑战 + Harness Engineering 框架</text>
+
+  <!-- 第3章 -->
+  <rect x="310" y="206" width="320" height="42" rx="6" fill="#F0E8FC" stroke="#9B6DC8" stroke-width="1.5"/>
+  <circle cx="340" cy="227" r="12" fill="#9B6DC8"/>
+  <text x="340" y="231" text-anchor="middle" fill="white" font-size="11" font-weight="bold">3</text>
+  <text x="370" y="222" fill="#4A2070" font-size="12" font-weight="bold">研发范式演进</text>
+  <text x="370" y="238" fill="#7A4AAA" font-size="10">Prompt → Context → Harness Engineering</text>
+
+  <!-- 第4章 -->
+  <rect x="310" y="260" width="320" height="42" rx="6" fill="#FFF8E8" stroke="#E08020" stroke-width="1.5"/>
+  <circle cx="340" cy="281" r="12" fill="#E08020"/>
+  <text x="340" y="285" text-anchor="middle" fill="white" font-size="11" font-weight="bold">4</text>
+  <text x="370" y="276" fill="#7A4000" font-size="12" font-weight="bold">实战案例（核心章节）</text>
+  <text x="370" y="292" fill="#AA6020" font-size="10">七个研发阶段 × 三个真实需求</text>
+
+  <!-- 第5章 -->
+  <rect x="310" y="314" width="320" height="42" rx="6" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1.5"/>
+  <circle cx="340" cy="335" r="12" fill="#3A9A3A"/>
+  <text x="340" y="339" text-anchor="middle" fill="white" font-size="11" font-weight="bold">5</text>
+  <text x="370" y="330" fill="#1A5A1A" font-size="12" font-weight="bold">工作流优化方向</text>
+  <text x="370" y="346" fill="#5A9A5A" font-size="10">现状 + 各阶段改进计划</text>
+
+  <!-- 第6章 -->
+  <rect x="310" y="368" width="150" height="42" rx="6" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.5"/>
+  <circle cx="340" cy="389" r="12" fill="#5B8DD9"/>
+  <text x="340" y="393" text-anchor="middle" fill="white" font-size="11" font-weight="bold">6</text>
+  <text x="370" y="384" fill="#2B5090" font-size="12" font-weight="bold">行业演进</text>
+  <text x="370" y="400" fill="#5A7AAA" font-size="10">未来推演</text>
+
+  <!-- 第7章 -->
+  <rect x="480" y="368" width="150" height="42" rx="6" fill="#F0E8FC" stroke="#9B6DC8" stroke-width="1.5"/>
+  <circle cx="510" cy="389" r="12" fill="#9B6DC8"/>
+  <text x="510" y="393" text-anchor="middle" fill="white" font-size="11" font-weight="bold">7</text>
+  <text x="540" y="384" fill="#4A2070" font-size="12" font-weight="bold">人员准备</text>
+  <text x="540" y="400" fill="#7A4AAA" font-size="10">π 型人才</text>
+
+  <!-- 第8章 -->
+  <rect x="310" y="422" width="320" height="42" rx="6" fill="#2D3E56"/>
+  <circle cx="340" cy="443" r="12" fill="#445570"/>
+  <text x="340" y="447" text-anchor="middle" fill="white" font-size="11" font-weight="bold">8</text>
+  <text x="370" y="438" fill="white" font-size="12" font-weight="bold">个人心得</text>
+  <text x="370" y="454" fill="#AACCFF" font-size="10">工程方法论升级 · 复利式积累</text>
+
+  <!-- 连接箭头（需求→章节） -->
+  <line x1="260" y1="160" x2="308" y2="173" stroke="#9B8DC8" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrow)"/>
+  <line x1="260" y1="245" x2="308" y2="273" stroke="#9B8DC8" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrow)"/>
+  <line x1="260" y1="325" x2="308" y2="281" stroke="#9B8DC8" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrow)"/>
+
+  <!-- 底部说明 -->
+  <text x="430" y="500" text-anchor="middle" fill="#8899AA" font-size="10">v2 = 演讲思路稿子（详细文字）｜v3 = 配图读物（SVG 图 + 精简文字）</text>
+</svg>

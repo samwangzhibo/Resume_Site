@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="330" viewBox="0 0 820 330" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.10"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="820" height="330" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="820" height="44" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="32" width="820" height="12" fill="url(#gTitle)"/>
+  <text x="410" y="26" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Debug 阶段：有无锚点，天壤之别</text>
+
+  <!-- 左侧：有堆栈 -->
+  <rect x="20" y="56" width="380" height="256" rx="10" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="2" filter="url(#s)"/>
+  <rect x="20" y="56" width="380" height="34" rx="10" fill="#3A9A3A"/>
+  <rect x="20" y="78" width="380" height="12" fill="#3A9A3A"/>
+  <text x="210" y="79" text-anchor="middle" fill="white" font-size="13" font-weight="bold">✅ 有堆栈 + 明确行号  —— ROI 极高</text>
+
+  <text x="36" y="112" fill="#1A5A1A" font-size="11" font-weight="bold">AI 诊断时间通常 &lt; 1 分钟</text>
+  <text x="36" y="134" fill="#4A5A70" font-size="11" font-weight="bold">操作方式：</text>
+  <text x="36" y="152" fill="#5A9A5A" font-size="10">直接投喂完整堆栈，不要先自己分析再问 AI</text>
+  <text x="36" y="168" fill="#5A9A5A" font-size="10">让 AI 自己读原始信息，避免人工筛选引入偏差</text>
+
+  <text x="36" y="192" fill="#4A5A70" font-size="11" font-weight="bold">追问模式：</text>
+  <text x="36" y="210" fill="#5A9A5A" font-size="10">• "这个修复可能引入什么新的问题？"</text>
+  <text x="36" y="226" fill="#5A9A5A" font-size="10">• "上游 ×100 时，数据量会溢出吗？"</text>
+  <text x="36" y="242" fill="#5A9A5A" font-size="10">• "必须改成 Double 类型吗，Float 是否可行？"</text>
+
+  <rect x="32" y="274" width="356" height="30" rx="6" fill="#C8ECC8"/>
+  <text x="210" y="286" text-anchor="middle" fill="#1A5A1A" font-size="10" font-weight="bold">案例：StackOverflowError → AI 在 1 分钟内定位</text>
+  <text x="210" y="300" text-anchor="middle" fill="#1A5A1A" font-size="10">LiveGiftBoxBottomBarVM 初始化观察者 → 懒加载 → 无限递归</text>
+
+  <!-- 右侧：无堆栈 -->
+  <rect x="420" y="56" width="380" height="256" rx="10" fill="#FFF5F5" stroke="#C03030" stroke-width="2" filter="url(#s)"/>
+  <rect x="420" y="56" width="380" height="34" rx="10" fill="#C03030"/>
+  <rect x="420" y="78" width="380" height="12" fill="#C03030"/>
+  <text x="610" y="79" text-anchor="middle" fill="white" font-size="13" font-weight="bold">⚠️ 复杂数据流 + 无明确报错  —— 准确率下降</text>
+
+  <text x="436" y="112" fill="#C03030" font-size="11" font-weight="bold">AI 只能靠静态代码推测，容易"有道理但没用"</text>
+  <text x="436" y="134" fill="#4A5A70" font-size="11" font-weight="bold">正确做法：</text>
+  <text x="436" y="152" fill="#AA4040" font-size="10">1. 用 adb 采集日志，让 AI 先过滤关键 tag</text>
+  <text x="436" y="168" fill="#AA4040" font-size="10">2. 基于过滤后的日志做分析（非几千行完整 logcat）</text>
+  <text x="436" y="184" fill="#AA4040" font-size="10">3. 人先做初步方向判断，AI 在骨架内执行</text>
+
+  <text x="436" y="208" fill="#4A5A70" font-size="11" font-weight="bold">AI 自动 Debug 的边界：</text>
+  <text x="436" y="226" fill="#AA4040" font-size="10">• 明确堆栈 + 根因单一 → AI 自主效率极高 ✅</text>
+  <text x="436" y="242" fill="#AA4040" font-size="10">• 多潜在根因交织 + 历史债务 → 修 A 遇 B 打地鼠 ❌</text>
+
+  <rect x="432" y="274" width="356" height="30" rx="6" fill="#FFD0D0"/>
+  <text x="610" y="286" text-anchor="middle" fill="#C03030" font-size="10" font-weight="bold">案例：连线迁移自动 Debug 实验</text>
+  <text x="610" y="300" text-anchor="middle" fill="#C03030" font-size="10">A问题→修A→遇B→修B→引C，打地鼠循环，效率倒退</text>
+</svg>

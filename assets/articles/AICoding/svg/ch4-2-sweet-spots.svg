@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="460" viewBox="0 0 820 460" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.10"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="820" height="460" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="820" height="44" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="32" width="820" height="12" fill="url(#gTitle)"/>
+  <text x="410" y="26" text-anchor="middle" fill="white" font-size="14" font-weight="bold">各研发阶段：甜区与误区</text>
+
+  <!-- 表头 -->
+  <rect x="20" y="52" width="780" height="28" rx="0" fill="#E8F2FF"/>
+  <text x="100" y="70" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">研发阶段</text>
+  <text x="280" y="70" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">✅ 甜区（AI 擅长）</text>
+  <text x="560" y="70" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">❌ 误区（别让 AI 做）</text>
+  <text x="740" y="70" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">核心原则</text>
+
+  <!-- 分割线 -->
+  <line x1="180" y1="52" x2="180" y2="452" stroke="#CCDDEE" stroke-width="1"/>
+  <line x1="400" y1="52" x2="400" y2="452" stroke="#CCDDEE" stroke-width="1"/>
+  <line x1="680" y1="52" x2="680" y2="452" stroke="#CCDDEE" stroke-width="1"/>
+  <rect x="20" y="52" width="780" height="400" rx="0" fill="none" stroke="#CCDDEE" stroke-width="1"/>
+
+  <!-- 行1：需求拆解 -->
+  <rect x="20" y="80" width="780" height="56" fill="#FAFAFE"/>
+  <text x="100" y="102" text-anchor="middle" fill="#4A5A70" font-size="11">需求拆解</text>
+  <text x="100" y="120" text-anchor="middle" fill="#8899AA" font-size="9">（AI 贡献度：低）</text>
+  <text x="280" y="98" text-anchor="middle" fill="#5A9A5A" font-size="10">• 识别隐含约束和互斥规则</text>
+  <text x="280" y="114" text-anchor="middle" fill="#5A9A5A" font-size="10">• 对人的初版拆解做"杠精反问"</text>
+  <text x="280" y="130" text-anchor="middle" fill="#5A9A5A" font-size="10">• 提炼场景 × 验收条件矩阵</text>
+  <text x="560" y="100" text-anchor="middle" fill="#C06060" font-size="10">• 从模糊需求直接生成技术方案</text>
+  <text x="560" y="118" text-anchor="middle" fill="#C06060" font-size="10">• 让 AI 判断需求边界和优先级</text>
+  <text x="740" y="108" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">人先出拆解</text>
+  <text x="740" y="124" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">AI 来反问</text>
+
+  <!-- 行2：技术方案 -->
+  <rect x="20" y="136" width="780" height="56" fill="white"/>
+  <text x="100" y="158" text-anchor="middle" fill="#4A5A70" font-size="11">技术方案生成</text>
+  <text x="100" y="176" text-anchor="middle" fill="#2B5090" font-size="9" font-weight="bold">（AI 贡献度：★★★）</text>
+  <text x="280" y="154" text-anchor="middle" fill="#5A9A5A" font-size="10">• 多方案对比 + 权衡分析</text>
+  <text x="280" y="170" text-anchor="middle" fill="#5A9A5A" font-size="10">• 先出 Mermaid 图再写代码</text>
+  <text x="280" y="186" text-anchor="middle" fill="#5A9A5A" font-size="10">• 对标项目内已有实现</text>
+  <text x="560" y="162" text-anchor="middle" fill="#C06060" font-size="10">• 直接生成代码（跳过方案阶段）</text>
+  <text x="560" y="178" text-anchor="middle" fill="#C06060" font-size="10">• 信任唯一方案不追问</text>
+  <text x="740" y="164" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">五步方案法</text>
+  <text x="740" y="180" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">持续追问极限</text>
+
+  <!-- 行3：代码开发 -->
+  <rect x="20" y="192" width="780" height="56" fill="#FAFAFE"/>
+  <text x="100" y="214" text-anchor="middle" fill="#4A5A70" font-size="11">代码开发</text>
+  <text x="100" y="232" text-anchor="middle" fill="#2B5090" font-size="9" font-weight="bold">（AI 贡献度：★★★）</text>
+  <text x="280" y="210" text-anchor="middle" fill="#5A9A5A" font-size="10">• UI 和逻辑分开做</text>
+  <text x="280" y="226" text-anchor="middle" fill="#5A9A5A" font-size="10">• 先查项目内是否有现成实现</text>
+  <text x="280" y="242" text-anchor="middle" fill="#5A9A5A" font-size="10">• 每段完成后立即验证</text>
+  <text x="560" y="218" text-anchor="middle" fill="#C06060" font-size="10">• 让 AI 一次性完成所有代码</text>
+  <text x="560" y="234" text-anchor="middle" fill="#C06060" font-size="10">• 长对话不管理上下文</text>
+  <text x="740" y="220" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">影响面主动</text>
+  <text x="740" y="236" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">评估每次改动</text>
+
+  <!-- 行4：Debug -->
+  <rect x="20" y="248" width="780" height="56" fill="white"/>
+  <text x="100" y="270" text-anchor="middle" fill="#4A5A70" font-size="11">Debug</text>
+  <text x="100" y="288" text-anchor="middle" fill="#2B5090" font-size="9" font-weight="bold">（有堆栈：极高 ⭐）</text>
+  <text x="280" y="266" text-anchor="middle" fill="#5A9A5A" font-size="10">• 有堆栈直接投喂 + 追问边界</text>
+  <text x="280" y="282" text-anchor="middle" fill="#5A9A5A" font-size="10">• 数字精度/类型推演</text>
+  <text x="280" y="298" text-anchor="middle" fill="#5A9A5A" font-size="10">• 修复后追问"会不会引入新问题"</text>
+  <text x="560" y="274" text-anchor="middle" fill="#C06060" font-size="10">• 无堆栈让 AI 自主全程 Debug</text>
+  <text x="560" y="290" text-anchor="middle" fill="#C06060" font-size="10">• 多潜在根因场景不介入直接让 AI 修</text>
+  <text x="740" y="276" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">人先确认方向</text>
+  <text x="740" y="292" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">AI 在骨架内执行</text>
+
+  <!-- 行5：Code Review -->
+  <rect x="20" y="304" width="780" height="56" fill="#FAFAFE"/>
+  <text x="100" y="326" text-anchor="middle" fill="#4A5A70" font-size="11">测试 / CR</text>
+  <text x="100" y="344" text-anchor="middle" fill="#2B5090" font-size="9" font-weight="bold">（AI 贡献度：★★★）</text>
+  <text x="280" y="322" text-anchor="middle" fill="#5A9A5A" font-size="10">• 提交前 AI 自我审查</text>
+  <text x="280" y="338" text-anchor="middle" fill="#5A9A5A" font-size="10">• 维护 CR Skill 沉淀团队规范</text>
+  <text x="280" y="354" text-anchor="middle" fill="#5A9A5A" font-size="10">• 影响范围评估 + 按严重程度倒排</text>
+  <text x="560" y="330" text-anchor="middle" fill="#C06060" font-size="10">• 不指定输出格式（逻辑问题被淹没）</text>
+  <text x="560" y="346" text-anchor="middle" fill="#C06060" font-size="10">• 不积累 CR Skill 规则</text>
+  <text x="740" y="332" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">规则沉淀比</text>
+  <text x="740" y="348" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">单次纠错更有价值</text>
+
+  <!-- 行6：上线决策 -->
+  <rect x="20" y="360" width="780" height="56" fill="white"/>
+  <text x="100" y="382" text-anchor="middle" fill="#4A5A70" font-size="11">上线决策</text>
+  <text x="100" y="400" text-anchor="middle" fill="#C03030" font-size="9" font-weight="bold">（AI 贡献度：低）</text>
+  <text x="280" y="380" text-anchor="middle" fill="#5A9A5A" font-size="10">• 生成"高风险改动"清单辅助决策</text>
+  <text x="280" y="396" text-anchor="middle" fill="#5A9A5A" font-size="10">• 版本 diff + 历史 Oncall 对比</text>
+  <text x="560" y="388" text-anchor="middle" fill="#C06060" font-size="10">• 让 AI 决定要不要上线</text>
+  <text x="560" y="404" text-anchor="middle" fill="#C06060" font-size="10">• AI 给结论，人不做判断</text>
+  <text x="740" y="388" text-anchor="middle" fill="#C03030" font-size="10" font-weight="bold">对后果负责的</text>
+  <text x="740" y="404" text-anchor="middle" fill="#C03030" font-size="10" font-weight="bold">判断永远归人</text>
+</svg>

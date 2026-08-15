@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="400" viewBox="0 0 680 400" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.13"/></filter>
+    <filter id="s2"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.09"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#3A60A0"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="680" height="400" fill="#F5F8FF" rx="12"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="680" height="52" fill="url(#gTitle)" rx="12"/>
+  <rect x="0" y="40" width="680" height="12" fill="#1A3060"/>
+  <text x="340" y="33" text-anchor="middle" fill="white" font-size="17" font-weight="bold">AI Coding 核心路径：四层依次解锁</text>
+
+  <!-- Layer 1: 研发数字资产 -->
+  <rect x="60" y="72" width="560" height="62" rx="8" fill="#2D3E56" filter="url(#s)"/>
+  <text x="340" y="98" text-anchor="middle" fill="white" font-size="13" font-weight="bold">研发数字资产</text>
+  <text x="340" y="118" text-anchor="middle" fill="#AACCFF" font-size="11">知识体系（Spec/Skill）+ 度量体系（测试/监控）</text>
+
+  <!-- Arrow 1 -->
+  <line x1="340" y1="134" x2="340" y2="152" stroke="#3A60A0" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Layer 2: AI Infra + 友好架构 -->
+  <rect x="80" y="154" width="520" height="62" rx="8" fill="#2B5090" filter="url(#s)"/>
+  <text x="340" y="180" text-anchor="middle" fill="white" font-size="13" font-weight="bold">AI Infra + AI 友好架构 + Agent 脚手架</text>
+  <text x="340" y="200" text-anchor="middle" fill="#AACCFF" font-size="11">工具链集成 · Harness Engineering · Skill 体系</text>
+
+  <!-- Arrow 2 -->
+  <line x1="340" y1="216" x2="340" y2="234" stroke="#3A60A0" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Layer 3: 全链路 AI 能力 -->
+  <rect x="100" y="236" width="480" height="62" rx="8" fill="#5B8DD9" filter="url(#s)"/>
+  <text x="340" y="262" text-anchor="middle" fill="white" font-size="13" font-weight="bold">研发全链路 AI 能力覆盖</text>
+  <text x="340" y="282" text-anchor="middle" fill="white" font-size="11">需求拆解 · 技术方案 · 编码 · Debug · CR · 测试 · 上线</text>
+
+  <!-- Arrow 3 -->
+  <line x1="340" y1="298" x2="340" y2="316" stroke="#3A60A0" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Layer 4: 端到端交付 -->
+  <rect x="120" y="318" width="440" height="56" rx="8" fill="#E8F8E8" filter="url(#s)" stroke="#3A9A3A" stroke-width="2"/>
+  <text x="340" y="344" text-anchor="middle" fill="#1A5A1A" font-size="14" font-weight="bold">端到端自主交付</text>
+  <text x="340" y="362" text-anchor="middle" fill="#5A9A5A" font-size="11">AI 能力不是孤立工具，必须嫁接在研发资产上才能落地</text>
+
+  <!-- Left label -->
+  <text x="32" y="108" fill="#5A7AAA" font-size="10" transform="rotate(-90, 32, 108)">数字资产</text>
+  <text x="32" y="195" fill="#5A7AAA" font-size="10" transform="rotate(-90, 32, 195)">基础设施</text>
+  <text x="32" y="282" fill="#5A7AAA" font-size="10" transform="rotate(-90, 32, 282)">能力层</text>
+  <text x="32" y="358" fill="#3A9A3A" font-size="10" transform="rotate(-90, 32, 358)">目标</text>
+</svg>

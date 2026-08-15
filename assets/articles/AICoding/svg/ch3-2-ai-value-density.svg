@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="440" viewBox="0 0 820 440" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="820" height="440" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="820" height="44" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="32" width="820" height="12" fill="url(#gTitle)"/>
+  <text x="410" y="26" text-anchor="middle" fill="white" font-size="15" font-weight="bold">研发工作流：AI 价值密度分布</text>
+
+  <!-- 列标题 -->
+  <text x="106" y="62" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">研发阶段</text>
+  <text x="234" y="62" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">AI 贡献度</text>
+  <text x="470" y="62" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">核心实践 / 关键因素</text>
+  <text x="726" y="62" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">甜区特征</text>
+
+  <!-- 行：需求拆解 -->
+  <rect x="20" y="70" width="780" height="44" rx="0" fill="#F8F8F8"/>
+  <text x="106" y="97" text-anchor="middle" fill="#4A5A70" font-size="11">需求拆解</text>
+  <rect x="180" y="78" width="80" height="16" rx="8" fill="#FFF0F0" stroke="#C03030" stroke-width="1"/>
+  <text x="220" y="90" text-anchor="middle" fill="#C03030" font-size="10" font-weight="bold">低（反问辅助）</text>
+  <text x="470" y="91" text-anchor="middle" fill="#5A7AAA" font-size="10">业务语义复杂，AI 缺乏隐性业务知识，人先出拆解方案</text>
+  <text x="726" y="91" text-anchor="middle" fill="#8899AA" font-size="10">需要业务隐性知识</text>
+
+  <!-- 行：技术方案 -->
+  <rect x="20" y="114" width="780" height="44" rx="0" fill="white"/>
+  <text x="106" y="141" text-anchor="middle" fill="#4A5A70" font-size="11">技术方案生成</text>
+  <rect x="180" y="122" width="80" height="16" rx="8" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1"/>
+  <text x="220" y="134" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">高 ✨</text>
+  <text x="470" y="135" text-anchor="middle" fill="#5A7AAA" font-size="10">有参照物 + 约束明确时 AI 表现极佳；要求先出 Mermaid 图</text>
+  <text x="726" y="135" text-anchor="middle" fill="#2B5090" font-size="10">上下文明确 + 有参照物</text>
+
+  <!-- 行：代码开发 -->
+  <rect x="20" y="158" width="780" height="44" rx="0" fill="#F8F8F8"/>
+  <text x="106" y="185" text-anchor="middle" fill="#4A5A70" font-size="11">代码开发</text>
+  <rect x="180" y="166" width="80" height="16" rx="8" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1"/>
+  <text x="220" y="178" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">高 ✨</text>
+  <text x="470" y="179" text-anchor="middle" fill="#5A7AAA" font-size="10">上下文越清晰输出越稳定；Agent 执行模式 + TDD 先写测试</text>
+  <text x="726" y="179" text-anchor="middle" fill="#2B5090" font-size="10">任务结构化 + 有验证标准</text>
+
+  <!-- 行：Debug有堆栈 -->
+  <rect x="20" y="202" width="780" height="44" rx="0" fill="white"/>
+  <text x="106" y="229" text-anchor="middle" fill="#4A5A70" font-size="11">Debug（有堆栈）</text>
+  <rect x="172" y="210" width="96" height="16" rx="8" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1"/>
+  <text x="220" y="222" text-anchor="middle" fill="#1A5A1A" font-size="10" font-weight="bold">极高 ⭐</text>
+  <text x="470" y="223" text-anchor="middle" fill="#5A7AAA" font-size="10">有明确锚点时 AI 诊断速度惊人；直接投喂完整堆栈即可</text>
+  <text x="726" y="223" text-anchor="middle" fill="#1A5A1A" font-size="10" font-weight="bold">ROI 最高环节</text>
+
+  <!-- 行：Debug无堆栈 -->
+  <rect x="20" y="246" width="780" height="44" rx="0" fill="#F8F8F8"/>
+  <text x="106" y="273" text-anchor="middle" fill="#4A5A70" font-size="11">Debug（无堆栈）</text>
+  <rect x="180" y="254" width="80" height="16" rx="8" fill="#FFF8E8" stroke="#E08020" stroke-width="1"/>
+  <text x="220" y="266" text-anchor="middle" fill="#7A4000" font-size="10" font-weight="bold">中等</text>
+  <text x="470" y="267" text-anchor="middle" fill="#5A7AAA" font-size="10">依赖静态推理，准确率下降；adb 日志先让 AI 过滤再分析</text>
+  <text x="726" y="267" text-anchor="middle" fill="#8899AA" font-size="10">需要"问题现场"构建</text>
+
+  <!-- 行：影响范围评估 -->
+  <rect x="20" y="290" width="780" height="44" rx="0" fill="white"/>
+  <text x="106" y="317" text-anchor="middle" fill="#4A5A70" font-size="11">影响范围评估</text>
+  <rect x="180" y="298" width="80" height="16" rx="8" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1"/>
+  <text x="220" y="310" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">高 ✨</text>
+  <text x="470" y="311" text-anchor="middle" fill="#5A7AAA" font-size="10">静态分析是 AI 强项；Prompt：列影响范围 + 按严重程度倒排</text>
+  <text x="726" y="311" text-anchor="middle" fill="#2B5090" font-size="10">任务结构化</text>
+
+  <!-- 行：Code Review -->
+  <rect x="20" y="334" width="780" height="44" rx="0" fill="#F8F8F8"/>
+  <text x="106" y="361" text-anchor="middle" fill="#4A5A70" font-size="11">Code Review</text>
+  <rect x="180" y="342" width="80" height="16" rx="8" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1"/>
+  <text x="220" y="354" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">高 ✨</text>
+  <text x="470" y="355" text-anchor="middle" fill="#5A7AAA" font-size="10">规则化问题 AI 覆盖率高；提交前 AI 自我审查 + 维护 CR Skill</text>
+  <text x="726" y="355" text-anchor="middle" fill="#2B5090" font-size="10">有可参照标准</text>
+
+  <!-- 行：上线决策 -->
+  <rect x="20" y="378" width="780" height="44" rx="0" fill="white"/>
+  <text x="106" y="405" text-anchor="middle" fill="#4A5A70" font-size="11">上线决策</text>
+  <rect x="180" y="386" width="80" height="16" rx="8" fill="#FFF0F0" stroke="#C03030" stroke-width="1"/>
+  <text x="220" y="398" text-anchor="middle" fill="#C03030" font-size="10" font-weight="bold">低</text>
+  <text x="470" y="399" text-anchor="middle" fill="#5A7AAA" font-size="10">需要人承担责任的决策；AI 辅助生成高风险改动清单</text>
+  <text x="726" y="399" text-anchor="middle" fill="#C03030" font-size="10">对后果负责 = 永远归人</text>
+
+  <!-- 边框 -->
+  <rect x="20" y="70" width="780" height="352" rx="0" fill="none" stroke="#CCDDEE" stroke-width="1"/>
+  <line x1="160" y1="70" x2="160" y2="422" stroke="#CCDDEE" stroke-width="1"/>
+  <line x1="280" y1="70" x2="280" y2="422" stroke="#CCDDEE" stroke-width="1"/>
+  <line x1="660" y1="70" x2="660" y2="422" stroke="#CCDDEE" stroke-width="1"/>
+</svg>

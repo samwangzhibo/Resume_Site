@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="320" viewBox="0 0 820 320" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.10"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="820" height="320" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="820" height="44" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="32" width="820" height="12" fill="url(#gTitle)"/>
+  <text x="410" y="26" text-anchor="middle" fill="white" font-size="14" font-weight="bold">TDD 三策略：美团实践</text>
+
+  <!-- 策略1 -->
+  <rect x="20" y="56" width="250" height="246" rx="10" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="56" width="250" height="32" rx="10" fill="#5B8DD9"/>
+  <rect x="20" y="76" width="250" height="12" fill="#5B8DD9"/>
+  <text x="145" y="77" text-anchor="middle" fill="white" font-size="12" font-weight="bold">策略一：单测验证 AI 代码正确性</text>
+  <text x="36" y="108" fill="#2B5090" font-size="11" font-weight="bold">使用时机</text>
+  <text x="36" y="126" fill="#5A7AAA" font-size="10">新功能代码生成后</text>
+  <text x="36" y="148" fill="#2B5090" font-size="11" font-weight="bold">做法</text>
+  <text x="36" y="166" fill="#5A7AAA" font-size="10">让 AI 同步生成覆盖正常/边界</text>
+  <text x="36" y="182" fill="#5A7AAA" font-size="10">/参数组合的单测，跑测试验证</text>
+  <text x="36" y="202" fill="#2B5090" font-size="11" font-weight="bold">核心价值</text>
+  <text x="36" y="220" fill="#5A7AAA" font-size="10">肉眼难发现类型/null/边界问题</text>
+  <text x="36" y="236" fill="#5A7AAA" font-size="10">测试失败 → 精准定位</text>
+  <rect x="32" y="264" width="218" height="30" rx="4" fill="#D0E8FF"/>
+  <text x="145" y="282" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">跑测试验证，不靠肉眼 Review</text>
+
+  <!-- 策略2 -->
+  <rect x="285" y="56" width="250" height="246" rx="10" fill="#FFF8E8" stroke="#E08020" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="285" y="56" width="250" height="32" rx="10" fill="#E08020"/>
+  <rect x="285" y="76" width="250" height="12" fill="#E08020"/>
+  <text x="410" y="77" text-anchor="middle" fill="white" font-size="12" font-weight="bold">策略二：改存量代码前先建安全网</text>
+  <text x="301" y="108" fill="#7A4000" font-size="11" font-weight="bold">使用时机</text>
+  <text x="301" y="126" fill="#AA6020" font-size="10">让 AI 修改老代码之前（策略三前置）</text>
+  <text x="301" y="148" fill="#7A4000" font-size="11" font-weight="bold">做法</text>
+  <text x="301" y="166" fill="#AA6020" font-size="10">先为原有逻辑补全单测覆盖</text>
+  <text x="301" y="182" fill="#AA6020" font-size="10">AI 改完后跑测试</text>
+  <text x="301" y="202" fill="#7A4000" font-size="11" font-weight="bold">核心价值</text>
+  <text x="301" y="220" fill="#AA6020" font-size="10">区分两类失败：</text>
+  <text x="301" y="236" fill="#AA6020" font-size="10">预期内失败 vs 意外破坏</text>
+  <rect x="297" y="264" width="218" height="30" rx="4" fill="#FFE8C0"/>
+  <text x="410" y="282" text-anchor="middle" fill="#7A4000" font-size="10" font-weight="bold">先建安全网，再让 AI 动老代码</text>
+
+  <!-- 策略3 -->
+  <rect x="550" y="56" width="250" height="246" rx="10" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="550" y="56" width="250" height="32" rx="10" fill="#3A9A3A"/>
+  <rect x="550" y="76" width="250" height="12" fill="#3A9A3A"/>
+  <text x="675" y="77" text-anchor="middle" fill="white" font-size="12" font-weight="bold">策略三：TDD 作为需求传递语言</text>
+  <text x="566" y="108" fill="#1A5A1A" font-size="11" font-weight="bold">使用时机</text>
+  <text x="566" y="126" fill="#5A9A5A" font-size="10">需求复杂，自然语言容易被 AI 误解</text>
+  <text x="566" y="148" fill="#1A5A1A" font-size="11" font-weight="bold">做法（Red-Green-Refactor）</text>
+  <text x="566" y="166" fill="#5A9A5A" font-size="10">Red → 人写失败测试（定义输入/期望）</text>
+  <text x="566" y="182" fill="#5A9A5A" font-size="10">Green → AI 实现让测试通过</text>
+  <text x="566" y="198" fill="#5A9A5A" font-size="10">Refactor → AI 在测试保护下重构</text>
+  <text x="566" y="218" fill="#1A5A1A" font-size="11" font-weight="bold">核心价值</text>
+  <text x="566" y="236" fill="#5A9A5A" font-size="10">AI 歧义空间从"猜测需求"→"实现</text>
+  <text x="566" y="252" fill="#5A9A5A" font-size="10">已精确描述的行为"</text>
+  <rect x="562" y="264" width="218" height="30" rx="4" fill="#C8ECC8"/>
+  <text x="675" y="282" text-anchor="middle" fill="#1A5A1A" font-size="10" font-weight="bold">测试是最精确的需求语言</text>
+</svg>

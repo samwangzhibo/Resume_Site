@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 460"
+     font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#888"/>
+    </marker>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="460" fill="#F2F5FA"/>
+  <rect x="0" y="0" width="900" height="50" fill="url(#gTitle)"/>
+  <text x="450" y="28" text-anchor="middle" fill="white" font-size="17" font-weight="bold">技术方案：五步方案法</text>
+  <text x="450" y="43" text-anchor="middle" fill="#AACCFF" font-size="11">方案阶段改十遍没成本 · 推理分离：先规划后编码</text>
+
+  <!-- Step1 -->
+  <rect x="30" y="62" width="820" height="68" rx="8" fill="white" filter="url(#s)"/>
+  <rect x="30" y="62" width="8" height="68" rx="4" fill="#B71C1C"/>
+  <rect x="38" y="62" width="90" height="68" fill="#FFEBEE"/>
+  <text x="83" y="90" text-anchor="middle" fill="#B71C1C" font-size="13" font-weight="bold">Step 1</text>
+  <text x="83" y="108" text-anchor="middle" fill="#B71C1C" font-size="10">人</text>
+  <line x1="130" y1="67" x2="130" y2="126" stroke="#EEE" stroke-width="1"/>
+  <text x="144" y="84" fill="#B71C1C" font-size="11" font-weight="bold">需求澄清 + 动态性识别</text>
+  <text x="144" y="101" fill="#555" font-size="10">列表数据在什么场景会变？容器高度固定还是动态？remind 项消失后高度如何？</text>
+  <text x="144" y="116" fill="#888" font-size="9">避免"展示7.5个item"被AI理解为固定高度</text>
+  <rect x="700" y="70" width="140" height="52" rx="5" fill="#FFEBEE"/>
+  <text x="770" y="88" text-anchor="middle" fill="#B71C1C" font-size="10" font-weight="bold">产出</text>
+  <text x="770" y="104" text-anchor="middle" fill="#B71C1C" font-size="10">动态约束清单</text>
+  <text x="770" y="116" text-anchor="middle" fill="#B71C1C" font-size="9">业务边界确认</text>
+
+  <line x1="450" y1="130" x2="450" y2="148" stroke="#888" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step2 -->
+  <rect x="30" y="148" width="820" height="68" rx="8" fill="white" filter="url(#s)"/>
+  <rect x="30" y="148" width="8" height="68" rx="4" fill="#1565C0"/>
+  <rect x="38" y="148" width="90" height="68" fill="#E3F2FD"/>
+  <text x="83" y="176" text-anchor="middle" fill="#1565C0" font-size="13" font-weight="bold">Step 2</text>
+  <text x="83" y="194" text-anchor="middle" fill="#1565C0" font-size="10">AI</text>
+  <line x1="130" y1="153" x2="130" y2="212" stroke="#EEE" stroke-width="1"/>
+  <text x="144" y="170" fill="#1565C0" font-size="11" font-weight="bold">项目内实现梳理</text>
+  <text x="144" y="187" fill="#555" font-size="10">搜索项目内是否有类似实现，列出文件路径 + 核心 API</text>
+  <text x="144" y="202" fill="#888" font-size="9">「优先使用 @kds/* 系列组件，找不到再用社区库」</text>
+  <rect x="700" y="156" width="140" height="52" rx="5" fill="#E3F2FD"/>
+  <text x="770" y="174" text-anchor="middle" fill="#1565C0" font-size="10" font-weight="bold">产出</text>
+  <text x="770" y="190" text-anchor="middle" fill="#1565C0" font-size="10">已有轮子清单</text>
+  <text x="770" y="202" text-anchor="middle" fill="#1565C0" font-size="9">项目内 API 路径</text>
+
+  <line x1="450" y1="216" x2="450" y2="234" stroke="#888" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step3 -->
+  <rect x="30" y="234" width="820" height="68" rx="8" fill="white" filter="url(#s)"/>
+  <rect x="30" y="234" width="8" height="68" rx="4" fill="#0277BD"/>
+  <rect x="38" y="234" width="90" height="68" fill="#E1F5FE"/>
+  <text x="83" y="262" text-anchor="middle" fill="#0277BD" font-size="13" font-weight="bold">Step 3</text>
+  <text x="83" y="280" text-anchor="middle" fill="#0277BD" font-size="10">AI</text>
+  <line x1="130" y1="239" x2="130" y2="298" stroke="#EEE" stroke-width="1"/>
+  <text x="144" y="256" fill="#0277BD" font-size="11" font-weight="bold">方案设计（分层 + 图先行）</text>
+  <text x="144" y="273" fill="#555" font-size="10">先输出 Mermaid 数据流图/事件流图/组件层级图，确认后再看代码</text>
+  <text x="144" y="288" fill="#888" font-size="9">图比代码更容易看出逻辑问题；多方案 + 优缺点对比</text>
+  <rect x="700" y="242" width="140" height="52" rx="5" fill="#E1F5FE"/>
+  <text x="770" y="260" text-anchor="middle" fill="#0277BD" font-size="10" font-weight="bold">产出</text>
+  <text x="770" y="276" text-anchor="middle" fill="#0277BD" font-size="10">Mermaid 架构图</text>
+  <text x="770" y="288" text-anchor="middle" fill="#0277BD" font-size="9">多方案对比</text>
+
+  <line x1="450" y1="302" x2="450" y2="320" stroke="#888" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step4 -->
+  <rect x="30" y="320" width="820" height="68" rx="8" fill="white" filter="url(#s)"/>
+  <rect x="30" y="320" width="8" height="68" rx="4" fill="#E65100"/>
+  <rect x="38" y="320" width="90" height="68" fill="#FFF3E0"/>
+  <text x="83" y="348" text-anchor="middle" fill="#E65100" font-size="13" font-weight="bold">Step 4</text>
+  <text x="83" y="366" text-anchor="middle" fill="#E65100" font-size="10">人</text>
+  <line x1="130" y1="325" x2="130" y2="384" stroke="#EEE" stroke-width="1"/>
+  <text x="144" y="342" fill="#E65100" font-size="11" font-weight="bold">方案验收（分维度追问）</text>
+  <text x="144" y="359" fill="#555" font-size="10">渲染/事件/内存各有什么优化点？边界情况？可能引入什么新问题？</text>
+  <text x="144" y="374" fill="#888" font-size="9">「项目内是否有 X 功能的封装？」追问细粒度边界</text>
+  <rect x="700" y="328" width="140" height="52" rx="5" fill="#FFF3E0"/>
+  <text x="770" y="346" text-anchor="middle" fill="#E65100" font-size="10" font-weight="bold">产出</text>
+  <text x="770" y="362" text-anchor="middle" fill="#E65100" font-size="10">方案确认文档</text>
+  <text x="770" y="374" text-anchor="middle" fill="#E65100" font-size="9">边界场景清单</text>
+
+  <line x1="450" y1="388" x2="450" y2="406" stroke="#888" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step5 -->
+  <rect x="30" y="406" width="820" height="40" rx="8" fill="#C8E6C9" filter="url(#s)"/>
+  <rect x="30" y="406" width="8" height="40" rx="4" fill="#2E7D32"/>
+  <text x="83" y="431" text-anchor="middle" fill="#1B5E20" font-size="13" font-weight="bold">Step 5</text>
+  <line x1="130" y1="411" x2="130" y2="444" stroke="#A5D6A7" stroke-width="1"/>
+  <text x="240" y="422" fill="#1B5E20" font-size="11" font-weight="bold">👤 编码前最后确认</text>
+  <text x="240" y="438" fill="#1B5E20" font-size="10">组件名/文件路径符合规范？依赖版本一致？核心约束重声明 → 开始编码</text>
+  <rect x="700" y="410" width="140" height="32" rx="5" fill="#2E7D32"/>
+  <text x="770" y="424" text-anchor="middle" fill="white" font-size="10" font-weight="bold">开始编码</text>
+  <text x="770" y="438" text-anchor="middle" fill="#C8F5C8" font-size="9">方案已锁定</text>
+</svg>

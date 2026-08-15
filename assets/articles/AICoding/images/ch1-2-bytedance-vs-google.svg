@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="480" viewBox="0 0 820 480" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.13"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="820" height="480" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="820" height="50" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="38" width="820" height="12" fill="url(#gTitle)"/>
+  <text x="410" y="31" text-anchor="middle" fill="white" font-size="16" font-weight="bold">字节跳动 vs Google：AI Coding 两种路径</text>
+
+  <!-- 字节左栏 -->
+  <rect x="24" y="62" width="370" height="390" rx="10" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="2" filter="url(#s)"/>
+  <rect x="24" y="62" width="370" height="38" rx="10" fill="#5B8DD9"/>
+  <rect x="24" y="88" width="370" height="12" fill="#5B8DD9"/>
+  <text x="209" y="87" text-anchor="middle" fill="white" font-size="14" font-weight="bold">字节跳动：全链路深度渗透</text>
+
+  <!-- 字节各阶段 -->
+  <rect x="38" y="110" width="342" height="54" rx="6" fill="white" stroke="#5B8DD9" stroke-width="1"/>
+  <text x="60" y="130" fill="#2B5090" font-size="12" font-weight="bold">📋 需求拆解</text>
+  <text x="60" y="148" fill="#5A7AAA" font-size="10">多步推理模型 + 意图识别，把模糊需求拆为 Todo List</text>
+  <text x="340" y="140" text-anchor="middle" fill="#9B6DC8" font-size="9">Claude-3.7</text>
+
+  <rect x="38" y="174" width="342" height="54" rx="6" fill="white" stroke="#5B8DD9" stroke-width="1"/>
+  <text x="60" y="194" fill="#2B5090" font-size="12" font-weight="bold">🏗️ 技术方案</text>
+  <text x="60" y="212" fill="#5A7AAA" font-size="10">基于需求生成草案，结合内部 Wiki 确保符合规范</text>
+  <text x="340" y="204" text-anchor="middle" fill="#9B6DC8" font-size="9">知识库 RAG</text>
+
+  <rect x="38" y="238" width="342" height="54" rx="6" fill="white" stroke="#5B8DD9" stroke-width="1"/>
+  <text x="60" y="258" fill="#2B5090" font-size="12" font-weight="bold">💻 代码开发</text>
+  <text x="60" y="276" fill="#5A7AAA" font-size="10">Agentic Execution：AI 独立操作文件系统、安装依赖、自愈</text>
+  <text x="340" y="268" text-anchor="middle" fill="#9B6DC8" font-size="9">Agent 执行</text>
+
+  <rect x="38" y="302" width="342" height="54" rx="6" fill="white" stroke="#5B8DD9" stroke-width="1"/>
+  <text x="60" y="322" fill="#2B5090" font-size="12" font-weight="bold">🔍 Code Review</text>
+  <text x="60" y="340" fill="#5A7AAA" font-size="10">BitsAI-CR 自动扫描 Bug、安全漏洞，一键采纳修复建议</text>
+  <text x="340" y="332" text-anchor="middle" fill="#9B6DC8" font-size="9">自动 CR</text>
+
+  <rect x="38" y="366" width="342" height="54" rx="6" fill="white" stroke="#5B8DD9" stroke-width="1"/>
+  <text x="60" y="386" fill="#2B5090" font-size="12" font-weight="bold">🧪 单元测试</text>
+  <text x="60" y="404" fill="#5A7AAA" font-size="10">ABCoder 自动生成高覆盖率单测，单方法覆盖率达 83%</text>
+  <text x="340" y="396" text-anchor="middle" fill="#9B6DC8" font-size="9">TDD 自动化</text>
+
+  <!-- 字节核心洞察 -->
+  <rect x="38" y="430" width="342" height="14" rx="4" fill="#D0E8FF"/>
+  <text x="209" y="441" text-anchor="middle" fill="#2B5090" font-size="10">不是把 AI 当工具用，而是让 AI 成为流程的一部分</text>
+
+  <!-- Google右栏 -->
+  <rect x="426" y="62" width="370" height="390" rx="10" fill="#F0E8FC" stroke="#9B6DC8" stroke-width="2" filter="url(#s)"/>
+  <rect x="426" y="62" width="370" height="38" rx="10" fill="#9B6DC8"/>
+  <rect x="426" y="88" width="370" height="12" fill="#9B6DC8"/>
+  <text x="611" y="87" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Google：工具链级深度集成</text>
+
+  <!-- Google各特性 -->
+  <rect x="440" y="110" width="342" height="54" rx="6" fill="white" stroke="#9B6DC8" stroke-width="1"/>
+  <text x="462" y="130" fill="#4A2070" font-size="12" font-weight="bold">🔧 核心工具集成</text>
+  <text x="462" y="148" fill="#7A4AAA" font-size="10">Gemini 嵌入 Cider（IDE）、Critique（CR）、Piper（版本控制）</text>
+
+  <rect x="440" y="174" width="342" height="54" rx="6" fill="white" stroke="#9B6DC8" stroke-width="1"/>
+  <text x="462" y="194" fill="#4A2070" font-size="12" font-weight="bold">🧠 超长上下文感知</text>
+  <text x="462" y="212" fill="#7A4AAA" font-size="10">100 万 token 上下文窗口，能看到整个 Monorepo 依赖树</text>
+
+  <rect x="440" y="238" width="342" height="54" rx="6" fill="white" stroke="#9B6DC8" stroke-width="1"/>
+  <text x="462" y="258" fill="#4A2070" font-size="12" font-weight="bold">📏 强制风格遵循</text>
+  <text x="462" y="276" fill="#7A4AAA" font-size="10">内部模型微调，严格遵守 Google Style Guides，解决风格不统一</text>
+
+  <rect x="440" y="302" width="342" height="54" rx="6" fill="white" stroke="#9B6DC8" stroke-width="1"/>
+  <text x="462" y="322" fill="#4A2070" font-size="12" font-weight="bold">🤖 代理化任务（Goose）</text>
+  <text x="462" y="340" fill="#7A4AAA" font-size="10">跨语言迁移服务、自动修复测试回归错误——端到端执行</text>
+
+  <rect x="440" y="366" width="342" height="54" rx="6" fill="#F8F0FF" stroke="#9B6DC8" stroke-width="1"/>
+  <text x="462" y="386" fill="#4A2070" font-size="12" font-weight="bold">💡 核心优势</text>
+  <text x="462" y="404" fill="#7A4AAA" font-size="10">AI 不是外挂，而是嵌在工具里——无需切换上下文使用 AI</text>
+
+  <!-- Google核心洞察 -->
+  <rect x="440" y="430" width="342" height="14" rx="4" fill="#E8D8FC"/>
+  <text x="611" y="441" text-anchor="middle" fill="#4A2070" font-size="10">工具链的深度集成 = 对研发工作流的结构性改变</text>
+
+  <!-- VS 中间分隔 -->
+  <circle cx="410" cy="257" r="16" fill="#2D3E56"/>
+  <text x="410" y="262" text-anchor="middle" fill="white" font-size="13" font-weight="bold">VS</text>
+</svg>

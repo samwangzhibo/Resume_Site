@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520"
+     font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#888"/>
+    </marker>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+    <linearGradient id="gP1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4527A0"/>
+      <stop offset="100%" style="stop-color:#7B1FA2"/>
+    </linearGradient>
+    <linearGradient id="gP2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00695C"/>
+      <stop offset="100%" style="stop-color:#00897B"/>
+    </linearGradient>
+    <linearGradient id="gP3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#E65100"/>
+      <stop offset="100%" style="stop-color:#F57C00"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="520" fill="#F2F5FA"/>
+  <rect x="0" y="0" width="900" height="50" fill="url(#gTitle)"/>
+  <text x="450" y="27" text-anchor="middle" fill="white" font-size="17" font-weight="bold">测试准入：三层防御机制</text>
+  <text x="450" y="43" text-anchor="middle" fill="#AACCFF" font-size="11">三个独立运作的原则 — 互不替代，缺一不可</text>
+
+  <!-- 原则1 -->
+  <rect x="30" y="60" width="840" height="130" rx="10" fill="white" filter="url(#s)"/>
+  <rect x="30" y="60" width="8" height="130" rx="4" fill="url(#gP1)"/>
+  
+  <rect x="46" y="68" width="340" height="114" rx="8" fill="#F3E5F5"/>
+  <rect x="46" y="68" width="340" height="36" rx="8" fill="url(#gP1)"/>
+  <rect x="46" y="93" width="340" height="11" fill="url(#gP1)"/>
+  <text x="216" y="91" text-anchor="middle" fill="white" font-size="13" font-weight="bold">原则1：AI 自我 Review 先行</text>
+  <text x="216" y="112" text-anchor="middle" fill="#4A1070" font-size="11" font-weight="bold">提交 CR 前，先让 AI 自己审查</text>
+  <text x="60" y="130" fill="#4A1070" font-size="10">• 指定输出格式：逻辑问题 → 其他补充点</text>
+  <text x="60" y="146" fill="#4A1070" font-size="10">• 按严重程度倒排，避免重要问题被淹没</text>
+  <text x="60" y="162" fill="#4A1070" font-size="10">• AI 没有「自洽心理」，追问能暴露隐藏问题</text>
+
+  <!-- 原则1 效果框 -->
+  <rect x="400" y="75" width="240" height="108" rx="8" fill="#EDE7F6" stroke="#9575CD" stroke-width="1"/>
+  <text x="520" y="97" text-anchor="middle" fill="#4527A0" font-size="11" font-weight="bold">Prompt 模板</text>
+  <text x="412" y="114" fill="#5E35B1" font-size="10">「我的 git diff 改动是 xxx，</text>
+  <text x="412" y="128" fill="#5E35B1" font-size="10">检查逻辑问题和代码规范，</text>
+  <text x="412" y="142" fill="#5E35B1" font-size="10">先列逻辑问题，再列补充点，</text>
+  <text x="412" y="156" fill="#5E35B1" font-size="10">按严重程度倒排」</text>
+
+  <rect x="654" y="75" width="200" height="108" rx="8" fill="#D1C4E9" stroke="#7E57C2" stroke-width="1"/>
+  <text x="754" y="97" text-anchor="middle" fill="#311B92" font-size="11" font-weight="bold">效果</text>
+  <text x="666" y="118" fill="#4527A0" font-size="10">✅ 覆盖人工容易</text>
+  <text x="666" y="134" fill="#4527A0" font-size="10">    遗漏的逻辑问题</text>
+  <text x="666" y="152" fill="#4527A0" font-size="10">✅ 减少 CR 来回</text>
+  <text x="666" y="168" fill="#4527A0" font-size="10">    轮次约 40%</text>
+
+  <!-- 箭头1→2 -->
+  <line x1="450" y1="190" x2="450" y2="210" stroke="#888" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="465" y="203" fill="#888" font-size="10">独立运作</text>
+
+  <!-- 原则2 -->
+  <rect x="30" y="210" width="840" height="125" rx="10" fill="white" filter="url(#s)"/>
+  <rect x="30" y="210" width="8" height="125" rx="4" fill="url(#gP2)"/>
+
+  <rect x="46" y="218" width="340" height="109" rx="8" fill="#E0F2F1"/>
+  <rect x="46" y="218" width="340" height="36" rx="8" fill="url(#gP2)"/>
+  <rect x="46" y="243" width="340" height="11" fill="url(#gP2)"/>
+  <text x="216" y="241" text-anchor="middle" fill="white" font-size="13" font-weight="bold">原则2：影响范围评估要分级</text>
+  <text x="216" y="262" text-anchor="middle" fill="#004D40" font-size="11" font-weight="bold">不分级 = 不知道重点 = 等于没说</text>
+  <text x="60" y="278" fill="#004D40" font-size="10">• 初版：「列一下本次改动的影响范围」</text>
+  <text x="60" y="293" fill="#C62828" font-size="10">  ❌ 结果太全，不知道重点</text>
+  <text x="60" y="309" fill="#004D40" font-size="10">• 优化版：额外加「标记每条重要程度（高/中/低）」</text>
+
+  <!-- 原则2 对比 -->
+  <rect x="400" y="225" width="460" height="103" rx="8" fill="#E0F2F1" stroke="#26A69A" stroke-width="1"/>
+  <text x="630" y="245" text-anchor="middle" fill="#004D40" font-size="11" font-weight="bold">优化前 vs 优化后</text>
+  <rect x="408" y="250" width="215" height="68" rx="5" fill="#FFEBEE"/>
+  <text x="515" y="266" text-anchor="middle" fill="#C62828" font-size="10">❌ 初版输出</text>
+  <text x="416" y="282" fill="#888" font-size="10">• 礼物面板逻辑 - 一堆描述</text>
+  <text x="416" y="296" fill="#888" font-size="10">• 发送链路 - 一堆描述</text>
+  <text x="416" y="310" fill="#888" font-size="10">不知道哪条最重要</text>
+  <rect x="637" y="250" width="215" height="68" rx="5" fill="#E8F5E9"/>
+  <text x="744" y="266" text-anchor="middle" fill="#2E7D32" font-size="10">✅ 优化后输出</text>
+  <text x="645" y="282" fill="#1B5E20" font-size="10">• [高] 礼物面板逻辑变更</text>
+  <text x="645" y="296" fill="#1B5E20" font-size="10">• [中] 发送链路改动</text>
+  <text x="645" y="310" fill="#1B5E20" font-size="10">• [低] 埋点新增</text>
+
+  <!-- 箭头2→3 -->
+  <line x1="450" y1="335" x2="450" y2="355" stroke="#888" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="465" y="348" fill="#888" font-size="10">独立运作</text>
+
+  <!-- 原则3 -->
+  <rect x="30" y="355" width="840" height="110" rx="10" fill="white" filter="url(#s)"/>
+  <rect x="30" y="355" width="8" height="110" rx="4" fill="url(#gP3)"/>
+
+  <rect x="46" y="363" width="340" height="94" rx="8" fill="#FFF3E0"/>
+  <rect x="46" y="363" width="340" height="36" rx="8" fill="url(#gP3)"/>
+  <rect x="46" y="388" width="340" height="11" fill="url(#gP3)"/>
+  <text x="216" y="386" text-anchor="middle" fill="white" font-size="13" font-weight="bold">原则3：Skill 规则沉淀</text>
+  <text x="216" y="407" text-anchor="middle" fill="#E65100" font-size="11" font-weight="bold">慢慢「驯化」专属 Reviewer Agent</text>
+  <text x="60" y="423" fill="#7A4000" font-size="10">• 记录团队内 AI 验证过的问题模式</text>
+  <text x="60" y="438" fill="#7A4000" font-size="10">• 项目禁用写法 + 历史踩坑约束</text>
+  <text x="60" y="453" fill="#7A4000" font-size="10">• 每次 CR 发现新问题 → 写入 Skill 文件</text>
+
+  <rect x="400" y="370" width="460" height="88" rx="8" fill="#FFF8E1" stroke="#FFB300" stroke-width="1"/>
+  <text x="630" y="390" text-anchor="middle" fill="#5D4037" font-size="11" font-weight="bold">Skill 文件演化路径</text>
+  <text x="410" y="410" fill="#7A4000" font-size="10">第1周：空文件 → AI 给出通用审查建议</text>
+  <text x="410" y="427" fill="#7A4000" font-size="10">第4周：5条规则 → AI 自动检查项目禁用写法</text>
+  <text x="410" y="444" fill="#7A4000" font-size="10">第8周：20+条规则 → 专属 Reviewer Agent 成型</text>
+
+  <!-- 底部总结 -->
+  <rect x="30" y="475" width="840" height="35" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="450" y="488" text-anchor="middle" fill="#1565C0" font-size="11" font-weight="bold">三原则独立运作，互不替代</text>
+  <text x="450" y="503" text-anchor="middle" fill="#1565C0" font-size="11">AI自检（效率）+ 分级评估（聚焦）+ Skill沉淀（积累）= 测试准入防线</text>
+</svg>

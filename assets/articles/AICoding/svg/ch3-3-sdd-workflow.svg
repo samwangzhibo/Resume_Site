@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="380" viewBox="0 0 700 380" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#5B8DD9"/>
+    </marker>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="700" height="380" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="700" height="44" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="32" width="700" height="12" fill="url(#gTitle)"/>
+  <text x="350" y="26" text-anchor="middle" fill="white" font-size="14" font-weight="bold">SDD 完整工作流（7 个阶段）</text>
+
+  <!-- 阶段 1 -->
+  <rect x="30" y="56" width="640" height="40" rx="6" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.5"/>
+  <circle cx="62" cy="76" r="14" fill="#5B8DD9"/>
+  <text x="62" y="80" text-anchor="middle" fill="white" font-size="11" font-weight="bold">1</text>
+  <text x="100" y="71" fill="#2B5090" font-size="12" font-weight="bold">Propose（提案）</text>
+  <text x="100" y="87" fill="#5A7AAA" font-size="10">明确目标 + 范围 + 成功标准 → 输出 proposal.md</text>
+  <text x="620" y="76" text-anchor="middle" fill="#3A9A3A" font-size="9">目标有锚点</text>
+  <line x1="350" y1="96" x2="350" y2="108" stroke="#5B8DD9" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 阶段 2 -->
+  <rect x="30" y="110" width="640" height="40" rx="6" fill="#F0E8FC" stroke="#9B6DC8" stroke-width="1.5"/>
+  <circle cx="62" cy="130" r="14" fill="#9B6DC8"/>
+  <text x="62" y="134" text-anchor="middle" fill="white" font-size="11" font-weight="bold">2</text>
+  <text x="100" y="125" fill="#4A2070" font-size="12" font-weight="bold">Specs（规范）</text>
+  <text x="100" y="141" fill="#7A4AAA" font-size="10">详细功能需求 + 验收条件 → 输出 requirements.md</text>
+  <text x="620" y="130" text-anchor="middle" fill="#3A9A3A" font-size="9">复杂性前移</text>
+  <line x1="350" y1="150" x2="350" y2="162" stroke="#5B8DD9" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 阶段 3 -->
+  <rect x="30" y="164" width="640" height="40" rx="6" fill="#FFF8E8" stroke="#E08020" stroke-width="1.5"/>
+  <circle cx="62" cy="184" r="14" fill="#E08020"/>
+  <text x="62" y="188" text-anchor="middle" fill="white" font-size="11" font-weight="bold">3</text>
+  <text x="100" y="179" fill="#7A4000" font-size="12" font-weight="bold">Design（设计）</text>
+  <text x="100" y="195" fill="#AA6020" font-size="10">技术选型 + 架构设计 → 输出 design.md（方案改 10 遍零成本）</text>
+  <text x="620" y="184" text-anchor="middle" fill="#3A9A3A" font-size="9">避免高代价重构</text>
+  <line x1="350" y1="204" x2="350" y2="216" stroke="#5B8DD9" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 阶段 4 -->
+  <rect x="30" y="218" width="640" height="40" rx="6" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.5"/>
+  <circle cx="62" cy="238" r="14" fill="#5B8DD9"/>
+  <text x="62" y="242" text-anchor="middle" fill="white" font-size="11" font-weight="bold">4</text>
+  <text x="100" y="233" fill="#2B5090" font-size="12" font-weight="bold">Tasks（任务拆解）</text>
+  <text x="100" y="249" fill="#5A7AAA" font-size="10">AI 生成原子级任务清单 + 人确认 → 输出 tasks.md</text>
+  <text x="620" y="238" text-anchor="middle" fill="#3A9A3A" font-size="9">粒度清晰不偷懒</text>
+  <line x1="350" y1="258" x2="350" y2="270" stroke="#5B8DD9" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 阶段 5 -->
+  <rect x="30" y="272" width="640" height="40" rx="6" fill="#2D3E56"/>
+  <circle cx="62" cy="292" r="14" fill="#445570"/>
+  <text x="62" y="296" text-anchor="middle" fill="white" font-size="11" font-weight="bold">5</text>
+  <text x="100" y="287" fill="white" font-size="12" font-weight="bold">Apply（实施）</text>
+  <text x="100" y="303" fill="#AACCFF" font-size="10">AI 执行 + 人监督；有 Spec 兜底，偏离时有标准可对照纠偏</text>
+  <text x="620" y="292" text-anchor="middle" fill="#88CCFF" font-size="9">AI 主导执行</text>
+  <line x1="350" y1="312" x2="350" y2="324" stroke="#5B8DD9" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 阶段 6+7 并排 -->
+  <rect x="30" y="326" width="308" height="40" rx="6" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1.5"/>
+  <circle cx="62" cy="346" r="14" fill="#3A9A3A"/>
+  <text x="62" y="350" text-anchor="middle" fill="white" font-size="11" font-weight="bold">6</text>
+  <text x="100" y="341" fill="#1A5A1A" font-size="12" font-weight="bold">Verify（验证）</text>
+  <text x="100" y="357" fill="#5A9A5A" font-size="10">验收标准在 Spec 里已定义，AI 可自动生成测试用例</text>
+
+  <rect x="362" y="326" width="308" height="40" rx="6" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1.5"/>
+  <circle cx="394" cy="346" r="14" fill="#3A9A3A"/>
+  <text x="394" y="350" text-anchor="middle" fill="white" font-size="11" font-weight="bold">7</text>
+  <text x="432" y="341" fill="#1A5A1A" font-size="12" font-weight="bold">Archive（归档）</text>
+  <text x="432" y="357" fill="#5A9A5A" font-size="10">知识沉淀在文档里，可传承复用，不依赖个人记忆</text>
+</svg>

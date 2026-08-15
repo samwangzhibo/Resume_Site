@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="320" viewBox="0 0 860 320" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.13"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="860" height="320" fill="#F5F8FF" rx="12"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="860" height="52" fill="url(#gTitle)" rx="12"/>
+  <rect x="0" y="40" width="860" height="12" fill="#1A3060"/>
+  <text x="430" y="33" text-anchor="middle" fill="white" font-size="17" font-weight="bold">三个需求，三种 AI 协作挑战</text>
+
+  <!-- Card 1: 礼物贴纸 -->
+  <rect x="30" y="72" width="245" height="220" rx="10" fill="white" filter="url(#s)"/>
+  <rect x="30" y="72" width="245" height="42" rx="10" fill="#E8F2FF"/>
+  <rect x="30" y="100" width="245" height="14" fill="#E8F2FF"/>
+  <text x="152" y="99" text-anchor="middle" fill="#2B5090" font-size="13" font-weight="bold">需求 1：礼物贴纸</text>
+  <text x="152" y="115" text-anchor="middle" fill="#5A7AAA" font-size="10">新技术栈 KRN，能力边界受限</text>
+
+  <text x="50" y="146" fill="#E08020" font-size="11" font-weight="bold">原挑战</text>
+  <text x="50" y="162" fill="#444" font-size="10">对 KRN 新技术栈不熟悉</text>
+  <text x="50" y="176" fill="#444" font-size="10">方案验收成本高</text>
+
+  <text x="50" y="200" fill="#3A9A3A" font-size="11" font-weight="bold">AI 解决了什么</text>
+  <text x="50" y="216" fill="#444" font-size="10">扩展技术认知边界</text>
+  <text x="50" y="230" fill="#444" font-size="10">多方案对比 + 追问逼出缺陷</text>
+
+  <text x="50" y="255" fill="#C03030" font-size="11" font-weight="bold">遗留挑战</text>
+  <text x="50" y="271" fill="#444" font-size="10">不熟悉栈如何验收 AI 输出？</text>
+
+  <!-- Card 2: 成组送 -->
+  <rect x="307" y="72" width="245" height="220" rx="10" fill="white" filter="url(#s)"/>
+  <rect x="307" y="72" width="245" height="42" rx="10" fill="#F0E8FC"/>
+  <rect x="307" y="100" width="245" height="14" fill="#F0E8FC"/>
+  <text x="430" y="99" text-anchor="middle" fill="#4A2070" font-size="13" font-weight="bold">需求 2：送礼链路成组送</text>
+  <text x="430" y="115" text-anchor="middle" fill="#7A4AAA" font-size="10">业务上下文重、技术链路长</text>
+
+  <text x="327" y="146" fill="#E08020" font-size="11" font-weight="bold">原挑战</text>
+  <text x="327" y="162" fill="#444" font-size="10">链路长，理解成本大</text>
+  <text x="327" y="176" fill="#444" font-size="10">改动影响范围难以评估</text>
+
+  <text x="327" y="200" fill="#3A9A3A" font-size="11" font-weight="bold">AI 解决了什么</text>
+  <text x="327" y="216" fill="#444" font-size="10">链路梳理 + 上下文拆解</text>
+  <text x="327" y="230" fill="#444" font-size="10">影响范围评估自动化</text>
+
+  <text x="327" y="255" fill="#C03030" font-size="11" font-weight="bold">遗留挑战</text>
+  <text x="327" y="271" fill="#444" font-size="10">AI 偷懒 + 上下文受限问题</text>
+
+  <!-- Card 3: 连线迁移 -->
+  <rect x="584" y="72" width="245" height="220" rx="10" fill="white" filter="url(#s)"/>
+  <rect x="584" y="72" width="245" height="42" rx="10" fill="#E8F8E8"/>
+  <rect x="584" y="100" width="245" height="14" fill="#E8F8E8"/>
+  <text x="706" y="99" text-anchor="middle" fill="#1A5A1A" font-size="13" font-weight="bold">需求 3：连线模块迁移</text>
+  <text x="706" y="115" text-anchor="middle" fill="#5A9A5A" font-size="10">架构重、技术决策成本高</text>
+
+  <text x="604" y="146" fill="#E08020" font-size="11" font-weight="bold">原挑战</text>
+  <text x="604" y="162" fill="#444" font-size="10">模块多、依赖重</text>
+  <text x="604" y="176" fill="#444" font-size="10">决策所需量化数据成本高</text>
+
+  <text x="604" y="200" fill="#3A9A3A" font-size="11" font-weight="bold">AI 解决了什么</text>
+  <text x="604" y="216" fill="#444" font-size="10">超级大脑扩展思维边界</text>
+  <text x="604" y="230" fill="#444" font-size="10">降低架构试错成本</text>
+
+  <text x="604" y="255" fill="#C03030" font-size="11" font-weight="bold">遗留挑战</text>
+  <text x="604" y="271" fill="#444" font-size="10">复杂上下文如何拆解协同？</text>
+
+  <!-- Bottom question -->
+  <text x="430" y="308" text-anchor="middle" fill="#3A60A0" font-size="11" font-style="italic">核心问题：在企业级直播工程里，AI 和人各自的边界在哪？</text>
+</svg>

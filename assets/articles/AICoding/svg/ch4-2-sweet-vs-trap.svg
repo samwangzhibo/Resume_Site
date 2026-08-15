@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480"
+     font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+    <linearGradient id="gGood" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2E7D32"/>
+      <stop offset="100%" style="stop-color:#388E3C"/>
+    </linearGradient>
+    <linearGradient id="gBad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#C62828"/>
+      <stop offset="100%" style="stop-color:#E53935"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="480" fill="#F2F5FA"/>
+  <rect x="0" y="0" width="900" height="50" fill="url(#gTitle)"/>
+  <text x="450" y="28" text-anchor="middle" fill="white" font-size="17" font-weight="bold">AI 的甜区 vs 误区</text>
+  <text x="450" y="43" text-anchor="middle" fill="#AACCFF" font-size="11">礼物贴纸案例总结 — 知道边界，才能用好 AI</text>
+
+  <!-- 左列：AI 做的好的 -->
+  <rect x="30" y="62" width="395" height="36" rx="7" fill="url(#gGood)"/>
+  <text x="227" y="78" text-anchor="middle" fill="white" font-size="13" font-weight="bold">✅ AI 的甜区（做得好的）</text>
+  <text x="227" y="93" text-anchor="middle" fill="#C8F5C8" font-size="10">擅长结构化、有参照的任务</text>
+
+  <!-- 右列：AI 做的不好的 -->
+  <rect x="475" y="62" width="395" height="36" rx="7" fill="url(#gBad)"/>
+  <text x="672" y="78" text-anchor="middle" fill="white" font-size="13" font-weight="bold">❌ AI 的误区（做得差的）</text>
+  <text x="672" y="93" text-anchor="middle" fill="#FFCCCC" font-size="10">隐性知识、动态性、细粒度判断</text>
+
+  <!-- 甜区 条目 -->
+  <rect x="30" y="106" width="395" height="50" rx="6" fill="white" filter="url(#s)"/>
+  <text x="48" y="124" fill="#2E7D32" font-size="11" font-weight="bold">代码梳理能力强</text>
+  <text x="48" y="140" fill="#555" font-size="10">能读懂 Figma、输出架构图、View 结构正确</text>
+  <text x="48" y="151" fill="#888" font-size="9">→ 上下文投喂完整，AI 梳理速度远超人工</text>
+
+  <rect x="30" y="162" width="395" height="50" rx="6" fill="white" filter="url(#s)"/>
+  <text x="48" y="180" fill="#2E7D32" font-size="11" font-weight="bold">逻辑推理强</text>
+  <text x="48" y="196" fill="#555" font-size="10">搜索互斥关系、横竖屏处理等上下文逻辑</text>
+  <text x="48" y="207" fill="#888" font-size="9">→ 需显式给出搜索范围，效果更稳定</text>
+
+  <rect x="30" y="218" width="395" height="50" rx="6" fill="white" filter="url(#s)"/>
+  <text x="48" y="236" fill="#2E7D32" font-size="11" font-weight="bold">基础降级考虑</text>
+  <text x="48" y="252" fill="#555" font-size="10">提出 lastValidData 缓存降级策略</text>
+  <text x="48" y="263" fill="#888" font-size="9">→ 追问可进一步细化边界场景</text>
+
+  <rect x="30" y="274" width="395" height="50" rx="6" fill="white" filter="url(#s)"/>
+  <text x="48" y="292" fill="#2E7D32" font-size="11" font-weight="bold">无障碍意识</text>
+  <text x="48" y="308" fill="#555" font-size="10">主动加入 accessible 等无障碍属性</text>
+  <text x="48" y="319" fill="#888" font-size="9">→ 不用单独提醒，已内化为习惯</text>
+
+  <rect x="30" y="330" width="395" height="50" rx="6" fill="white" filter="url(#s)"/>
+  <text x="48" y="348" fill="#2E7D32" font-size="11" font-weight="bold">埋点全面性</text>
+  <text x="48" y="364" fill="#555" font-size="10">5 个埋点事件全覆盖：mounted/click/scroll 等</text>
+  <text x="48" y="375" fill="#888" font-size="9">→ 结构化要求 + 追问，遗漏率大幅降低</text>
+
+  <!-- 误区 条目 -->
+  <rect x="475" y="106" width="395" height="50" rx="6" fill="white" filter="url(#s)"/>
+  <text x="493" y="124" fill="#C62828" font-size="11" font-weight="bold">项目规范盲区</text>
+  <text x="493" y="140" fill="#555" font-size="10">推荐 fast-image，不知道项目内有 @kds/image</text>
+  <text x="493" y="151" fill="#888" font-size="9">→ 方案阶段主动约束：优先 @kds/* 系列</text>
+
+  <rect x="475" y="162" width="395" height="50" rx="6" fill="white" filter="url(#s)"/>
+  <text x="493" y="180" fill="#C62828" font-size="11" font-weight="bold">技术选型偏保守</text>
+  <text x="493" y="196" fill="#555" font-size="10">推荐 RN 官方 ScrollView，未探索 RecyclerListView</text>
+  <text x="493" y="207" fill="#888" font-size="9">→ 追问「项目内有类似实现吗？」</text>
+
+  <rect x="475" y="218" width="395" height="50" rx="6" fill="white" filter="url(#s)"/>
+  <text x="493" y="236" fill="#C62828" font-size="11" font-weight="bold">边界细节遗漏</text>
+  <text x="493" y="252" fill="#555" font-size="10">未覆盖「高度变0闪白」「Map容量爆炸」等场景</text>
+  <text x="493" y="263" fill="#888" font-size="9">→ 编码后追问：「这个实现会引入什么新问题？」</text>
+
+  <rect x="475" y="274" width="395" height="50" rx="6" fill="white" filter="url(#s)"/>
+  <text x="493" y="292" fill="#C62828" font-size="11" font-weight="bold">架构分层意识弱</text>
+  <text x="493" y="308" fill="#555" font-size="10">倾向单文件完成，需人工要求分层</text>
+  <text x="493" y="319" fill="#888" font-size="9">→ 方案阶段明确：容器/UI/通信三层</text>
+
+  <rect x="475" y="330" width="395" height="50" rx="6" fill="white" filter="url(#s)"/>
+  <text x="493" y="348" fill="#C62828" font-size="11" font-weight="bold">需求动态性感知差</text>
+  <text x="493" y="364" fill="#555" font-size="10">「展示7.5个item」理解为固定高度</text>
+  <text x="493" y="375" fill="#888" font-size="9">→ PRD阶段追问：「高度会动态变化吗？」</text>
+
+  <!-- 分隔线 -->
+  <line x1="450" y1="62" x2="450" y2="386" stroke="#C0C8D8" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- 底部策略 -->
+  <rect x="30" y="392" width="840" height="40" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="1.5"/>
+  <text x="450" y="407" text-anchor="middle" fill="#1B5E20" font-size="11" font-weight="bold">策略原则</text>
+  <text x="450" y="425" text-anchor="middle" fill="#2E7D32" font-size="11">把「项目规范约束」写进方案Prompt，把「边界追问」做成习惯，让 AI 在正确轨道上高速执行</text>
+</svg>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520"
+     font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+    <linearGradient id="gLeft" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1565C0"/>
+      <stop offset="100%" style="stop-color:#1E88E5"/>
+    </linearGradient>
+    <linearGradient id="gRight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2E7D32"/>
+      <stop offset="100%" style="stop-color:#43A047"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="520" fill="#F2F5FA"/>
+  <rect x="0" y="0" width="900" height="50" fill="url(#gTitle)"/>
+  <text x="450" y="28" text-anchor="middle" fill="white" font-size="17" font-weight="bold">AI 技术方案 vs 最终落地</text>
+  <text x="450" y="43" text-anchor="middle" fill="#AACCFF" font-size="11">「技术正确」≠「项目适配」— 隐性质量陷阱的具体体现</text>
+
+  <!-- 左列：AI 方案 -->
+  <rect x="30" y="62" width="390" height="42" rx="8" fill="url(#gLeft)" filter="url(#s)"/>
+  <text x="225" y="78" text-anchor="middle" fill="white" font-size="14" font-weight="bold">🤖 AI 技术方案</text>
+  <text x="225" y="95" text-anchor="middle" fill="#BBDDFF" font-size="11">偏好「标准写法」，技术正确但项目适配度不足</text>
+
+  <!-- 右列：最终落地 -->
+  <rect x="480" y="62" width="390" height="42" rx="8" fill="url(#gRight)" filter="url(#s)"/>
+  <text x="675" y="78" text-anchor="middle" fill="white" font-size="14" font-weight="bold">✅ 最终落地</text>
+  <text x="675" y="95" text-anchor="middle" fill="#BBFFBB" font-size="11">结合项目规范，架构完善，生产级可用</text>
+
+  <!-- 行1 -->
+  <rect x="30" y="112" width="390" height="60" rx="6" fill="white" filter="url(#s)"/>
+  <text x="50" y="131" fill="#1565C0" font-size="11" font-weight="bold">滚动组件</text>
+  <text x="50" y="148" fill="#333" font-size="11">Animated.ScrollView（RN 官方）</text>
+  <text x="50" y="163" fill="#888" font-size="10">标准写法，未发现项目内已有轮子</text>
+
+  <rect x="480" y="112" width="390" height="60" rx="6" fill="white" filter="url(#s)"/>
+  <text x="500" y="131" fill="#2E7D32" font-size="11" font-weight="bold">滚动组件</text>
+  <text x="500" y="148" fill="#333" font-size="11">RecyclerListView（项目内成熟方案）</text>
+  <text x="500" y="163" fill="#888" font-size="10">复用现有轮子，避免重复建设</text>
+
+  <!-- 中间差异标签 -->
+  <rect x="420" y="128" width="60" height="22" rx="11" fill="#FF8F00"/>
+  <text x="450" y="143" text-anchor="middle" fill="white" font-size="10" font-weight="bold">特征二</text>
+
+  <!-- 行2 -->
+  <rect x="30" y="178" width="390" height="60" rx="6" fill="white" filter="url(#s)"/>
+  <text x="50" y="197" fill="#1565C0" font-size="11" font-weight="bold">高度处理</text>
+  <text x="50" y="214" fill="#333" font-size="11">固定高度 270px</text>
+  <text x="50" y="229" fill="#888" font-size="10">理解 PRD 为静态场景</text>
+
+  <rect x="480" y="178" width="390" height="60" rx="6" fill="white" filter="url(#s)"/>
+  <text x="500" y="197" fill="#2E7D32" font-size="11" font-weight="bold">高度处理</text>
+  <text x="500" y="214" fill="#333" font-size="11">动态计算 + 回调通知 Native</text>
+  <text x="500" y="229" fill="#888" font-size="10">remind 项消失导致高度动态变化</text>
+
+  <rect x="420" y="194" width="60" height="22" rx="11" fill="#E53935"/>
+  <text x="450" y="209" text-anchor="middle" fill="white" font-size="10" font-weight="bold">特征三</text>
+
+  <!-- 行3 -->
+  <rect x="30" y="244" width="390" height="60" rx="6" fill="white" filter="url(#s)"/>
+  <text x="50" y="263" fill="#1565C0" font-size="11" font-weight="bold">分层架构</text>
+  <text x="50" y="280" fill="#333" font-size="11">单文件扁平化</text>
+  <text x="50" y="295" fill="#888" font-size="10">AI 不主动分层</text>
+
+  <rect x="480" y="244" width="390" height="60" rx="6" fill="white" filter="url(#s)"/>
+  <text x="500" y="263" fill="#2E7D32" font-size="11" font-weight="bold">分层架构</text>
+  <text x="500" y="280" fill="#333" font-size="11">容器层 / UI层 / 通信层三层分离</text>
+  <text x="500" y="295" fill="#888" font-size="10">需人显式要求分层</text>
+
+  <rect x="420" y="260" width="60" height="22" rx="11" fill="#6A1B9A"/>
+  <text x="450" y="275" text-anchor="middle" fill="white" font-size="10" font-weight="bold">特征一</text>
+
+  <!-- 行4 -->
+  <rect x="30" y="310" width="390" height="60" rx="6" fill="white" filter="url(#s)"/>
+  <text x="50" y="329" fill="#1565C0" font-size="11" font-weight="bold">边界保护</text>
+  <text x="50" y="346" fill="#333" font-size="11">lastValidData 缓存降级</text>
+  <text x="50" y="361" fill="#888" font-size="10">基础降级考虑，未覆盖细粒度场景</text>
+
+  <rect x="480" y="310" width="390" height="60" rx="6" fill="white" filter="url(#s)"/>
+  <text x="500" y="329" fill="#2E7D32" font-size="11" font-weight="bold">边界保护</text>
+  <text x="500" y="346" fill="#333" font-size="11">签名对比 + 容量限制 + 状态约束</text>
+  <text x="500" y="361" fill="#888" font-size="10">高度变0闪白、Map容量爆炸等场景覆盖</text>
+
+  <rect x="420" y="326" width="60" height="22" rx="11" fill="#E53935"/>
+  <text x="450" y="341" text-anchor="middle" fill="white" font-size="10" font-weight="bold">特征三</text>
+
+  <!-- 竖向分隔虚线 -->
+  <line x1="450" y1="62" x2="450" y2="376" stroke="#C0C8D8" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- 底部洞察 -->
+  <rect x="30" y="382" width="840" height="50" rx="8" fill="#FFF8E1" stroke="#FFB300" stroke-width="1.5"/>
+  <text x="450" y="402" text-anchor="middle" fill="#5D4037" font-size="13" font-weight="bold">💡 洞察</text>
+  <text x="450" y="420" text-anchor="middle" fill="#6D4C41" font-size="11">AI 方案「技术正确」，但「项目适配度不足」。人需负责技术选型与架构决策，AI 负责执行细节。</text>
+
+  <!-- 图例 -->
+  <rect x="340" y="440" width="14" height="14" rx="7" fill="#FF8F00"/>
+  <text x="359" y="452" fill="#666" font-size="11">特征二：AI 偏好标准写法</text>
+  <rect x="530" y="440" width="14" height="14" rx="7" fill="#E53935"/>
+  <text x="549" y="452" fill="#666" font-size="11">特征三：需求动态性感知弱</text>
+  <rect x="714" y="440" width="14" height="14" rx="7" fill="#6A1B9A"/>
+  <text x="733" y="452" fill="#666" font-size="11">特征一：分层意识弱</text>
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="310" viewBox="0 0 820 310" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.10"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="820" height="310" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="820" height="44" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="32" width="820" height="12" fill="url(#gTitle)"/>
+  <text x="410" y="26" text-anchor="middle" fill="white" font-size="14" font-weight="bold">当前最值得投入的 4 个方向（越早越有复利）</text>
+
+  <!-- 方向1 -->
+  <rect x="20" y="56" width="185" height="234" rx="10" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="56" width="185" height="32" rx="10" fill="#5B8DD9"/>
+  <rect x="20" y="76" width="185" height="12" fill="#5B8DD9"/>
+  <text x="112" y="77" text-anchor="middle" fill="white" font-size="12" font-weight="bold">业务 Spec 体系</text>
+  <text x="112" y="108" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">为什么不会贬值？</text>
+  <text x="112" y="126" text-anchor="middle" fill="#5A7AAA" font-size="10">业务语义是 AI 无法</text>
+  <text x="112" y="142" text-anchor="middle" fill="#5A7AAA" font-size="10">自动获取的核心竞争力</text>
+  <text x="112" y="162" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">即便 AI 更聪明</text>
+  <text x="112" y="178" text-anchor="middle" fill="#5A7AAA" font-size="10">没有业务知识输入</text>
+  <text x="112" y="194" text-anchor="middle" fill="#5A7AAA" font-size="10">它也无从发挥</text>
+  <rect x="32" y="258" width="161" height="24" rx="4" fill="#D0E8FF"/>
+  <text x="112" y="273" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">积累越多，价值越大</text>
+
+  <!-- 方向2 -->
+  <rect x="220" y="56" width="185" height="234" rx="10" fill="#F0E8FC" stroke="#9B6DC8" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="220" y="56" width="185" height="32" rx="10" fill="#9B6DC8"/>
+  <rect x="220" y="76" width="185" height="12" fill="#9B6DC8"/>
+  <text x="312" y="77" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Skill 体系沉淀</text>
+  <text x="312" y="108" text-anchor="middle" fill="#4A2070" font-size="11" font-weight="bold">为什么不会贬值？</text>
+  <text x="312" y="126" text-anchor="middle" fill="#7A4AAA" font-size="10">团队工程经验编码</text>
+  <text x="312" y="142" text-anchor="middle" fill="#7A4AAA" font-size="10">越积累越有复用价值</text>
+  <text x="312" y="162" text-anchor="middle" fill="#4A2070" font-size="11" font-weight="bold">换工具低成本</text>
+  <text x="312" y="178" text-anchor="middle" fill="#7A4AAA" font-size="10">但重新沉淀 Skill</text>
+  <text x="312" y="194" text-anchor="middle" fill="#7A4AAA" font-size="10">是高成本的</text>
+  <rect x="232" y="258" width="161" height="24" rx="4" fill="#E0D0F0"/>
+  <text x="312" y="273" text-anchor="middle" fill="#4A2070" font-size="10" font-weight="bold">Skill 是真正的资产</text>
+
+  <!-- 方向3 -->
+  <rect x="420" y="56" width="185" height="234" rx="10" fill="#FFF8E8" stroke="#E08020" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="420" y="56" width="185" height="32" rx="10" fill="#E08020"/>
+  <rect x="420" y="76" width="185" height="12" fill="#E08020"/>
+  <text x="512" y="77" text-anchor="middle" fill="white" font-size="12" font-weight="bold">架构设计能力</text>
+  <text x="512" y="108" text-anchor="middle" fill="#7A4000" font-size="11" font-weight="bold">为什么不会贬值？</text>
+  <text x="512" y="126" text-anchor="middle" fill="#AA6020" font-size="10">AI 越强</text>
+  <text x="512" y="142" text-anchor="middle" fill="#AA6020" font-size="10">架构边界定义越关键</text>
+  <text x="512" y="162" text-anchor="middle" fill="#7A4000" font-size="11" font-weight="bold">给错方向就全盘皆错</text>
+  <text x="512" y="178" text-anchor="middle" fill="#AA6020" font-size="10">AI 是忠实执行者</text>
+  <text x="512" y="194" text-anchor="middle" fill="#AA6020" font-size="10">方向由人把控</text>
+  <rect x="432" y="258" width="161" height="24" rx="4" fill="#FFE8C0"/>
+  <text x="512" y="273" text-anchor="middle" fill="#7A4000" font-size="10" font-weight="bold">设计判断 = 人的护城河</text>
+
+  <!-- 方向4 -->
+  <rect x="620" y="56" width="182" height="234" rx="10" fill="#2D3E56" filter="url(#s)"/>
+  <rect x="620" y="56" width="182" height="32" rx="10" fill="#1A2D46"/>
+  <text x="711" y="77" text-anchor="middle" fill="white" font-size="12" font-weight="bold">系统观和决策能力</text>
+  <text x="711" y="108" text-anchor="middle" fill="#88BBDD" font-size="11" font-weight="bold">为什么不会贬值？</text>
+  <text x="711" y="126" text-anchor="middle" fill="#AACCFF" font-size="10">凡是"对后果负责"</text>
+  <text x="711" y="142" text-anchor="middle" fill="#AACCFF" font-size="10">的判断永远需要人</text>
+  <text x="711" y="162" text-anchor="middle" fill="#88BBDD" font-size="11" font-weight="bold">AI 代替不了</text>
+  <text x="711" y="178" text-anchor="middle" fill="#AACCFF" font-size="10">上线决策</text>
+  <text x="711" y="194" text-anchor="middle" fill="#AACCFF" font-size="10">架构取舍和业务优先级</text>
+  <rect x="632" y="258" width="158" height="24" rx="4" fill="#3A4E62"/>
+  <text x="711" y="273" text-anchor="middle" fill="#AACCFF" font-size="10" font-weight="bold">后果责任 = 人的专属</text>
+
+  <text x="410" y="300" text-anchor="middle" fill="#8899AA" font-size="10">当真正的 Vibe Coding 时代到来时，竞争壁垒是：高质量业务知识资产 + 足够强的架构判断能力</text>
+</svg>

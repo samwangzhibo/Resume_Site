@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 400"
+     font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#90a4ae"/>
+    </marker>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="1100" height="400" fill="#F2F5FA"/>
+  
+  <!-- 标题栏 -->
+  <rect x="0" y="0" width="1100" height="48" fill="url(#gTitle)"/>
+  <text x="550" y="28" text-anchor="middle" fill="white" font-size="17" font-weight="bold">三个需求 + 一个线上问题</text>
+  <text x="550" y="43" text-anchor="middle" fill="#AACCFF" font-size="11">覆盖七阶段研发流水线</text>
+
+  <!-- 列1：礼物贴纸（蓝色系） -->
+  <rect x="30" y="68" width="248" height="280" rx="12" fill="white" stroke="#5B8DD9" stroke-width="1.8" filter="url(#s)"/>
+  <rect x="30" y="68" width="248" height="36" rx="12" fill="#5B8DD9"/>
+  <rect x="30" y="92" width="248" height="12" fill="#5B8DD9"/>
+  <text x="154" y="90" text-anchor="middle" fill="white" font-size="13" font-weight="bold">🎁 礼物贴纸</text>
+  <text x="154" y="128" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">新技术栈 KRN</text>
+  <rect x="46" y="142" width="216" height="130" rx="7" fill="#F0F8FF" stroke="#84B0DC" stroke-width="1"/>
+  <text x="154" y="168" text-anchor="middle" fill="#1A4080" font-size="11">研发能力边界受限</text>
+  <line x1="58" y1="178" x2="246" y2="178" stroke="#D0E0F0" stroke-width="1"/>
+  <text x="154" y="198" text-anchor="middle" fill="#4A6090" font-size="10">不熟悉 RN 开发模式</text>
+  <text x="154" y="215" text-anchor="middle" fill="#4A6090" font-size="10">项目内 KRN 规范盲区</text>
+  <text x="154" y="255" text-anchor="middle" fill="#1565C0" font-size="11" font-style="italic">→ AI 扩展认知边界</text>
+
+  <!-- 列2：成组送（紫色系） -->
+  <rect x="295" y="68" width="248" height="280" rx="12" fill="white" stroke="#9B6DC8" stroke-width="1.8" filter="url(#s)"/>
+  <rect x="295" y="68" width="248" height="36" rx="12" fill="#9B6DC8"/>
+  <rect x="295" y="92" width="248" height="12" fill="#9B6DC8"/>
+  <text x="419" y="90" text-anchor="middle" fill="white" font-size="13" font-weight="bold">🎁 送礼链路成组送</text>
+  <text x="419" y="128" text-anchor="middle" fill="#4A2070" font-size="11" font-weight="bold">业务上下文重</text>
+  <rect x="311" y="142" width="216" height="130" rx="7" fill="#F8F0FF" stroke="#C8A0E8" stroke-width="1"/>
+  <text x="419" y="168" text-anchor="middle" fill="#3A1070" font-size="11">技术链路长</text>
+  <line x1="323" y1="178" x2="511" y2="178" stroke="#E0D0F0" stroke-width="1"/>
+  <text x="419" y="198" text-anchor="middle" fill="#6A4090" font-size="10">礼物面板→发送链路</text>
+  <text x="419" y="215" text-anchor="middle" fill="#6A4090" font-size="10">→Combo展示→埋点上报</text>
+  <text x="419" y="255" text-anchor="middle" fill="#7B4AC8" font-size="11" font-style="italic">→ AI 降低理解成本</text>
+
+  <!-- 列3：连线迁移（青色系） -->
+  <rect x="560" y="68" width="248" height="280" rx="12" fill="white" stroke="#00838F" stroke-width="1.8" filter="url(#s)"/>
+  <rect x="560" y="68" width="248" height="36" rx="12" fill="#00838F"/>
+  <rect x="560" y="92" width="248" height="12" fill="#00838F"/>
+  <text x="684" y="90" text-anchor="middle" fill="white" font-size="13" font-weight="bold">🔗 连线迁移</text>
+  <text x="684" y="128" text-anchor="middle" fill="#004D60" font-size="11" font-weight="bold">架构重、决策成本高</text>
+  <rect x="576" y="142" width="216" height="130" rx="7" fill="#E0F4F8" stroke="#60B0C0" stroke-width="1"/>
+  <text x="684" y="168" text-anchor="middle" fill="#003040" font-size="11">插件层级复杂</text>
+  <line x1="588" y1="178" x2="776" y2="178" stroke="#C0E0E8" stroke-width="1"/>
+  <text x="684" y="198" text-anchor="middle" fill="#106070" font-size="10">模块间依赖图交织</text>
+  <text x="684" y="215" text-anchor="middle" fill="#106070" font-size="10">Service 注册时机判断</text>
+  <text x="684" y="255" text-anchor="middle" fill="#00838F" font-size="11" font-style="italic">→ AI 做超级大脑</text>
+
+  <!-- 列4：KMP线上问题（橙色虚线框） -->
+  <rect x="825" y="68" width="248" height="280" rx="12" fill="white" stroke="#E08020" stroke-width="1.8" stroke-dasharray="6,3" filter="url(#s)"/>
+  <rect x="825" y="68" width="248" height="36" rx="12" fill="#E08020"/>
+  <rect x="825" y="92" width="248" height="12" fill="#E08020"/>
+  <text x="949" y="90" text-anchor="middle" fill="white" font-size="13" font-weight="bold">📺 KMP 连麦画面静止</text>
+  <text x="949" y="128" text-anchor="middle" fill="#7A4000" font-size="11" font-weight="bold">多团队协作</text>
+  <rect x="841" y="142" width="216" height="130" rx="7" fill="#FFF8E8" stroke="#E8A050" stroke-width="1"/>
+  <text x="949" y="168" text-anchor="middle" fill="#5A3000" font-size="11">信息残缺</text>
+  <line x1="853" y1="178" x2="1037" y2="178" stroke="#F0D8B0" stroke-width="1"/>
+  <text x="949" y="198" text-anchor="middle" fill="#8A5000" font-size="10">日志零散 + 客诉模糊</text>
+  <text x="949" y="215" text-anchor="middle" fill="#8A5000" font-size="10">版本diff + 改动记录</text>
+  <text x="949" y="255" text-anchor="middle" fill="#E08020" font-size="11" font-style="italic">→ AI 重建问题现场</text>
+
+  <!-- 箭头连接 -->
+  <line x1="278" y1="208" x2="295" y2="208" stroke="#90a4ae" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="543" y1="208" x2="560" y2="208" stroke="#90a4ae" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="808" y1="208" x2="825" y2="208" stroke="#90a4ae" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 底部图例 -->
+  <rect x="250" y="360" width="20" height="16" rx="3" fill="#5B8DD9"/>
+  <text x="275" y="372" fill="#666" font-size="11">研发阶段需求</text>
+  <rect x="420" y="360" width="20" height="16" rx="3" fill="none" stroke="#E08020" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <text x="445" y="372" fill="#666" font-size="11">线上问题排查</text>
+</svg>

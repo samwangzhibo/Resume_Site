@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="240" viewBox="0 0 760 240" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.10"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="760" height="240" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="760" height="44" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="32" width="760" height="12" fill="url(#gTitle)"/>
+  <text x="380" y="27" text-anchor="middle" fill="white" font-size="15" font-weight="bold">两者共同指向的 4 个趋势</text>
+
+  <!-- 卡片1 -->
+  <rect x="20" y="58" width="160" height="160" rx="8" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="58" width="160" height="32" rx="8" fill="#5B8DD9"/>
+  <rect x="20" y="78" width="160" height="12" fill="#5B8DD9"/>
+  <text x="100" y="79" text-anchor="middle" fill="white" font-size="12" font-weight="bold">从工具到流程</text>
+  <text x="100" y="112" text-anchor="middle" fill="#2B5090" font-size="11">AI 不是</text>
+  <text x="100" y="128" text-anchor="middle" fill="#2B5090" font-size="11">"主动去用的工具"</text>
+  <text x="100" y="148" text-anchor="middle" fill="#5A7AAA" font-size="10">而是流程中</text>
+  <text x="100" y="164" text-anchor="middle" fill="#5A7AAA" font-size="10">自动触发的环节</text>
+
+  <!-- 卡片2 -->
+  <rect x="200" y="58" width="160" height="160" rx="8" fill="#F0E8FC" stroke="#9B6DC8" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="200" y="58" width="160" height="32" rx="8" fill="#9B6DC8"/>
+  <rect x="200" y="78" width="160" height="12" fill="#9B6DC8"/>
+  <text x="280" y="79" text-anchor="middle" fill="white" font-size="12" font-weight="bold">知识库是护城河</text>
+  <text x="280" y="112" text-anchor="middle" fill="#4A2070" font-size="11">内部知识库越完善</text>
+  <text x="280" y="128" text-anchor="middle" fill="#4A2070" font-size="11">（Wiki / Style Guide）</text>
+  <text x="280" y="148" text-anchor="middle" fill="#7A4AAA" font-size="10">AI 的表现</text>
+  <text x="280" y="164" text-anchor="middle" fill="#7A4AAA" font-size="10">就越好</text>
+
+  <!-- 卡片3 -->
+  <rect x="380" y="58" width="160" height="160" rx="8" fill="#FFF8E8" stroke="#E08020" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="380" y="58" width="160" height="32" rx="8" fill="#E08020"/>
+  <rect x="380" y="78" width="160" height="12" fill="#E08020"/>
+  <text x="460" y="79" text-anchor="middle" fill="white" font-size="12" font-weight="bold">人的角色向上移</text>
+  <text x="460" y="112" text-anchor="middle" fill="#7A4000" font-size="11">从"写代码"</text>
+  <text x="460" y="128" text-anchor="middle" fill="#7A4000" font-size="11">转向</text>
+  <text x="460" y="148" text-anchor="middle" fill="#AA6020" font-size="10">"设计系统</text>
+  <text x="460" y="164" text-anchor="middle" fill="#AA6020" font-size="10">审查 AI 输出"</text>
+
+  <!-- 卡片4 -->
+  <rect x="560" y="58" width="180" height="160" rx="8" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="560" y="58" width="180" height="32" rx="8" fill="#3A9A3A"/>
+  <rect x="560" y="78" width="180" height="12" fill="#3A9A3A"/>
+  <text x="650" y="79" text-anchor="middle" fill="white" font-size="12" font-weight="bold">验证和测试被放大</text>
+  <text x="650" y="112" text-anchor="middle" fill="#1A5A1A" font-size="11">AI 生成代码量增加</text>
+  <text x="650" y="130" text-anchor="middle" fill="#1A5A1A" font-size="11">验证成本同步增加</text>
+  <text x="650" y="150" text-anchor="middle" fill="#5A9A5A" font-size="10">测试自动化</text>
+  <text x="650" y="166" text-anchor="middle" fill="#5A9A5A" font-size="10">变得更关键</text>
+
+  <text x="380" y="228" text-anchor="middle" fill="#8899AA" font-size="10">这四个趋势，也是后续章节工作流范式和实战案例的底层背景</text>
+</svg>

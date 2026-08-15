@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="340" viewBox="0 0 720 340" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.10"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#601A1A"/>
+      <stop offset="100%" style="stop-color:#A03030"/>
+    </linearGradient>
+  </defs>
+  <rect width="720" height="340" fill="#FFF8F8" rx="8"/>
+  <rect x="0" y="0" width="720" height="44" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="32" width="720" height="12" fill="url(#gTitle)"/>
+  <text x="360" y="26" text-anchor="middle" fill="white" font-size="14" font-weight="bold">研发基本功的演变</text>
+
+  <!-- 表头 -->
+  <rect x="20" y="52" width="680" height="26" rx="0" fill="#E8F2FF"/>
+  <text x="130" y="68" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">传统基本功</text>
+  <text x="360" y="68" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">AI 时代仍然重要</text>
+  <text x="580" y="68" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">AI 时代新增基本功</text>
+
+  <!-- 分割线 -->
+  <line x1="240" y1="52" x2="240" y2="250" stroke="#CCDDEE" stroke-width="1"/>
+  <line x1="480" y1="52" x2="480" y2="250" stroke="#CCDDEE" stroke-width="1"/>
+  <rect x="20" y="52" width="680" height="198" rx="0" fill="none" stroke="#CCDDEE" stroke-width="1"/>
+
+  <!-- 行1 -->
+  <rect x="20" y="78" width="680" height="42" fill="#FAFAFE"/>
+  <text x="130" y="99" text-anchor="middle" fill="#4A5A70" font-size="11">数据结构与算法</text>
+  <text x="130" y="115" text-anchor="middle" fill="#8899AA" font-size="10">理解复杂度，设计方案</text>
+  <rect x="252" y="86" width="216" height="26" rx="6" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1"/>
+  <text x="360" y="99" text-anchor="middle" fill="#1A5A1A" font-size="11" font-weight="bold">✅ 仍然重要</text>
+  <text x="360" y="115" text-anchor="middle" fill="#5A9A5A" font-size="10">用于判断 AI 方案的质量</text>
+  <text x="580" y="99" text-anchor="middle" fill="#9B6DC8" font-size="11" font-weight="bold">上下文工程能力</text>
+  <text x="580" y="115" text-anchor="middle" fill="#7A4AAA" font-size="10">把复杂目标精准传给 AI</text>
+
+  <!-- 行2 -->
+  <rect x="20" y="120" width="680" height="42" fill="white"/>
+  <text x="130" y="141" text-anchor="middle" fill="#4A5A70" font-size="11">系统设计</text>
+  <text x="130" y="157" text-anchor="middle" fill="#8899AA" font-size="10">架构、分层、解耦</text>
+  <rect x="252" y="128" width="216" height="26" rx="6" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="2"/>
+  <text x="360" y="141" text-anchor="middle" fill="#1A5A1A" font-size="11" font-weight="bold">✅✅ 越来越重要</text>
+  <text x="360" y="157" text-anchor="middle" fill="#5A9A5A" font-size="10">AI 是忠实执行者，方向错则全盘皆错</text>
+  <text x="580" y="141" text-anchor="middle" fill="#9B6DC8" font-size="11" font-weight="bold">Prompt 工程与迭代</text>
+  <text x="580" y="157" text-anchor="middle" fill="#7A4AAA" font-size="10">追问技巧 + 持续迭代</text>
+
+  <!-- 行3 -->
+  <rect x="20" y="162" width="680" height="42" fill="#FAFAFE"/>
+  <text x="130" y="183" text-anchor="middle" fill="#4A5A70" font-size="11">调试能力</text>
+  <text x="130" y="199" text-anchor="middle" fill="#8899AA" font-size="10">定位问题根因</text>
+  <rect x="252" y="170" width="216" height="26" rx="6" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1"/>
+  <text x="360" y="183" text-anchor="middle" fill="#1A5A1A" font-size="11" font-weight="bold">✅ 仍然重要</text>
+  <text x="360" y="199" text-anchor="middle" fill="#5A9A5A" font-size="10">验证 AI 修复方案是否有效</text>
+  <text x="580" y="183" text-anchor="middle" fill="#9B6DC8" font-size="11" font-weight="bold">Skill 文件维护</text>
+  <text x="580" y="199" text-anchor="middle" fill="#7A4AAA" font-size="10">把纠错经验沉淀为规则</text>
+
+  <!-- 行4 -->
+  <rect x="20" y="204" width="680" height="46" fill="white"/>
+  <text x="130" y="225" text-anchor="middle" fill="#4A5A70" font-size="11">代码阅读能力</text>
+  <text x="130" y="241" text-anchor="middle" fill="#8899AA" font-size="10">理解现有系统</text>
+  <rect x="252" y="212" width="216" height="26" rx="6" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1"/>
+  <text x="360" y="225" text-anchor="middle" fill="#1A5A1A" font-size="11" font-weight="bold">✅ 仍然重要</text>
+  <text x="360" y="241" text-anchor="middle" fill="#5A9A5A" font-size="10">审查 AI 生成的代码</text>
+  <text x="580" y="225" text-anchor="middle" fill="#9B6DC8" font-size="11" font-weight="bold">业务 Spec 撰写</text>
+  <text x="580" y="241" text-anchor="middle" fill="#7A4AAA" font-size="10">把业务规则显式化、文档化</text>
+
+  <!-- AI难以替代 vs 会替代 -->
+  <rect x="20" y="258" width="330" height="72" rx="8" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1.5" filter="url(#s)"/>
+  <text x="185" y="278" text-anchor="middle" fill="#1A5A1A" font-size="11" font-weight="bold">AI 难以替代</text>
+  <text x="185" y="298" text-anchor="middle" fill="#5A9A5A" font-size="10">对复杂业务规则的深度理解</text>
+  <text x="185" y="314" text-anchor="middle" fill="#5A9A5A" font-size="10">架构演进方向的判断 + 系统影响面感知</text>
+
+  <rect x="370" y="258" width="330" height="72" rx="8" fill="#FFF0F0" stroke="#C03030" stroke-width="1.5" filter="url(#s)"/>
+  <text x="535" y="278" text-anchor="middle" fill="#C03030" font-size="11" font-weight="bold">AI 会越来越替代</text>
+  <text x="535" y="298" text-anchor="middle" fill="#CC6060" font-size="10">按规格执行的编码 + 基础 Bug 修复</text>
+  <text x="535" y="314" text-anchor="middle" fill="#CC6060" font-size="10">规范化 CR 扫描 + 重复性文档整理</text>
+</svg>

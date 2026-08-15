@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="420" viewBox="0 0 840 420" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#5B8DD9"/>
+    </marker>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="840" height="420" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="840" height="44" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="32" width="840" height="12" fill="url(#gTitle)"/>
+  <text x="420" y="26" text-anchor="middle" fill="white" font-size="15" font-weight="bold">行业演进推演时间线</text>
+
+  <!-- 时间轴横线 -->
+  <line x1="60" y1="78" x2="800" y2="78" stroke="#5B8DD9" stroke-width="2"/>
+  <polygon points="800,73 812,78 800,83" fill="#5B8DD9"/>
+
+  <!-- 时间节点 -->
+  <circle cx="120" cy="78" r="10" fill="#5B8DD9" stroke="white" stroke-width="2"/>
+  <text x="120" y="100" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">现在</text>
+  <text x="120" y="114" text-anchor="middle" fill="#5A7AAA" font-size="10">2026</text>
+
+  <circle cx="310" cy="78" r="10" fill="#9B6DC8" stroke="white" stroke-width="2"/>
+  <text x="310" y="100" text-anchor="middle" fill="#4A2070" font-size="11" font-weight="bold">近期</text>
+  <text x="310" y="114" text-anchor="middle" fill="#7A4AAA" font-size="10">2027</text>
+
+  <circle cx="530" cy="78" r="10" fill="#E08020" stroke="white" stroke-width="2"/>
+  <text x="530" y="100" text-anchor="middle" fill="#7A4000" font-size="11" font-weight="bold">中期</text>
+  <text x="530" y="114" text-anchor="middle" fill="#AA6020" font-size="10">2028-2029</text>
+
+  <circle cx="750" cy="78" r="10" fill="#2D3E56" stroke="white" stroke-width="2"/>
+  <text x="750" y="100" text-anchor="middle" fill="#4A5A70" font-size="11" font-weight="bold">远期</text>
+  <text x="750" y="114" text-anchor="middle" fill="#8899AA" font-size="10">2030+</text>
+
+  <!-- 2026 卡片 -->
+  <rect x="30" y="122" width="182" height="270" rx="8" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="30" y="122" width="182" height="28" rx="8" fill="#5B8DD9"/>
+  <rect x="30" y="138" width="182" height="12" fill="#5B8DD9"/>
+  <text x="121" y="140" text-anchor="middle" fill="white" font-size="11" font-weight="bold">百万 token + 多步推理</text>
+  <text x="121" y="164" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">技术现状</text>
+  <text x="121" y="180" text-anchor="middle" fill="#5A7AAA" font-size="10">Context + Harness 并行</text>
+  <text x="121" y="200" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">工程师角色</text>
+  <text x="121" y="216" text-anchor="middle" fill="#5A7AAA" font-size="10">上下文设计师</text>
+  <text x="121" y="232" text-anchor="middle" fill="#5A7AAA" font-size="10">+ 系统架构师</text>
+  <text x="121" y="252" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">核心工作</text>
+  <text x="121" y="268" text-anchor="middle" fill="#5A7AAA" font-size="10">投喂上下文</text>
+  <text x="121" y="284" text-anchor="middle" fill="#5A7AAA" font-size="10">建设 Spec + Skill</text>
+  <text x="121" y="304" text-anchor="middle" fill="#5A7AAA" font-size="10">设计 Harness 框架</text>
+  <rect x="42" y="360" width="158" height="24" rx="4" fill="#D0E8FF"/>
+  <text x="121" y="375" text-anchor="middle" fill="#2B5090" font-size="9" font-weight="bold">我们正处于此阶段</text>
+
+  <!-- 2027 卡片 -->
+  <rect x="222" y="122" width="182" height="270" rx="8" fill="#F0E8FC" stroke="#9B6DC8" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="222" y="122" width="182" height="28" rx="8" fill="#9B6DC8"/>
+  <rect x="222" y="138" width="182" height="12" fill="#9B6DC8"/>
+  <text x="313" y="140" text-anchor="middle" fill="white" font-size="11" font-weight="bold">超长上下文普及</text>
+  <text x="313" y="164" text-anchor="middle" fill="#4A2070" font-size="10" font-weight="bold">技术突破</text>
+  <text x="313" y="180" text-anchor="middle" fill="#7A4AAA" font-size="10">全库感知能力成熟</text>
+  <text x="313" y="200" text-anchor="middle" fill="#4A2070" font-size="10" font-weight="bold">工程变化</text>
+  <text x="313" y="216" text-anchor="middle" fill="#7A4AAA" font-size="10">Harness Engineering</text>
+  <text x="313" y="232" text-anchor="middle" fill="#7A4AAA" font-size="10">成为主流范式</text>
+  <text x="313" y="252" text-anchor="middle" fill="#4A2070" font-size="10" font-weight="bold">工程师角色</text>
+  <text x="313" y="268" text-anchor="middle" fill="#7A4AAA" font-size="10">驾驭工程师</text>
+  <text x="313" y="284" text-anchor="middle" fill="#7A4AAA" font-size="10">专注系统设计</text>
+  <rect x="234" y="360" width="158" height="24" rx="4" fill="#E0D0F0"/>
+  <text x="313" y="375" text-anchor="middle" fill="#4A2070" font-size="9" font-weight="bold">上下文工程成本大幅降低</text>
+
+  <!-- 2028-2029 卡片 -->
+  <rect x="440" y="122" width="182" height="270" rx="8" fill="#FFF8E8" stroke="#E08020" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="440" y="122" width="182" height="28" rx="8" fill="#E08020"/>
+  <rect x="440" y="138" width="182" height="12" fill="#E08020"/>
+  <text x="531" y="140" text-anchor="middle" fill="white" font-size="11" font-weight="bold">自主 Debug + 测试自动化</text>
+  <text x="531" y="164" text-anchor="middle" fill="#7A4000" font-size="10" font-weight="bold">技术突破</text>
+  <text x="531" y="180" text-anchor="middle" fill="#AA6020" font-size="10">反馈闭环基本自动化</text>
+  <text x="531" y="200" text-anchor="middle" fill="#7A4000" font-size="10" font-weight="bold">工程变化</text>
+  <text x="531" y="216" text-anchor="middle" fill="#AA6020" font-size="10">灰度异常自动定位回滚</text>
+  <text x="531" y="232" text-anchor="middle" fill="#AA6020" font-size="10">测试用例自动生成维护</text>
+  <text x="531" y="252" text-anchor="middle" fill="#7A4000" font-size="10" font-weight="bold">工程师角色</text>
+  <text x="531" y="268" text-anchor="middle" fill="#AA6020" font-size="10">决策者</text>
+  <text x="531" y="284" text-anchor="middle" fill="#AA6020" font-size="10">+ 系统守护者</text>
+  <rect x="452" y="360" width="158" height="24" rx="4" fill="#FFE8C0"/>
+  <text x="531" y="375" text-anchor="middle" fill="#7A4000" font-size="9" font-weight="bold">Oncall 响应从分钟变秒级</text>
+
+  <!-- 2030+ 卡片 -->
+  <rect x="658" y="122" width="162" height="270" rx="8" fill="#2D3E56" filter="url(#s)"/>
+  <rect x="658" y="122" width="162" height="28" rx="8" fill="#1A2D46"/>
+  <text x="739" y="140" text-anchor="middle" fill="white" font-size="11" font-weight="bold">多 Agent + 业务语义</text>
+  <text x="739" y="164" text-anchor="middle" fill="#88BBDD" font-size="10" font-weight="bold">技术突破</text>
+  <text x="739" y="180" text-anchor="middle" fill="#AACCFF" font-size="10">业务语义理解成熟</text>
+  <text x="739" y="200" text-anchor="middle" fill="#88BBDD" font-size="10" font-weight="bold">工程变化</text>
+  <text x="739" y="216" text-anchor="middle" fill="#AACCFF" font-size="10">端到端自主交付</text>
+  <text x="739" y="232" text-anchor="middle" fill="#AACCFF" font-size="10">在特定领域成现实</text>
+  <text x="739" y="252" text-anchor="middle" fill="#88BBDD" font-size="10" font-weight="bold">工程师角色</text>
+  <text x="739" y="268" text-anchor="middle" fill="#AACCFF" font-size="10">产品定义者</text>
+  <text x="739" y="284" text-anchor="middle" fill="#AACCFF" font-size="10">+ 架构守护者</text>
+  <rect x="670" y="360" width="138" height="24" rx="4" fill="#3A4E62"/>
+  <text x="739" y="375" text-anchor="middle" fill="#AACCFF" font-size="9" font-weight="bold">真正的 Vibe Coding 时代</text>
+
+  <!-- 底部说明 -->
+  <text x="420" y="408" text-anchor="middle" fill="#8899AA" font-size="10">核心竞争壁垒不会消失：高质量业务知识资产 + 强架构判断能力——现在就要开始积累</text>
+</svg>

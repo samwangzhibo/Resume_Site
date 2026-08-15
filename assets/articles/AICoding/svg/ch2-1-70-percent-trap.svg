@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="360" viewBox="0 0 660 360" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#C03030"/>
+    </marker>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#601A1A"/>
+      <stop offset="100%" style="stop-color:#A03030"/>
+    </linearGradient>
+  </defs>
+  <rect width="660" height="360" fill="#FFF8F8" rx="8"/>
+  <rect x="0" y="0" width="660" height="48" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="36" width="660" height="12" fill="url(#gTitle)"/>
+  <text x="330" y="29" text-anchor="middle" fill="white" font-size="15" font-weight="bold">局部最优陷阱：AI 让编码提速，但整体交付没有加快</text>
+
+  <!-- 左图：时间分布 -->
+  <text x="165" y="76" text-anchor="middle" fill="#C03030" font-size="13" font-weight="bold">软件开发的时间构成</text>
+
+  <!-- 编码30% -->
+  <rect x="40" y="88" width="250" height="52" rx="6" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="2" filter="url(#s)"/>
+  <rect x="40" y="88" width="250" height="52" rx="6" fill="#5B8DD9" opacity="0.15"/>
+  <text x="90" y="118" fill="#2B5090" font-size="20" font-weight="bold">30%</text>
+  <text x="168" y="110" fill="#2B5090" font-size="12" font-weight="bold">编码</text>
+  <text x="168" y="128" fill="#5B8DD9" font-size="11">← AI 主要赋能区</text>
+
+  <!-- 非编码70% -->
+  <rect x="40" y="152" width="250" height="120" rx="6" fill="#FFF0F0" stroke="#C03030" stroke-width="2" filter="url(#s)"/>
+  <text x="90" y="202" fill="#C03030" font-size="32" font-weight="bold">70%</text>
+  <text x="168" y="186" fill="#B03030" font-size="12" font-weight="bold">非编码工作</text>
+  <text x="168" y="204" fill="#C06060" font-size="10">• 验证 / 测试</text>
+  <text x="168" y="220" fill="#C06060" font-size="10">• 部署 / 监控</text>
+  <text x="168" y="236" fill="#C06060" font-size="10">• Code Review / 联调</text>
+  <text x="168" y="252" fill="#C06060" font-size="10">• 沟通 / 文档</text>
+
+  <!-- 箭头说明 -->
+  <line x1="295" y1="114" x2="338" y2="165" stroke="#C03030" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <text x="305" y="148" fill="#C03030" font-size="10">×N 倍</text>
+
+  <!-- 右图：公式推演 -->
+  <rect x="360" y="68" width="272" height="216" rx="8" fill="white" stroke="#C03030" stroke-width="1.5" filter="url(#s)"/>
+  <text x="496" y="94" text-anchor="middle" fill="#C03030" font-size="12" font-weight="bold">为什么"更快的编码"反而让人更累？</text>
+
+  <rect x="376" y="106" width="240" height="32" rx="4" fill="#E8F2FF"/>
+  <text x="496" y="127" text-anchor="middle" fill="#2B5090" font-size="12">AI 生成代码量 × N 倍</text>
+
+  <text x="496" y="156" text-anchor="middle" fill="#888" font-size="14">↓</text>
+
+  <rect x="376" y="164" width="240" height="32" rx="4" fill="#FFF8E8"/>
+  <text x="496" y="185" text-anchor="middle" fill="#7A4000" font-size="12">非编码工作量同步 × N 倍增长</text>
+
+  <text x="496" y="214" text-anchor="middle" fill="#888" font-size="14">↓</text>
+
+  <rect x="376" y="222" width="240" height="32" rx="4" fill="#FFF0F0" stroke="#C03030" stroke-width="1.5"/>
+  <text x="496" y="243" text-anchor="middle" fill="#C03030" font-size="12" font-weight="bold">总工作量不减反增</text>
+
+  <!-- 底部标注 -->
+  <rect x="40" y="290" width="590" height="52" rx="6" fill="#2D3E56"/>
+  <text x="330" y="311" text-anchor="middle" fill="white" font-size="12" font-weight="bold">局部最优陷阱</text>
+  <text x="330" y="331" text-anchor="middle" fill="#AACCFF" font-size="11">AI 让某个环节极大提速，但系统瓶颈没有消除，整体速度受到新的制约</text>
+</svg>

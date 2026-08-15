@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480"
+     font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <filter id="s2"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.08"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#E53935"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2E7D32"/>
+    </marker>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#B71C1C"/>
+      <stop offset="100%" style="stop-color:#E53935"/>
+    </linearGradient>
+    <linearGradient id="gCorrect" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1B5E20"/>
+      <stop offset="100%" style="stop-color:#2E7D32"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="480" fill="#F2F5FA"/>
+  <rect x="0" y="0" width="900" height="50" fill="url(#gTitle)"/>
+  <text x="450" y="27" text-anchor="middle" fill="white" font-size="17" font-weight="bold">打地鼠循环：无锚点 Debug 的危险陷阱</text>
+  <text x="450" y="43" text-anchor="middle" fill="#FFCCCC" font-size="11">AI 把「合理嫌疑人」当成了「真正凶手」</text>
+
+  <!-- 左侧：失败路径 -->
+  <rect x="20" y="65" width="400" height="32" rx="6" fill="#C62828"/>
+  <text x="220" y="85" text-anchor="middle" fill="white" font-size="12" font-weight="bold">❌ 无锚点 AI 修复路径（打地鼠）</text>
+
+  <!-- 步骤框 -->
+  <rect x="70" y="105" width="300" height="44" rx="8" fill="white" stroke="#E53935" stroke-width="1.5" filter="url(#s2)"/>
+  <text x="220" y="122" text-anchor="middle" fill="#333" font-size="11">发现问题：@Module 引入方式可疑</text>
+  <text x="220" y="137" text-anchor="middle" fill="#888" font-size="10">AI 找到「合理嫌疑人」A</text>
+
+  <line x1="220" y1="149" x2="220" y2="165" stroke="#E53935" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="235" y="159" fill="#E53935" font-size="9">AI 修改 A</text>
+
+  <rect x="70" y="165" width="300" height="44" rx="8" fill="white" stroke="#E53935" stroke-width="1.5" filter="url(#s2)"/>
+  <text x="220" y="182" text-anchor="middle" fill="#333" font-size="11">问题未修复（真正根因是 B）</text>
+  <text x="220" y="197" text-anchor="middle" fill="#888" font-size="10">@InjectModule 注解遗漏才是根因</text>
+
+  <line x1="220" y1="209" x2="220" y2="225" stroke="#E53935" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="235" y="219" fill="#E53935" font-size="9">AI 修改 B</text>
+
+  <rect x="70" y="225" width="300" height="44" rx="8" fill="white" stroke="#E53935" stroke-width="1.5" filter="url(#s2)"/>
+  <text x="220" y="242" text-anchor="middle" fill="#333" font-size="11">修 B 时引入新问题 C</text>
+  <text x="220" y="257" text-anchor="middle" fill="#888" font-size="10">Provider 注册遗漏，新 Bug 诞生</text>
+
+  <line x1="220" y1="269" x2="220" y2="285" stroke="#E53935" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="70" y="285" width="300" height="44" rx="8" fill="#FFEBEE" stroke="#E53935" stroke-width="2" filter="url(#s)"/>
+  <text x="220" y="302" text-anchor="middle" fill="#C62828" font-size="12" font-weight="bold">🔄 打地鼠循环</text>
+  <text x="220" y="317" text-anchor="middle" fill="#E53935" font-size="10">越修越多，路径漫游，浪费大量时间</text>
+
+  <!-- 循环箭头（从底回到顶的弯曲箭头效果用折线代替） -->
+  <path d="M 70 307 Q 30 307 30 220 Q 30 127 70 127" stroke="#E53935" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <text x="10" y="220" fill="#E53935" font-size="10" writing-mode="tb">继续循环</text>
+
+  <!-- 右侧：正确路径 -->
+  <rect x="470" y="65" width="410" height="32" rx="6" fill="#2E7D32"/>
+  <text x="675" y="85" text-anchor="middle" fill="white" font-size="12" font-weight="bold">✅ 正确做法：人先判断骨架</text>
+
+  <!-- 人判断步骤 -->
+  <rect x="520" y="105" width="310" height="44" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="1.5" filter="url(#s2)"/>
+  <text x="675" y="122" text-anchor="middle" fill="#1B5E20" font-size="11" font-weight="bold">步骤1：人做初步定位</text>
+  <text x="675" y="137" text-anchor="middle" fill="#388E3C" font-size="10">查看日志 + 看结构 → 缩小至 1~2 个方向</text>
+
+  <line x1="675" y1="149" x2="675" y2="165" stroke="#2E7D32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <rect x="520" y="165" width="310" height="44" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="1.5" filter="url(#s2)"/>
+  <text x="675" y="182" text-anchor="middle" fill="#1B5E20" font-size="11" font-weight="bold">步骤2：给 AI 明确骨架方向</text>
+  <text x="675" y="197" text-anchor="middle" fill="#388E3C" font-size="10">「可能是 B（@InjectModule），帮我确认并修复」</text>
+
+  <line x1="675" y1="209" x2="675" y2="225" stroke="#2E7D32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <rect x="520" y="225" width="310" height="44" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="1.5" filter="url(#s2)"/>
+  <text x="675" y="242" text-anchor="middle" fill="#1B5E20" font-size="11" font-weight="bold">步骤3：AI 在骨架内精确执行</text>
+  <text x="675" y="257" text-anchor="middle" fill="#388E3C" font-size="10">定位注解遗漏 → 修复 → 完整验证影响面</text>
+
+  <line x1="675" y1="269" x2="675" y2="285" stroke="#2E7D32" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <rect x="520" y="285" width="310" height="44" rx="8" fill="#C8E6C9" stroke="#2E7D32" stroke-width="2" filter="url(#s)"/>
+  <text x="675" y="302" text-anchor="middle" fill="#1B5E20" font-size="12" font-weight="bold">✅ 一次命中，干净收束</text>
+  <text x="675" y="317" text-anchor="middle" fill="#2E7D32" font-size="10">无路径漫游，修复精准</text>
+
+  <!-- 适用场景对比表 -->
+  <rect x="20" y="348" width="860" height="112" rx="8" fill="white" filter="url(#s)"/>
+  <text x="450" y="368" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">📊 AI 自动修复效果对比</text>
+  <!-- 表头 -->
+  <rect x="30" y="375" width="430" height="24" rx="4" fill="#1565C0"/>
+  <text x="245" y="391" text-anchor="middle" fill="white" font-size="11" font-weight="bold">场景</text>
+  <rect x="470" y="375" width="400" height="24" rx="4" fill="#1565C0"/>
+  <text x="670" y="391" text-anchor="middle" fill="white" font-size="11" font-weight="bold">AI 修复效果</text>
+
+  <rect x="30" y="399" width="430" height="24" rx="4" fill="#F5F5F5"/>
+  <text x="50" y="415" fill="#333" font-size="11">✅ 明确堆栈 + 根因单一 + 改动点收敛</text>
+  <rect x="470" y="399" width="400" height="24" rx="4" fill="#E8F5E9"/>
+  <text x="490" y="415" fill="#2E7D32" font-size="11" font-weight="bold">效率极高 ⚡</text>
+
+  <rect x="30" y="423" width="430" height="24" rx="4" fill="#FFEBEE"/>
+  <text x="50" y="439" fill="#C62828" font-size="11">❌ 无明确堆栈 + 多根因 + 历史债务</text>
+  <rect x="470" y="423" width="400" height="24" rx="4" fill="#FFEBEE"/>
+  <text x="490" y="439" fill="#E53935" font-size="11" font-weight="bold">越修越乱，打地鼠循环 🔄</text>
+</svg>

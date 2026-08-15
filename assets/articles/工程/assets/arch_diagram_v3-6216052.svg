@@ -1,0 +1,329 @@
+<svg viewBox="0 0 760 1390" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, -apple-system, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, sans-serif" role="img"><title>架构设计全景图</title><desc>从架构目标、评估指标、演进规律、设计原则、重构演进、重构关注点、韧性架构到长期架构维护的完整知识体系</desc><defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect x="0" y="0" width="760" height="1390" fill="#ffffff"/>
+<rect x="0" y="0" width="760" height="36" rx="0" fill="#444441"/>
+<text x="380.0" y="18" text-anchor="middle" dominant-baseline="central" font-size="15" font-weight="500" fill="white">架构设计全景图</text>
+<rect x="128" y="48" width="93" height="46" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="174.5" y="64.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#0C447C">低成本</text>
+<text x="174.5" y="79.0" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#185FA5">包体积·人力·运维</text>
+<rect x="228" y="48" width="93" height="46" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="274.5" y="64.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#0C447C">可扩展</text>
+<text x="274.5" y="79.0" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#185FA5">模块化·插件化</text>
+<rect x="328" y="48" width="93" height="46" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="374.5" y="64.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#0C447C">高可用</text>
+<text x="374.5" y="79.0" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#185FA5">容灾·降级·熔断</text>
+<rect x="428" y="48" width="93" height="46" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="474.5" y="64.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#0C447C">安全</text>
+<text x="474.5" y="79.0" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#185FA5">隔离·权限·合规</text>
+<rect x="528" y="48" width="93" height="46" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="574.5" y="64.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#0C447C">高性能</text>
+<text x="574.5" y="79.0" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#185FA5">秒开·流畅·低耗</text>
+<rect x="628" y="48" width="93" height="46" rx="5" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="674.5" y="64.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#0C447C">可观测</text>
+<text x="674.5" y="79.0" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#185FA5">监控·告警·巡检</text>
+<rect x="6" y="44" width="110" height="56" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.8"/>
+<rect x="6" y="44" width="4" height="56" rx="2" fill="#185FA5"/>
+<circle cx="61.0" cy="62" r="13" fill="#185FA5"/>
+<text x="61.0" y="62" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="bold" fill="white">1</text>
+<text x="61.0" y="86" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="600" fill="#0C447C">架构目标</text>
+<path d="M430.0 100 L430.0 110" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="128" y="118" width="196" height="18" rx="4" fill="#AFA9EC" opacity="0.2"/>
+<text x="226.0" y="127" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">架构健康度</text>
+<rect x="131.0" y="140" width="93.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="177.5" y="151" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">架构成熟度</text>
+<text x="177.5" y="163" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">模型·规范·治理</text>
+<rect x="228.0" y="140" width="93.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="274.5" y="151" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">模块圈复杂度</text>
+<text x="274.5" y="163" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">认知·维护成本</text>
+<rect x="131.0" y="175" width="93.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="177.5" y="186" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">领域耦合度</text>
+<text x="177.5" y="198" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">跨模块依赖度</text>
+<rect x="228.0" y="175" width="93.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="274.5" y="186" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">腐化率</text>
+<text x="274.5" y="198" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">债务增长速度</text>
+<rect x="131.0" y="210" width="93.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="177.5" y="221" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">循环依赖数</text>
+<text x="177.5" y="233" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">模块间环状引用</text>
+<rect x="228.0" y="210" width="93.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="274.5" y="221" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">技术债务规模</text>
+<text x="274.5" y="233" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">影响迭代上限</text>
+<rect x="332" y="118" width="196" height="18" rx="4" fill="#AFA9EC" opacity="0.2"/>
+<text x="430.0" y="127" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">质效效能</text>
+<rect x="335.0" y="140" width="93.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="381.5" y="151" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">质效</text>
+<text x="381.5" y="163" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">交付周期·复用率</text>
+<rect x="432.0" y="140" width="93.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="478.5" y="151" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">千行代码故障率</text>
+<text x="478.5" y="163" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">线上稳定性</text>
+<rect x="335.0" y="175" width="93.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="381.5" y="186" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">千行代码PD</text>
+<text x="381.5" y="198" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">研发效能密度</text>
+<rect x="432.0" y="175" width="93.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="478.5" y="186" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">新人上手周期</text>
+<text x="478.5" y="198" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">团队协作成本</text>
+<rect x="335.0" y="210" width="93.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="381.5" y="221" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">并行冲突率</text>
+<text x="381.5" y="233" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">多团队协作成本</text>
+<rect x="536" y="118" width="196" height="18" rx="4" fill="#AFA9EC" opacity="0.2"/>
+<text x="634.0" y="127" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">稳定性</text>
+<rect x="539.0" y="140" width="93.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="585.5" y="151" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">崩溃率/ANR率</text>
+<text x="585.5" y="163" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">线上稳定性</text>
+<rect x="636.0" y="140" width="93.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="682.5" y="151" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">故障恢复时长</text>
+<text x="682.5" y="163" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">MTTR 恢复速度</text>
+<rect x="539.0" y="175" width="93.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="585.5" y="186" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">模块故障隔离</text>
+<text x="585.5" y="198" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">单点不扩散</text>
+<rect x="128" y="249" width="298" height="18" rx="4" fill="#AFA9EC" opacity="0.2"/>
+<text x="277.0" y="258" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">性能与成本</text>
+<rect x="131.0" y="271" width="144.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="203.0" y="282" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">包体积</text>
+<text x="203.0" y="294" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">包体大小·安装成本</text>
+<rect x="279.0" y="271" width="144.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="351.0" y="282" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">启动速度</text>
+<text x="351.0" y="294" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">秒开·首帧时间</text>
+<rect x="131.0" y="306" width="144.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="203.0" y="317" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">核心链路性能</text>
+<text x="203.0" y="329" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">主链路耗时</text>
+<rect x="279.0" y="306" width="144.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="351.0" y="317" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">人力维护成本</text>
+<text x="351.0" y="329" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">维护投入·带宽算力</text>
+<rect x="434" y="249" width="298" height="18" rx="4" fill="#AFA9EC" opacity="0.2"/>
+<text x="583.0" y="258" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">团队体验</text>
+<rect x="437.0" y="271" width="144.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="509.0" y="282" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">问卷满意度</text>
+<text x="509.0" y="294" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">团队体验打分</text>
+<rect x="585.0" y="271" width="144.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="657.0" y="282" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">eNPS 净推荐值</text>
+<text x="657.0" y="294" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">归属感·留存</text>
+<rect x="437.0" y="306" width="144.0" height="32" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="509.0" y="317" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#3C3489">需求满意度</text>
+<text x="509.0" y="329" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">业务方反馈</text>
+<rect x="6" y="114" width="110" height="227" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.8"/>
+<rect x="6" y="114" width="4" height="227" rx="2" fill="#534AB7"/>
+<circle cx="61.0" cy="132" r="13" fill="#534AB7"/>
+<text x="61.0" y="132" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="bold" fill="white">2</text>
+<text x="61.0" y="156" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="600" fill="#3C3489">评估指标</text>
+<path d="M430.0 341 L430.0 351" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<text x="128" y="359" dominant-baseline="central" font-size="11" font-weight="500" fill="#854F0B">演进式架构（技术形态演进）</text>
+<rect x="132" y="375" width="72" height="40" rx="5" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="168.0" y="395.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#633806">单体</text>
+<path d="M204 395 L210 395" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="210" y="375" width="72" height="40" rx="5" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="246.0" y="395.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#633806">模块化</text>
+<path d="M282 395 L288 395" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="288" y="375" width="72" height="40" rx="5" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="324.0" y="395.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#633806">组件/插件</text>
+<path d="M360 395 L366 395" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="366" y="375" width="72" height="40" rx="5" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="402.0" y="395.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#633806">跨端统一</text>
+<path d="M438 395 L444 395" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="444" y="375" width="72" height="40" rx="5" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="480.0" y="395.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#633806">AI原生</text>
+<rect x="524" y="375" width="120" height="40" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="584.0" y="384" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#633806">康威定律</text>
+<text x="584.0" y="395" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="400" fill="#854F0B">架构匹配协作结构</text>
+<text x="584.0" y="406" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#633806">团队边界→模块边界</text>
+<rect x="650" y="375" width="80" height="40" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="690.0" y="387" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#633806">最小可行原则</text>
+<text x="690.0" y="401" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="400" fill="#854F0B">拒绝过度设计</text>
+<text x="128" y="421" dominant-baseline="central" font-size="11" font-weight="500" fill="#854F0B">业务生命周期适配（阶段匹配原则）</text>
+<rect x="132" y="437" width="130" height="30" rx="5" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="197.0" y="448" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#633806">初创期</text>
+<text x="197.0" y="463" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#854F0B">速度优先</text>
+<path d="M262 452 L272 452" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="272" y="437" width="130" height="30" rx="5" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="337.0" y="448" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#633806">成长期</text>
+<text x="337.0" y="463" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#854F0B">解耦为主</text>
+<path d="M402 452 L412 452" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="412" y="437" width="130" height="30" rx="5" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="477.0" y="448" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#633806">成熟期</text>
+<text x="477.0" y="463" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#854F0B">复用·治理</text>
+<path d="M542 452 L552 452" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="552" y="437" width="130" height="30" rx="5" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="617.0" y="448" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#633806">衰退/转型</text>
+<text x="617.0" y="463" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#854F0B">收敛抽离</text>
+<rect x="6" y="355" width="110" height="118" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.8"/>
+<rect x="6" y="355" width="4" height="118" rx="2" fill="#854F0B"/>
+<circle cx="61.0" cy="373" r="13" fill="#854F0B"/>
+<text x="61.0" y="373" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="bold" fill="white">3</text>
+<text x="61.0" y="397" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="600" fill="#633806">演进规律</text>
+<path d="M430.0 473 L430.0 483" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="128" y="491" width="604" height="24" rx="5" fill="#97C459" opacity="0.2" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="430.0" y="503" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#27500A">核心准则：高内聚（模块内职责聚合） · 低耦合（模块间依赖最少）</text>
+<rect x="128" y="521" width="190" height="22" rx="4" fill="#97C459" opacity="0.2"/>
+<text x="223.0" y="532" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#27500A">分层架构</text>
+<rect x="128" y="547" width="190" height="24" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="223.0" y="559.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">关注点分离</text>
+<rect x="128" y="574" width="190" height="24" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="223.0" y="586.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">迭代频率 / 使用频率</text>
+<rect x="128" y="601" width="190" height="24" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="223.0" y="613.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">团队组织结构</text>
+<text x="128" y="628" dominant-baseline="central" font-size="11" font-weight="500" fill="#3B6D11">经典参考模型：整洁 · 六边形 · 洋葱</text>
+<text x="128" y="644" dominant-baseline="central" font-size="11" font-weight="500" fill="#3B6D11">标准分层模型</text>
+<rect x="128" y="659" width="190" height="22" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="223.0" y="670.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">UI 层</text>
+<path d="M223.0 681 L223.0 686" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="128" y="686" width="190" height="22" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="223.0" y="697.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">业务场景层</text>
+<path d="M223.0 708 L223.0 713" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="128" y="713" width="190" height="22" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="223.0" y="724.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">领域能力层</text>
+<path d="M223.0 735 L223.0 740" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="128" y="740" width="190" height="22" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="223.0" y="751.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">数据层</text>
+<path d="M223.0 762 L223.0 767" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="128" y="767" width="190" height="22" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="223.0" y="778.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">基础引擎层</text>
+<text x="128" y="794" dominant-baseline="central" font-size="11" font-weight="400" fill="#3B6D11">单向依赖 · 下层不感知上层</text>
+<rect x="326" y="521" width="190" height="22" rx="4" fill="#97C459" opacity="0.2"/>
+<text x="421.0" y="532" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#27500A">分模块</text>
+<rect x="326" y="547" width="190" height="24" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="421.0" y="559.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">迪米特法则 (LoD)</text>
+<text x="326" y="574" dominant-baseline="central" font-size="11" font-weight="500" fill="#3B6D11">SOLID 原则</text>
+<rect x="326" y="589" width="190" height="24" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="421.0" y="601.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">SRP 单一职责 · OCP 开闭原则</text>
+<rect x="326" y="616" width="190" height="24" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="421.0" y="628.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">LSP 替换 · ISP 隔离 · DIP 倒置</text>
+<text x="326" y="643" dominant-baseline="central" font-size="11" font-weight="500" fill="#3B6D11">DDD 轻量落地</text>
+<rect x="326" y="658" width="190" height="34" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="421.0" y="669" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">限界上下文 → 模块边界</text>
+<text x="421.0" y="684" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#3B6D11">领域模型 · 事件风暴</text>
+<rect x="524" y="521" width="208" height="22" rx="4" fill="#97C459" opacity="0.2"/>
+<text x="628.0" y="532" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#27500A">设计模式</text>
+<text x="524" y="547" dominant-baseline="central" font-size="11" font-weight="500" fill="#3B6D11">创建型</text>
+<rect x="524" y="560" width="208" height="20" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="628.0" y="570.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">工厂 · 单例 · Builder</text>
+<text x="524" y="584" dominant-baseline="central" font-size="11" font-weight="500" fill="#3B6D11">结构型</text>
+<rect x="524" y="597" width="208" height="20" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="628.0" y="607.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">适配器 · 组合 · 装饰 · 代理</text>
+<text x="524" y="621" dominant-baseline="central" font-size="11" font-weight="500" fill="#3B6D11">行为型</text>
+<rect x="524" y="634" width="208" height="20" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="628.0" y="644.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">观察者 · 状态机 · 策略</text>
+<text x="524" y="658" dominant-baseline="central" font-size="11" font-weight="500" fill="#3B6D11">补充模式</text>
+<rect x="524" y="671" width="208" height="20" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="628.0" y="681.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">责任链 · 命令 · 外观</text>
+<text x="524" y="695" dominant-baseline="central" font-size="11" font-weight="500" fill="#3B6D11">业务场景落地</text>
+<rect x="524" y="708" width="208" height="30" rx="5" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="628.0" y="716.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#27500A">弹幕(工厂+策略+观察者)</text>
+<text x="628.0" y="731.0" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#3B6D11">礼物(对象池+装饰者)</text>
+<rect x="6" y="487" width="110" height="317" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.8"/>
+<rect x="6" y="487" width="4" height="317" rx="2" fill="#3B6D11"/>
+<circle cx="61.0" cy="505" r="13" fill="#3B6D11"/>
+<text x="61.0" y="505" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="bold" fill="white">4</text>
+<text x="61.0" y="529" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="600" fill="#27500A">设计原则</text>
+<path d="M430.0 804 L430.0 814" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="130" y="822" width="195" height="48" rx="5" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+<text x="227.5" y="833" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#791F1F">从上往下一次性重构</text>
+<text x="227.5" y="848" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#A32D2D">整体替换 · 风险高 · 仅边缘业务</text>
+<rect x="333" y="822" width="195" height="48" rx="5" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+<text x="430.5" y="833" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#791F1F">从下往上增量重构</text>
+<text x="430.5" y="848" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#A32D2D">逐步迁移 · 风险低 · 适合主链路</text>
+<rect x="536" y="822" width="195" height="48" rx="5" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+<text x="633.5" y="833" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#791F1F">绞杀者模式</text>
+<text x="633.5" y="848" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#A32D2D">新旧逐步替换 · 业务无感知</text>
+<rect x="128" y="876" width="604" height="22" rx="4" fill="#F09595" opacity="0.2"/>
+<text x="430.0" y="887" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#791F1F">烟囱式重构路径：业务抽象收敛 → 分层解耦 → 复用沉淀 → 配套体系建设</text>
+<rect x="128" y="902" width="604" height="22" rx="5" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+<text x="430.0" y="913.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#791F1F">防腐层模式：新旧系统间增加隔离层，适配老逻辑，避免旧代码污染新架构</text>
+<rect x="128" y="926" width="604" height="22" rx="4" fill="#F09595" opacity="0.2"/>
+<text x="430.0" y="937" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#791F1F">重构时机信号：效率瓶颈 · 稳定性瓶颈 · 协作瓶颈 · 技术债务累积</text>
+<rect x="6" y="818" width="110" height="132" rx="6" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.8"/>
+<rect x="6" y="818" width="4" height="132" rx="2" fill="#A32D2D"/>
+<circle cx="61.0" cy="836" r="13" fill="#A32D2D"/>
+<text x="61.0" y="836" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="bold" fill="white">5</text>
+<text x="61.0" y="856" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#791F1F">重构演进</text>
+<text x="61.0" y="870" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#791F1F">方法论沉淀</text>
+<path d="M430.0 950 L430.0 960" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="130" y="968" width="195" height="48" rx="5" fill="#FBEAF0" stroke="#993556" stroke-width="0.5"/>
+<text x="227.5" y="985.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#72243E">产研设协同机制</text>
+<text x="227.5" y="1000.0" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#993556">模型共建 · 需求前置介入</text>
+<rect x="333" y="968" width="195" height="48" rx="5" fill="#FBEAF0" stroke="#993556" stroke-width="0.5"/>
+<text x="430.5" y="985.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#72243E">双端一致性协同</text>
+<text x="430.5" y="1000.0" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#993556">统一模型/规范/协议/埋点</text>
+<rect x="536" y="968" width="195" height="48" rx="5" fill="#FBEAF0" stroke="#993556" stroke-width="0.5"/>
+<text x="633.5" y="985.0" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#72243E">跨端逻辑共享</text>
+<text x="633.5" y="1000.0" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#993556">KMM/Flutter 下沉共享</text>
+<rect x="6" y="964" width="110" height="58" rx="6" fill="#FBEAF0" stroke="#993556" stroke-width="0.8"/>
+<rect x="6" y="964" width="4" height="58" rx="2" fill="#993556"/>
+<circle cx="61.0" cy="982" r="13" fill="#993556"/>
+<text x="61.0" y="982" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="bold" fill="white">6</text>
+<text x="61.0" y="1006" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="600" fill="#72243E">重构关注点</text>
+<path d="M430.0 1022 L430.0 1032" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="130" y="1040" width="188" height="48" rx="5" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+<text x="224.0" y="1057.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#712B13">故障隔离</text>
+<text x="224.0" y="1072.0" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#993C1D">沙箱隔离 · 模块熔断 · 单点不扩散</text>
+<rect x="328" y="1040" width="188" height="48" rx="5" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+<text x="422.0" y="1057.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#712B13">多级降级</text>
+<text x="422.0" y="1072.0" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#993C1D">体验降级 → 功能降级 → 容灾降级</text>
+<rect x="526" y="1040" width="188" height="48" rx="5" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+<text x="620.0" y="1057.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#712B13">冗余容灾</text>
+<text x="620.0" y="1072.0" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#993C1D">多CDN · 多数据源 · 主备切换</text>
+<rect x="6" y="1036" width="110" height="58" rx="6" fill="#FAECE7" stroke="#993C1D" stroke-width="0.8"/>
+<rect x="6" y="1036" width="4" height="58" rx="2" fill="#993C1D"/>
+<circle cx="61.0" cy="1054" r="13" fill="#993C1D"/>
+<text x="61.0" y="1054" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="bold" fill="white">7</text>
+<text x="61.0" y="1078" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="600" fill="#712B13">韧性架构</text>
+<path d="M430.0 1094 L430.0 1104" fill="none" stroke="#888780" stroke-width="1" marker-end="url(#arr)"/>
+<rect x="128" y="1112" width="180" height="22" rx="4" fill="#5DCAA5" opacity="0.2"/>
+<text x="218.0" y="1123" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">重构奇点判断</text>
+<rect x="128" y="1138" width="180" height="22" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="218.0" y="1149.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">开发成本持续升高</text>
+<rect x="128" y="1163" width="180" height="22" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="218.0" y="1174.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">维护成本高于重构</text>
+<rect x="128" y="1188" width="180" height="22" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="218.0" y="1199.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">线上故障频发</text>
+<rect x="128" y="1213" width="180" height="22" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="218.0" y="1224.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">圈复杂度超标</text>
+<rect x="128" y="1238" width="180" height="22" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="218.0" y="1249.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">领域耦合度加重</text>
+<rect x="316" y="1112" width="180" height="22" rx="4" fill="#5DCAA5" opacity="0.2"/>
+<text x="406.0" y="1123" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">监控机制</text>
+<rect x="316" y="1138" width="180" height="24" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="342.5" y="1150" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">线下自查</text>
+<text x="392.5" y="1150" dominant-baseline="central" font-size="11" fill="#0F6E56">工作流环节自查</text>
+<rect x="316" y="1165" width="180" height="24" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="348.0" y="1177" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">线上报警</text>
+<text x="398.0" y="1177" dominant-baseline="central" font-size="11" fill="#0F6E56">观察指标告警</text>
+<rect x="316" y="1192" width="180" height="24" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="338.5" y="1204" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">灰度验证</text>
+<text x="388.5" y="1204" dominant-baseline="central" font-size="11" fill="#0F6E56">按用户/业务放量</text>
+<rect x="316" y="1219" width="180" height="24" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="348.0" y="1231" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">双轨运行</text>
+<text x="398.0" y="1231" dominant-baseline="central" font-size="11" fill="#0F6E56">新旧并行验证</text>
+<rect x="316" y="1246" width="180" height="24" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="348.0" y="1258" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">快速回滚</text>
+<text x="398.0" y="1258" dominant-baseline="central" font-size="11" fill="#0F6E56">异常秒级回滚</text>
+<rect x="316" y="1273" width="180" height="24" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="329.0" y="1285" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">业务同步</text>
+<text x="379.0" y="1285" dominant-baseline="central" font-size="11" fill="#0F6E56">产品/测试/运营对齐</text>
+<rect x="504" y="1112" width="228" height="22" rx="4" fill="#5DCAA5" opacity="0.2"/>
+<text x="618.0" y="1123" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">防劣化机制</text>
+<rect x="504" y="1138" width="228" height="24" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="545.5" y="1150" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">定期调研</text>
+<text x="595.5" y="1150" dominant-baseline="central" font-size="11" fill="#0F6E56">问卷满意度+1on1</text>
+<rect x="504" y="1165" width="228" height="24" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="554.5" y="1177" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">架构巡检</text>
+<text x="604.5" y="1177" dominant-baseline="central" font-size="11" fill="#0F6E56">定期排查违规项</text>
+<rect x="504" y="1192" width="228" height="24" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="542.5" y="1204" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">CI 拦截</text>
+<text x="594.5" y="1204" dominant-baseline="central" font-size="11" fill="#0F6E56">流水线拦截违规代码</text>
+<rect x="504" y="1219" width="228" height="24" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="513.5" y="1231" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">反模式识别</text>
+<text x="574.5" y="1231" dominant-baseline="central" font-size="11" fill="#0F6E56">大泥球·重复造轮子·过度设计</text>
+<rect x="504" y="1246" width="228" height="24" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="509.5" y="1258" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">债务管理</text>
+<text x="559.5" y="1258" dominant-baseline="central" font-size="11" fill="#0F6E56">代码级/模块级/架构级·迭代偿还</text>
+<rect x="504" y="1273" width="228" height="24" rx="5" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="541.0" y="1285" dominant-baseline="central" font-size="11" font-weight="500" fill="#085041">规范评审</text>
+<text x="591.0" y="1285" dominant-baseline="central" font-size="11" fill="#0F6E56">方案评审→灰度→复盘</text>
+<rect x="6" y="1108" width="110" height="198" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.8"/>
+<rect x="6" y="1108" width="4" height="198" rx="2" fill="#0F6E56"/>
+<circle cx="61.0" cy="1126" r="13" fill="#0F6E56"/>
+<text x="61.0" y="1126" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="bold" fill="white">8</text>
+<text x="61.0" y="1150" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="600" fill="#085041">长期架构维护</text>
+<rect x="128" y="1312" width="604" height="22" rx="4" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text x="430.0" y="1323" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#444441">UI 架构演进：MVC → MVP → MVVM → MVI（声明式 UI · 单向数据流 · 唯一可信源）</text>
+<rect x="128" y="1336" width="604" height="22" rx="4" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text x="430.0" y="1347" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#444441">工程形态演进：组件化 → 插件化 → 动态化混合选型 → AI 原生混合</text>
+<text x="430.0" y="1360" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="500" fill="#5F5E5A">设计原则贯穿始终 · 设计模式是微观工具 · 架构设计是宏观决策</text></svg>

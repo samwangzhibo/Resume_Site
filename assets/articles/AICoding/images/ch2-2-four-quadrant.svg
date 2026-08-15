@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="380" viewBox="0 0 600 380" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="380" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="600" height="46" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="34" width="600" height="12" fill="url(#gTitle)"/>
+  <text x="300" y="28" text-anchor="middle" fill="white" font-size="14" font-weight="bold">AI Coding 的真正瓶颈：目标传达复杂度</text>
+
+  <!-- 坐标轴 -->
+  <!-- X轴：执行复杂度 -->
+  <line x1="90" y1="290" x2="560" y2="290" stroke="#888" stroke-width="1.5"/>
+  <polygon points="560,285 570,290 560,295" fill="#888"/>
+  <text x="560" y="310" text-anchor="middle" fill="#555" font-size="11">执行复杂度</text>
+  <text x="90" y="310" text-anchor="middle" fill="#555" font-size="10">低</text>
+  <text x="558" y="310" text-anchor="middle" fill="#555" font-size="10">高</text>
+
+  <!-- Y轴：目标传达复杂度 -->
+  <line x1="90" y1="290" x2="90" y2="64" stroke="#888" stroke-width="1.5"/>
+  <polygon points="85,64 90,54 95,64" fill="#888"/>
+  <text x="28" y="180" fill="#555" font-size="11" transform="rotate(-90,28,180)">目标传达复杂度</text>
+  <text x="72" y="294" text-anchor="middle" fill="#555" font-size="10">低</text>
+  <text x="72" y="74" text-anchor="middle" fill="#555" font-size="10">高</text>
+
+  <!-- 十字分割线 -->
+  <line x1="90" y1="176" x2="558" y2="176" stroke="#CCCCCC" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="324" y1="64" x2="324" y2="290" stroke="#CCCCCC" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- 左上象限：成本大于收益 -->
+  <rect x="92" y="66" width="230" height="108" rx="6" fill="#FFF0F0" stroke="#C03030" stroke-width="1"/>
+  <text x="207" y="108" text-anchor="middle" fill="#C03030" font-size="12" font-weight="bold">成本大于收益</text>
+  <text x="207" y="128" text-anchor="middle" fill="#CC6060" font-size="10">说清楚比做出来更难</text>
+  <text x="207" y="145" text-anchor="middle" fill="#CC6060" font-size="10">高传达成本 + 低执行收益</text>
+
+  <!-- 右上象限：企业级困境（突出显示） -->
+  <rect x="326" y="66" width="230" height="108" rx="6" fill="#2D3E56" stroke="#4A6A8A" stroke-width="2" filter="url(#s)"/>
+  <text x="441" y="98" text-anchor="middle" fill="#FF8888" font-size="13" font-weight="bold">企业级业务研发</text>
+  <text x="441" y="116" text-anchor="middle" fill="#FF6666" font-size="12" font-weight="bold">← 当前困境</text>
+  <text x="441" y="138" text-anchor="middle" fill="#AACCFF" font-size="10">执行 AI 能力强</text>
+  <text x="441" y="154" text-anchor="middle" fill="#AACCFF" font-size="10">但"把复杂目标说清楚"是瓶颈</text>
+
+  <!-- 左下象限：传统自动化 -->
+  <rect x="92" y="178" width="230" height="108" rx="6" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1"/>
+  <text x="207" y="222" text-anchor="middle" fill="#1A5A1A" font-size="12" font-weight="bold">传统自动化</text>
+  <text x="207" y="242" text-anchor="middle" fill="#5A9A5A" font-size="10">规则明确、重复性高</text>
+  <text x="207" y="258" text-anchor="middle" fill="#5A9A5A" font-size="10">不需要 AI 也能自动化</text>
+
+  <!-- 右下象限：AI甜点区 -->
+  <rect x="326" y="178" width="230" height="108" rx="6" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="2" filter="url(#s)"/>
+  <text x="441" y="220" text-anchor="middle" fill="#2B5090" font-size="13" font-weight="bold">AI 甜点区 ✨</text>
+  <text x="441" y="240" text-anchor="middle" fill="#2B5090" font-size="11">执行复杂、目标明确</text>
+  <text x="441" y="258" text-anchor="middle" fill="#5A7AAA" font-size="10">有堆栈 Debug / 方案生成</text>
+  <text x="441" y="272" text-anchor="middle" fill="#5A7AAA" font-size="10">上下文清晰的编码任务</text>
+
+  <!-- 核心结论 -->
+  <text x="300" y="350" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">解法：不是等 AI 更聪明，而是降低"目标传达复杂度"</text>
+  <text x="300" y="368" text-anchor="middle" fill="#8899AA" font-size="10">Spec 文档 / 知识库 / 先讨论再执行</text>
+</svg>

@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520">
+  <defs>
+    <linearGradient id="gHeader" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#dc2626"/>
+      <stop offset="100%" style="stop-color:#ef4444"/>
+    </linearGradient>
+    <linearGradient id="gTraditional" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0f9ff"/>
+      <stop offset="100%" style="stop-color:#e0f2fe"/>
+    </linearGradient>
+    <linearGradient id="gAI" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fef2f2"/>
+      <stop offset="100%" style="stop-color:#fee2e2"/>
+    </linearGradient>
+    <linearGradient id="gEntropy" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#22c55e"/>
+      <stop offset="50%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#ef4444"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="900" height="48" fill="url(#gHeader)" rx="8"/>
+  <text x="450" y="30" text-anchor="middle" fill="white" font-size="16" font-weight="bold">⚠️ 挑战三：架构在悄然劣化 —— AI 是架构熵增的加速器</text>
+  
+  <!-- Core Problem Statement -->
+  <g transform="translate(30, 65)">
+    <rect x="0" y="0" width="840" height="50" fill="#fef3c7" rx="8" stroke="#f59e0b" stroke-width="2"/>
+    <text x="420" y="20" text-anchor="middle" fill="#92400e" font-size="12" font-weight="bold">核心矛盾</text>
+    <text x="420" y="40" text-anchor="middle" fill="#78350f" font-size="11">每一段局部生成的代码看起来都合理 → 但整体架构在悄然劣化</text>
+  </g>
+  
+  <!-- Three Decay Patterns -->
+  <g transform="translate(30, 130)">
+    <text x="0" y="15" fill="#1e293b" font-size="13" font-weight="bold">AI 导致架构劣化的三种模式：</text>
+    
+    <!-- Pattern 1 -->
+    <g transform="translate(0, 30)">
+      <rect x="0" y="0" width="270" height="70" fill="#fef2f2" rx="8" stroke="#fca5a5" stroke-width="1"/>
+      <circle cx="25" cy="35" r="15" fill="#ef4444"/>
+      <text x="25" y="40" text-anchor="middle" fill="white" font-size="12" font-weight="bold">1</text>
+      <text x="50" y="25" fill="#991b1b" font-size="11" font-weight="bold">重复实现已有逻辑</text>
+      <text x="50" y="42" fill="#6b7280" font-size="10">AI 不知道项目中已有</text>
+      <text x="50" y="57" fill="#6b7280" font-size="10">类似实现，造了新轮子</text>
+    </g>
+    
+    <!-- Pattern 2 -->
+    <g transform="translate(285, 30)">
+      <rect x="0" y="0" width="270" height="70" fill="#fef2f2" rx="8" stroke="#fca5a5" stroke-width="1"/>
+      <circle cx="25" cy="35" r="15" fill="#ef4444"/>
+      <text x="25" y="40" text-anchor="middle" fill="white" font-size="12" font-weight="bold">2</text>
+      <text x="50" y="25" fill="#991b1b" font-size="11" font-weight="bold">绕过既有模块边界</text>
+      <text x="50" y="42" fill="#6b7280" font-size="10">跨层调用、绕过中间层</text>
+      <text x="50" y="57" fill="#6b7280" font-size="10">破坏分层架构约定</text>
+    </g>
+    
+    <!-- Pattern 3 -->
+    <g transform="translate(570, 30)">
+      <rect x="0" y="0" width="270" height="70" fill="#fef2f2" rx="8" stroke="#fca5a5" stroke-width="1"/>
+      <circle cx="25" cy="35" r="15" fill="#ef4444"/>
+      <text x="25" y="40" text-anchor="middle" fill="white" font-size="12" font-weight="bold">3</text>
+      <text x="50" y="25" fill="#991b1b" font-size="11" font-weight="bold">引入新的隐式依赖</text>
+      <text x="50" y="42" fill="#6b7280" font-size="10">直接依赖而非接口注入</text>
+      <text x="50" y="57" fill="#6b7280" font-size="10">增加模块耦合度</text>
+    </g>
+  </g>
+  
+  <!-- Comparison: Traditional vs AI -->
+  <g transform="translate(30, 280)">
+    <text x="0" y="15" fill="#1e293b" font-size="13" font-weight="bold">为什么 AI 时代的架构劣化比以前更严重？</text>
+    
+    <!-- Traditional Development -->
+    <g transform="translate(0, 30)">
+      <rect x="0" y="0" width="410" height="130" fill="url(#gTraditional)" rx="10" filter="url(#shadow)" stroke="#0ea5e9" stroke-width="2"/>
+      <rect x="0" y="0" width="410" height="32" fill="#0ea5e9" rx="10"/>
+      <rect x="0" y="16" width="410" height="16" fill="#0ea5e9"/>
+      <text x="205" y="22" text-anchor="middle" fill="white" font-size="12" font-weight="bold">👨‍💻 传统开发</text>
+      
+      <g transform="translate(20, 45)">
+        <circle cx="8" cy="8" r="4" fill="#0ea5e9"/>
+        <text x="20" y="12" fill="#0369a1" font-size="10">工程师脑中有"我改动了什么"的心理模型</text>
+        
+        <circle cx="8" cy="30" r="4" fill="#0ea5e9"/>
+        <text x="20" y="34" fill="#0369a1" font-size="10">架构劣化是渐进的，可感知</text>
+        
+        <circle cx="8" cy="52" r="4" fill="#0ea5e9"/>
+        <text x="20" y="56" fill="#0369a1" font-size="10">写代码速度 ≈ 消化理解速度</text>
+        
+        <circle cx="8" cy="74" r="4" fill="#22c55e"/>
+        <text x="20" y="78" fill="#166534" font-size="10" font-weight="bold">有人主动守护架构整体性</text>
+      </g>
+    </g>
+    
+    <!-- AI Development -->
+    <g transform="translate(430, 30)">
+      <rect x="0" y="0" width="410" height="130" fill="url(#gAI)" rx="10" filter="url(#shadow)" stroke="#ef4444" stroke-width="2"/>
+      <rect x="0" y="0" width="410" height="32" fill="#ef4444" rx="10"/>
+      <rect x="0" y="16" width="410" height="16" fill="#ef4444"/>
+      <text x="205" y="22" text-anchor="middle" fill="white" font-size="12" font-weight="bold">🤖 AI 开发</text>
+      
+      <g transform="translate(20, 45)">
+        <circle cx="8" cy="8" r="4" fill="#ef4444"/>
+        <text x="20" y="12" fill="#991b1b" font-size="10">一次对话可能产生几百行变更，多文件分布</text>
+        
+        <circle cx="8" cy="30" r="4" fill="#ef4444"/>
+        <text x="20" y="34" fill="#991b1b" font-size="10">生成速度远超人类消化速度</text>
+        
+        <circle cx="8" cy="52" r="4" fill="#ef4444"/>
+        <text x="20" y="56" fill="#991b1b" font-size="10">AI 逐任务局部最优，不思考全局一致性</text>
+        
+        <circle cx="8" cy="74" r="4" fill="#f59e0b"/>
+        <text x="20" y="78" fill="#92400e" font-size="10" font-weight="bold">没有人（包括AI）系统性守护架构</text>
+      </g>
+    </g>
+  </g>
+  
+  <!-- Entropy Acceleration Bar -->
+  <g transform="translate(30, 450)">
+    <rect x="0" y="0" width="840" height="55" fill="#f8fafc" rx="8" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="20" y="20" fill="#64748b" font-size="11" font-weight="bold">架构熵增速对比</text>
+    
+    <!-- Traditional bar -->
+    <rect x="130" y="30" width="250" height="16" fill="#22c55e" rx="4"/>
+    <text x="130" y="42" fill="white" font-size="9" font-weight="bold">传统开发：渐进式劣化</text>
+    <text x="390" y="42" fill="#64748b" font-size="9">可控</text>
+    
+    <!-- AI bar -->
+    <rect x="130" y="10" width="680" height="16" fill="url(#gEntropy)" rx="4"/>
+    <text x="450" y="22" fill="white" font-size="9" font-weight="bold">AI 开发：加速式劣化</text>
+    <text x="820" y="22" fill="#dc2626" font-size="9" font-weight="bold">失控</text>
+  </g>
+</svg>

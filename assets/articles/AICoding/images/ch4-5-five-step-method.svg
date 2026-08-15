@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="310" viewBox="0 0 820 310" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.10"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="820" height="310" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="820" height="44" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="32" width="820" height="12" fill="url(#gTitle)"/>
+  <text x="410" y="26" text-anchor="middle" fill="white" font-size="14" font-weight="bold">技术方案生成：五步方案法</text>
+
+  <!-- 步骤1 -->
+  <rect x="20" y="56" width="152" height="232" rx="8" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.5" filter="url(#s)"/>
+  <circle cx="96" cy="80" r="16" fill="#5B8DD9"/>
+  <text x="96" y="84" text-anchor="middle" fill="white" font-size="13" font-weight="bold">①</text>
+  <text x="96" y="112" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">初步方案</text>
+  <text x="96" y="132" text-anchor="middle" fill="#5A7AAA" font-size="10">多个备选方案</text>
+  <text x="96" y="148" text-anchor="middle" fill="#5A7AAA" font-size="10">+ 优缺点对比</text>
+  <text x="96" y="168" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">关键约束：</text>
+  <text x="96" y="184" text-anchor="middle" fill="#5A7AAA" font-size="10">先出方案</text>
+  <text x="96" y="200" text-anchor="middle" fill="#5A7AAA" font-size="10">不要写代码</text>
+
+  <!-- 步骤2 -->
+  <rect x="184" y="56" width="152" height="232" rx="8" fill="#F0E8FC" stroke="#9B6DC8" stroke-width="1.5" filter="url(#s)"/>
+  <circle cx="260" cy="80" r="16" fill="#9B6DC8"/>
+  <text x="260" y="84" text-anchor="middle" fill="white" font-size="13" font-weight="bold">②</text>
+  <text x="260" y="112" text-anchor="middle" fill="#4A2070" font-size="11" font-weight="bold">模型互审</text>
+  <text x="260" y="132" text-anchor="middle" fill="#7A4AAA" font-size="10">换一个模型</text>
+  <text x="260" y="148" text-anchor="middle" fill="#7A4AAA" font-size="10">Review 初步方案</text>
+  <text x="260" y="168" text-anchor="middle" fill="#4A2070" font-size="10" font-weight="bold">价值：</text>
+  <text x="260" y="184" text-anchor="middle" fill="#7A4AAA" font-size="10">不同模型角度</text>
+  <text x="260" y="200" text-anchor="middle" fill="#7A4AAA" font-size="10">不同，暴露盲点</text>
+
+  <!-- 步骤3 -->
+  <rect x="348" y="56" width="152" height="232" rx="8" fill="#FFF8E8" stroke="#E08020" stroke-width="1.5" filter="url(#s)"/>
+  <circle cx="424" cy="80" r="16" fill="#E08020"/>
+  <text x="424" y="84" text-anchor="middle" fill="white" font-size="13" font-weight="bold">③</text>
+  <text x="424" y="112" text-anchor="middle" fill="#7A4000" font-size="11" font-weight="bold">边界补充</text>
+  <text x="424" y="132" text-anchor="middle" fill="#AA6020" font-size="10">补充遗漏的</text>
+  <text x="424" y="148" text-anchor="middle" fill="#AA6020" font-size="10">约束场景</text>
+  <text x="424" y="168" text-anchor="middle" fill="#7A4000" font-size="10" font-weight="bold">示例追问：</text>
+  <text x="424" y="184" text-anchor="middle" fill="#AA6020" font-size="10">"上下滑/横竖屏</text>
+  <text x="424" y="200" text-anchor="middle" fill="#AA6020" font-size="10">/弱网场景？"</text>
+
+  <!-- 步骤4 -->
+  <rect x="512" y="56" width="152" height="232" rx="8" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1.5" filter="url(#s)"/>
+  <circle cx="588" cy="80" r="16" fill="#3A9A3A"/>
+  <text x="588" y="84" text-anchor="middle" fill="white" font-size="13" font-weight="bold">④</text>
+  <text x="588" y="112" text-anchor="middle" fill="#1A5A1A" font-size="11" font-weight="bold">逼问极限</text>
+  <text x="588" y="132" text-anchor="middle" fill="#5A9A5A" font-size="10">主动追问</text>
+  <text x="588" y="148" text-anchor="middle" fill="#5A9A5A" font-size="10">暴露隐性风险</text>
+  <text x="588" y="168" text-anchor="middle" fill="#1A5A1A" font-size="10" font-weight="bold">固定追问：</text>
+  <text x="588" y="184" text-anchor="middle" fill="#5A9A5A" font-size="10">"你觉得还有</text>
+  <text x="588" y="200" text-anchor="middle" fill="#5A9A5A" font-size="10">啥需要补充？"</text>
+
+  <!-- 步骤5 -->
+  <rect x="676" y="56" width="124" height="232" rx="8" fill="#2D3E56" filter="url(#s)"/>
+  <circle cx="738" cy="80" r="16" fill="#1A2D46"/>
+  <text x="738" y="84" text-anchor="middle" fill="white" font-size="13" font-weight="bold">⑤</text>
+  <text x="738" y="112" text-anchor="middle" fill="white" font-size="11" font-weight="bold">详细设计</text>
+  <text x="738" y="132" text-anchor="middle" fill="#AACCFF" font-size="10">Mermaid 图</text>
+  <text x="738" y="148" text-anchor="middle" fill="#AACCFF" font-size="10">+ 架构图</text>
+  <text x="738" y="168" text-anchor="middle" fill="#88BBDD" font-size="10" font-weight="bold">原则：</text>
+  <text x="738" y="184" text-anchor="middle" fill="#AACCFF" font-size="10">优先参考项目</text>
+  <text x="738" y="200" text-anchor="middle" fill="#AACCFF" font-size="10">内已有写法</text>
+
+  <!-- 底部核心原则 -->
+  <rect x="20" y="298" width="780" height="0" rx="0" fill="none"/>
+
+  <!-- 两个额外原则标注 -->
+  <rect x="20" y="256" width="378" height="42" rx="6" fill="#E8F2FF"/>
+  <text x="209" y="273" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">不熟悉技术栈：用"反推验证"代替"直接信任"</text>
+  <text x="209" y="289" text-anchor="middle" fill="#5A7AAA" font-size="10">让 AI 解释"为什么这样""有没有更简单的方式""项目内有没有类似实现"</text>
+
+  <rect x="422" y="256" width="378" height="42" rx="6" fill="#E8F2FF"/>
+  <text x="611" y="273" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">Mermaid 图先行，代码后行</text>
+  <text x="611" y="289" text-anchor="middle" fill="#5A7AAA" font-size="10">图比代码更容易看出逻辑错误，修改成本也更低</text>
+</svg>

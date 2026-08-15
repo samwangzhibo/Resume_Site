@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="400" viewBox="0 0 820 400" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.10"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="820" height="400" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="820" height="44" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="32" width="820" height="12" fill="url(#gTitle)"/>
+  <text x="410" y="26" text-anchor="middle" fill="white" font-size="14" font-weight="bold">需求拆解阶段：甜区与误区</text>
+
+  <!-- 表头 -->
+  <rect x="20" y="52" width="780" height="26" rx="0" fill="#E8F2FF"/>
+  <text x="76" y="68" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">类型</text>
+  <text x="220" y="68" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">场景</text>
+  <text x="460" y="68" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">典型 Prompt</text>
+  <text x="710" y="68" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">为什么有效 / 无效</text>
+
+  <!-- 分割线 -->
+  <line x1="132" y1="52" x2="132" y2="392" stroke="#CCDDEE" stroke-width="1"/>
+  <line x1="330" y1="52" x2="330" y2="392" stroke="#CCDDEE" stroke-width="1"/>
+  <line x1="600" y1="52" x2="600" y2="392" stroke="#CCDDEE" stroke-width="1"/>
+  <rect x="20" y="52" width="780" height="340" rx="0" fill="none" stroke="#CCDDEE" stroke-width="1"/>
+
+  <!-- 甜区1 -->
+  <rect x="20" y="78" width="780" height="52" fill="#F5FFF5"/>
+  <rect x="20" y="78" width="112" height="52" fill="#E0F5E0"/>
+  <text x="76" y="98" text-anchor="middle" fill="#1A5A1A" font-size="12" font-weight="bold">✅ 甜区一</text>
+  <text x="220" y="94" text-anchor="middle" fill="#4A5A70" font-size="10">识别隐含约束</text>
+  <text x="220" y="110" text-anchor="middle" fill="#4A5A70" font-size="10">和互斥规则</text>
+  <text x="460" y="94" text-anchor="middle" fill="#5A7AAA" font-size="10">"帮我识别哪些已有规则会和这个新功能</text>
+  <text x="460" y="110" text-anchor="middle" fill="#5A7AAA" font-size="10">冲突或互斥（结合项目代码）"</text>
+  <text x="710" y="94" text-anchor="middle" fill="#5A9A5A" font-size="10">AI 扫描现有代码把隐藏约束显式化</text>
+  <text x="710" y="110" text-anchor="middle" fill="#5A9A5A" font-size="10">比人工推演更全面</text>
+
+  <!-- 甜区2 -->
+  <rect x="20" y="130" width="780" height="52" fill="white"/>
+  <rect x="20" y="130" width="112" height="52" fill="#E0F5E0"/>
+  <text x="76" y="150" text-anchor="middle" fill="#1A5A1A" font-size="12" font-weight="bold">✅ 甜区二</text>
+  <text x="220" y="146" text-anchor="middle" fill="#4A5A70" font-size="10">对人的初版拆解</text>
+  <text x="220" y="162" text-anchor="middle" fill="#4A5A70" font-size="10">"杠精反问"</text>
+  <text x="460" y="146" text-anchor="middle" fill="#5A7AAA" font-size="10">"我的初版拆解是①②③，帮我找</text>
+  <text x="460" y="162" text-anchor="middle" fill="#5A7AAA" font-size="10">有哪些场景没有覆盖到"</text>
+  <text x="710" y="146" text-anchor="middle" fill="#5A9A5A" font-size="10">AI 无"自洽心理"，能找出人自然</text>
+  <text x="710" y="162" text-anchor="middle" fill="#5A9A5A" font-size="10">忽略的边界场景（弱网/横屏/A/B）</text>
+
+  <!-- 甜区3 -->
+  <rect x="20" y="182" width="780" height="52" fill="#F5FFF5"/>
+  <rect x="20" y="182" width="112" height="52" fill="#E0F5E0"/>
+  <text x="76" y="202" text-anchor="middle" fill="#1A5A1A" font-size="12" font-weight="bold">✅ 甜区三</text>
+  <text x="220" y="198" text-anchor="middle" fill="#4A5A70" font-size="10">多维度约束补全</text>
+  <text x="220" y="214" text-anchor="middle" fill="#4A5A70" font-size="10">（正交维度扫描）</text>
+  <text x="460" y="198" text-anchor="middle" fill="#5A7AAA" font-size="10">"有没有遗漏横屏、弱网、</text>
+  <text x="460" y="214" text-anchor="middle" fill="#5A7AAA" font-size="10">A/B 分组的约束场景？"</text>
+  <text x="710" y="198" text-anchor="middle" fill="#5A9A5A" font-size="10">AI 擅长把正交维度补全</text>
+  <text x="710" y="214" text-anchor="middle" fill="#5A9A5A" font-size="10">前提：人先给出初版框架</text>
+
+  <!-- 甜区4 -->
+  <rect x="20" y="234" width="780" height="52" fill="white"/>
+  <rect x="20" y="234" width="112" height="52" fill="#E0F5E0"/>
+  <text x="76" y="254" text-anchor="middle" fill="#1A5A1A" font-size="12" font-weight="bold">✅ 甜区四</text>
+  <text x="220" y="250" text-anchor="middle" fill="#4A5A70" font-size="10">PRD 结构化为</text>
+  <text x="220" y="266" text-anchor="middle" fill="#4A5A70" font-size="10">验收场景矩阵</text>
+  <text x="460" y="250" text-anchor="middle" fill="#5A7AAA" font-size="10">"列出'场景×验收条件'矩阵，</text>
+  <text x="460" y="266" text-anchor="middle" fill="#5A7AAA" font-size="10">覆盖正常流程、边界场景、异常场景"</text>
+  <text x="710" y="250" text-anchor="middle" fill="#5A9A5A" font-size="10">快速把 PRD 文字结构化</text>
+  <text x="710" y="266" text-anchor="middle" fill="#5A9A5A" font-size="10">供人逐条确认是否完整</text>
+
+  <!-- 误区1 -->
+  <rect x="20" y="286" width="780" height="36" fill="#FFF5F5"/>
+  <rect x="20" y="286" width="112" height="36" fill="#F5D0D0"/>
+  <text x="76" y="308" text-anchor="middle" fill="#C03030" font-size="12" font-weight="bold">❌ 误区一</text>
+  <text x="220" y="308" text-anchor="middle" fill="#4A5A70" font-size="10">从模糊需求直接生成技术方案</text>
+  <text x="460" y="308" text-anchor="middle" fill="#AA4040" font-size="10">"我要做礼物成组送，帮我拆解成技术任务"</text>
+  <text x="710" y="308" text-anchor="middle" fill="#AA4040" font-size="10">AI 缺业务隐知识，拆不到真正难点</text>
+
+  <!-- 误区2 -->
+  <rect x="20" y="322" width="780" height="36" fill="white"/>
+  <rect x="20" y="322" width="112" height="36" fill="#F5D0D0"/>
+  <text x="76" y="344" text-anchor="middle" fill="#C03030" font-size="12" font-weight="bold">❌ 误区二</text>
+  <text x="220" y="344" text-anchor="middle" fill="#4A5A70" font-size="10">让 AI 判断需求边界和范围</text>
+  <text x="460" y="344" text-anchor="middle" fill="#AA4040" font-size="10">"这个场景要不要支持？做到什么程度算完成？"</text>
+  <text x="710" y="344" text-anchor="middle" fill="#AA4040" font-size="10">AI 无产品背景，边界判断缺乏业务依据</text>
+
+  <!-- 误区3 -->
+  <rect x="20" y="358" width="780" height="34" fill="#FFF5F5"/>
+  <rect x="20" y="358" width="112" height="34" fill="#F5D0D0"/>
+  <text x="76" y="379" text-anchor="middle" fill="#C03030" font-size="12" font-weight="bold">❌ 误区三</text>
+  <text x="220" y="379" text-anchor="middle" fill="#4A5A70" font-size="10">业务优先级排序</text>
+  <text x="460" y="379" text-anchor="middle" fill="#AA4040" font-size="10">"帮我判断这 10 个子任务哪些先做"</text>
+  <text x="710" y="379" text-anchor="middle" fill="#AA4040" font-size="10">AI 不知排期/接口 ready 时间/需求冲突</text>
+</svg>

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="280" viewBox="0 0 820 280" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#5B8DD9"/>
+    </marker>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.10"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="820" height="280" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="820" height="44" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="32" width="820" height="12" fill="url(#gTitle)"/>
+  <text x="410" y="26" text-anchor="middle" fill="white" font-size="14" font-weight="bold">测试准入：三层防御机制</text>
+
+  <!-- Pre-commit -->
+  <rect x="20" y="56" width="236" height="200" rx="10" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="56" width="236" height="32" rx="10" fill="#3A9A3A"/>
+  <rect x="20" y="76" width="236" height="12" fill="#3A9A3A"/>
+  <text x="138" y="77" text-anchor="middle" fill="white" font-size="12" font-weight="bold">层一：Pre-commit</text>
+  <text x="138" y="108" text-anchor="middle" fill="#1A5A1A" font-size="11" font-weight="bold">响应速度：秒级</text>
+  <text x="36" y="128" fill="#5A9A5A" font-size="10">• 格式检查</text>
+  <text x="36" y="144" fill="#5A9A5A" font-size="10">• 基本规范扫描</text>
+  <text x="36" y="160" fill="#5A9A5A" font-size="10">• AI 自我 Review（先于人工 CR）</text>
+  <rect x="32" y="220" width="212" height="28" rx="6" fill="#C8ECC8"/>
+  <text x="138" y="233" text-anchor="middle" fill="#1A5A1A" font-size="10" font-weight="bold">提交前快速拦截明显问题</text>
+
+  <!-- 箭头1 -->
+  <line x1="256" y1="156" x2="294" y2="156" stroke="#5B8DD9" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Pre-push -->
+  <rect x="296" y="56" width="228" height="200" rx="10" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="296" y="56" width="228" height="32" rx="10" fill="#5B8DD9"/>
+  <rect x="296" y="76" width="228" height="12" fill="#5B8DD9"/>
+  <text x="410" y="77" text-anchor="middle" fill="white" font-size="12" font-weight="bold">层二：Pre-push</text>
+  <text x="410" y="108" text-anchor="middle" fill="#2B5090" font-size="11" font-weight="bold">响应速度：十秒级</text>
+  <text x="312" y="128" fill="#5A7AAA" font-size="10">• 结构测试</text>
+  <text x="312" y="144" fill="#5A7AAA" font-size="10">• 依赖分析</text>
+  <text x="312" y="160" fill="#5A7AAA" font-size="10">• 影响范围评估（高/中/低分级）</text>
+  <rect x="308" y="220" width="204" height="28" rx="6" fill="#D0E8FF"/>
+  <text x="410" y="233" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">推送前验证架构合规性</text>
+
+  <!-- 箭头2 -->
+  <line x1="524" y1="156" x2="562" y2="156" stroke="#5B8DD9" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- CI 门禁 -->
+  <rect x="564" y="56" width="236" height="200" rx="10" fill="#FFF8E8" stroke="#E08020" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="564" y="56" width="236" height="32" rx="10" fill="#E08020"/>
+  <rect x="564" y="76" width="236" height="12" fill="#E08020"/>
+  <text x="682" y="77" text-anchor="middle" fill="white" font-size="12" font-weight="bold">层三：CI 门禁</text>
+  <text x="682" y="108" text-anchor="middle" fill="#7A4000" font-size="11" font-weight="bold">响应速度：分钟级</text>
+  <text x="580" y="128" fill="#AA6020" font-size="10">• 单元测试 / 集成测试</text>
+  <text x="580" y="144" fill="#AA6020" font-size="10">• 安全扫描</text>
+  <text x="580" y="160" fill="#AA6020" font-size="10">• CR Skill 规则全量扫描</text>
+  <rect x="576" y="220" width="212" height="28" rx="6" fill="#FFE8C0"/>
+  <text x="682" y="233" text-anchor="middle" fill="#7A4000" font-size="10" font-weight="bold">合并前确保质量标准</text>
+</svg>

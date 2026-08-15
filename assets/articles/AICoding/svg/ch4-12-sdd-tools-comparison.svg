@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 340">
+  <defs>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1e293b"/>
+      <stop offset="100%" style="stop-color:#334155"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="900" height="36" fill="url(#gTitle)" rx="6"/>
+  <text x="450" y="24" text-anchor="middle" fill="white" font-size="13" font-weight="bold">行业 SDD 工具对比</text>
+  
+  <!-- Table -->
+  <g transform="translate(30, 50)">
+    <!-- Table header -->
+    <rect x="0" y="0" width="840" height="40" fill="#f1f5f9" rx="6" filter="url(#shadow)"/>
+    <rect x="0" y="0" width="840" height="40" fill="#6366f1" rx="6"/>
+    <text x="60" y="26" text-anchor="middle" fill="white" font-size="11" font-weight="bold">工具</text>
+    <text x="200" y="26" text-anchor="middle" fill="white" font-size="11" font-weight="bold">开发者</text>
+    <text x="380" y="26" text-anchor="middle" fill="white" font-size="11" font-weight="bold">核心理念</text>
+    <text x="580" y="26" text-anchor="middle" fill="white" font-size="11" font-weight="bold">特色能力</text>
+    <text x="760" y="26" text-anchor="middle" fill="white" font-size="11" font-weight="bold">适用场景</text>
+    
+    <!-- Row 1: Spec Kit -->
+    <rect x="0" y="45" width="840" height="48" fill="white" rx="4" filter="url(#shadow)"/>
+    <rect x="0" y="45" width="840" height="48" fill="#fafafa"/>
+    <text x="60" y="74" text-anchor="middle" fill="#4f46e5" font-size="11" font-weight="bold">Spec Kit</text>
+    <text x="200" y="74" text-anchor="middle" fill="#475569" font-size="10">GitHub</text>
+    <text x="380" y="74" text-anchor="middle" fill="#475569" font-size="10">Constitution 驱动</text>
+    <text x="580" y="68" text-anchor="middle" fill="#475569" font-size="10">架构原则固化</text>
+    <text x="580" y="82" text-anchor="middle" fill="#475569" font-size="10">团队协作模板</text>
+    <text x="760" y="74" text-anchor="middle" fill="#22c55e" font-size="10">团队项目</text>
+    
+    <!-- Row 2: Qoder -->
+    <rect x="0" y="98" width="840" height="48" fill="white" rx="4" filter="url(#shadow)"/>
+    <text x="60" y="127" text-anchor="middle" fill="#4f46e5" font-size="11" font-weight="bold">Qoder</text>
+    <text x="200" y="127" text-anchor="middle" fill="#475569" font-size="10">阿里</text>
+    <text x="380" y="127" text-anchor="middle" fill="#475569" font-size="10">Quest Mode 原生SDD</text>
+    <text x="580" y="121" text-anchor="middle" fill="#475569" font-size="10">产品级Spec管理</text>
+    <text x="580" y="135" text-anchor="middle" fill="#475569" font-size="10">提示词增强</text>
+    <text x="760" y="127" text-anchor="middle" fill="#22c55e" font-size="10">业务开发</text>
+    
+    <!-- Row 3: Kiro -->
+    <rect x="0" y="151" width="840" height="48" fill="white" rx="4" filter="url(#shadow)"/>
+    <rect x="0" y="151" width="840" height="48" fill="#fafafa"/>
+    <text x="60" y="180" text-anchor="middle" fill="#4f46e5" font-size="11" font-weight="bold">Kiro</text>
+    <text x="200" y="180" text-anchor="middle" fill="#475569" font-size="10">AWS</text>
+    <text x="380" y="180" text-anchor="middle" fill="#475569" font-size="10">Requirements→Design→Tasks</text>
+    <text x="580" y="174" text-anchor="middle" fill="#475569" font-size="10">VS Code 插件</text>
+    <text x="580" y="188" text-anchor="middle" fill="#475569" font-size="10">直观流程</text>
+    <text x="760" y="180" text-anchor="middle" fill="#3b82f6" font-size="10">一次性任务</text>
+    
+    <!-- Row 4: OpenDevin -->
+    <rect x="0" y="204" width="840" height="48" fill="white" rx="4" filter="url(#shadow)"/>
+    <text x="60" y="233" text-anchor="middle" fill="#4f46e5" font-size="11" font-weight="bold">OpenDevin</text>
+    <text x="200" y="233" text-anchor="middle" fill="#475569" font-size="10">开源社区</text>
+    <text x="380" y="233" text-anchor="middle" fill="#475569" font-size="10">自主 AI 工程师</text>
+    <text x="580" y="227" text-anchor="middle" fill="#475569" font-size="10">读写代码/运行命令</text>
+    <text x="580" y="241" text-anchor="middle" fill="#475569" font-size="10">沙箱执行</text>
+    <text x="760" y="233" text-anchor="middle" fill="#3b82f6" font-size="10">端到端构建</text>
+    
+    <!-- Row 5: 淘宝融合 -->
+    <rect x="0" y="257" width="840" height="48" fill="white" rx="4" filter="url(#shadow)"/>
+    <rect x="0" y="257" width="840" height="48" fill="#fef3c7"/>
+    <text x="60" y="286" text-anchor="middle" fill="#f59e0b" font-size="11" font-weight="bold">淘宝融合</text>
+    <text x="200" y="286" text-anchor="middle" fill="#475569" font-size="10">淘宝团队</text>
+    <text x="380" y="286" text-anchor="middle" fill="#475569" font-size="10">Rules + 技术方案 + Agentic</text>
+    <text x="580" y="280" text-anchor="middle" fill="#475569" font-size="10">轻量规范 + AI文档汇总</text>
+    <text x="580" y="294" text-anchor="middle" fill="#475569" font-size="10">兼顾效率与质量</text>
+    <text x="760" y="286" text-anchor="middle" fill="#22c55e" font-size="10">存量迭代</text>
+  </g>
+</svg>

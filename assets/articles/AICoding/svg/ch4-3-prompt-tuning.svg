@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 500"
+     font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="500" fill="#F2F5FA"/>
+  <rect x="0" y="0" width="960" height="50" fill="url(#gTitle)"/>
+  <text x="480" y="28" text-anchor="middle" fill="white" font-size="17" font-weight="bold">编码阶段 Prompt 调优四场景</text>
+  <text x="480" y="43" text-anchor="middle" fill="#AACCFF" font-size="11">核心：边界确认 + 影响面评估 — 先方案后编码</text>
+
+  <!-- 列头 -->
+  <rect x="20" y="58" width="170" height="30" rx="5" fill="#1565C0"/>
+  <text x="105" y="77" text-anchor="middle" fill="white" font-size="11" font-weight="bold">场景类型</text>
+  <rect x="198" y="58" width="220" height="30" rx="5" fill="#1565C0"/>
+  <text x="308" y="77" text-anchor="middle" fill="white" font-size="11" font-weight="bold">初版提示词问题</text>
+  <rect x="426" y="58" width="260" height="30" rx="5" fill="#1565C0"/>
+  <text x="556" y="77" text-anchor="middle" fill="white" font-size="11" font-weight="bold">调优策略</text>
+  <rect x="694" y="58" width="246" height="30" rx="5" fill="#1565C0"/>
+  <text x="817" y="77" text-anchor="middle" fill="white" font-size="11" font-weight="bold">调优效果</text>
+
+  <!-- 场景1 -->
+  <rect x="20" y="96" width="920" height="80" rx="6" fill="white" filter="url(#s)"/>
+  <rect x="20" y="96" width="4" height="80" rx="2" fill="#5B8DD9"/>
+  <text x="50" y="114" fill="#1565C0" font-size="11" font-weight="bold">有粗略技术思路</text>
+  <text x="50" y="130" fill="#555" font-size="10">方案存在两个漏洞：</text>
+  <text x="50" y="143" fill="#888" font-size="10">1. 视图未渲染也计算宽度</text>
+  <text x="50" y="156" fill="#888" font-size="10">2. 最大宽度视图移除后未更新</text>
+
+  <line x1="196" y1="100" x2="196" y2="172" stroke="#E0E8F0" stroke-width="1"/>
+  <text x="210" y="120" fill="#C62828" font-size="10">❌ 直接描述想法</text>
+  <text x="210" y="135" fill="#888" font-size="10">「我想要获取292/361行</text>
+  <text x="210" y="149" fill="#888" font-size="10">2个布局的宽度...」</text>
+  <text x="210" y="163" fill="#888" font-size="10">未考虑边界条件</text>
+
+  <line x1="424" y1="100" x2="424" y2="172" stroke="#E0E8F0" stroke-width="1"/>
+  <text x="438" y="120" fill="#2E7D32" font-size="10">✅ 把问题场景化投喂</text>
+  <text x="438" y="135" fill="#555" font-size="10">「视图未渲染时宽度会不会出错？</text>
+  <text x="438" y="149" fill="#555" font-size="10">最大宽度视图被移除后更新逻辑</text>
+  <text x="438" y="163" fill="#555" font-size="10">是否正确？出修复方案」</text>
+
+  <line x1="692" y1="100" x2="692" y2="172" stroke="#E0E8F0" stroke-width="1"/>
+  <text x="706" y="126" fill="#1B5E20" font-size="11" font-weight="bold">AI 补充边界修复方案</text>
+  <text x="706" y="143" fill="#555" font-size="10">视图可见性判断 + 最大宽度</text>
+  <text x="706" y="157" fill="#555" font-size="10">重算逻辑，覆盖缺失场景</text>
+
+  <!-- 场景2 -->
+  <rect x="20" y="184" width="920" height="68" rx="6" fill="white" filter="url(#s)"/>
+  <rect x="20" y="184" width="4" height="68" rx="2" fill="#9B6DC8"/>
+  <text x="50" y="202" fill="#6A1B9A" font-size="11" font-weight="bold">有明确技术想法</text>
+  <text x="50" y="218" fill="#555" font-size="10">自己想到新边界规则</text>
+  <text x="50" y="232" fill="#888" font-size="10">但 Prompt 不够健壮</text>
+
+  <line x1="196" y1="188" x2="196" y2="248" stroke="#E0E8F0" stroke-width="1"/>
+  <text x="210" y="208" fill="#C62828" font-size="10">❌ 直接描述结论</text>
+  <text x="210" y="222" fill="#888" font-size="10">「recyclerViewHeight 必须</text>
+  <text x="210" y="236" fill="#888" font-size="10">大于0，否则不赋值」</text>
+
+  <line x1="424" y1="188" x2="424" y2="248" stroke="#E0E8F0" stroke-width="1"/>
+  <text x="438" y="208" fill="#2E7D32" font-size="10">✅ AI 帮你补充确认点</text>
+  <text x="438" y="222" fill="#555" font-size="10">Prompt 本身不完整时，AI 会</text>
+  <text x="438" y="236" fill="#555" font-size="10">补充需要确认的边界维度</text>
+
+  <line x1="692" y1="188" x2="692" y2="248" stroke="#E0E8F0" stroke-width="1"/>
+  <text x="706" y="214" fill="#1B5E20" font-size="11" font-weight="bold">完善方案 + 新边界覆盖</text>
+  <text x="706" y="231" fill="#555" font-size="10">自己想到新规则后告诉 AI，</text>
+  <text x="706" y="245" fill="#555" font-size="10">AI 再完善</text>
+
+  <!-- 场景3 -->
+  <rect x="20" y="260" width="920" height="68" rx="6" fill="white" filter="url(#s)"/>
+  <rect x="20" y="260" width="4" height="68" rx="2" fill="#00838F"/>
+  <text x="50" y="278" fill="#004D60" font-size="11" font-weight="bold">精细化技术思路</text>
+  <text x="50" y="294" fill="#555" font-size="10">给了具体逻辑，但影响面</text>
+  <text x="50" y="308" fill="#888" font-size="10">未全面考虑</text>
+
+  <line x1="196" y1="264" x2="196" y2="324" stroke="#E0E8F0" stroke-width="1"/>
+  <text x="210" y="284" fill="#C62828" font-size="10">❌ 只描述功能实现</text>
+  <text x="210" y="298" fill="#888" font-size="10">「做防重复点击：Map记录</text>
+  <text x="210" y="312" fill="#888" font-size="10">点击时间，间隔&lt;300ms过滤」</text>
+
+  <line x1="424" y1="264" x2="424" y2="324" stroke="#E0E8F0" stroke-width="1"/>
+  <text x="438" y="284" fill="#2E7D32" font-size="10">✅ 追问影响面</text>
+  <text x="438" y="298" fill="#555" font-size="10">「这个实现可能引入其他</text>
+  <text x="438" y="312" fill="#555" font-size="10">新的问题吗，列举一下」</text>
+
+  <line x1="692" y1="264" x2="692" y2="324" stroke="#E0E8F0" stroke-width="1"/>
+  <text x="706" y="290" fill="#1B5E20" font-size="11" font-weight="bold">全面评估影响面</text>
+  <text x="706" y="307" fill="#555" font-size="10">AI 暴露隐藏风险，按严重</text>
+  <text x="706" y="321" fill="#555" font-size="10">程度排序给出修复建议</text>
+
+  <!-- 场景4 -->
+  <rect x="20" y="336" width="920" height="68" rx="6" fill="white" filter="url(#s)"/>
+  <rect x="20" y="336" width="4" height="68" rx="2" fill="#E08020"/>
+  <text x="50" y="354" fill="#7A4000" font-size="11" font-weight="bold">工具函数查询</text>
+  <text x="50" y="370" fill="#555" font-size="10">不确定项目内是否有</text>
+  <text x="50" y="384" fill="#888" font-size="10">现成实现</text>
+
+  <line x1="196" y1="340" x2="196" y2="400" stroke="#E0E8F0" stroke-width="1"/>
+  <text x="210" y="360" fill="#C62828" font-size="10">❌ 直接让 AI 实现</text>
+  <text x="210" y="374" fill="#888" font-size="10">AI 倾向用社区标准库</text>
+  <text x="210" y="388" fill="#888" font-size="10">重复造轮子</text>
+
+  <line x1="424" y1="340" x2="424" y2="400" stroke="#E0E8F0" stroke-width="1"/>
+  <text x="438" y="360" fill="#2E7D32" font-size="10">✅ 先查项目内实现</text>
+  <text x="438" y="374" fill="#555" font-size="10">「查询项目内有哪些方法</text>
+  <text x="438" y="388" fill="#555" font-size="10">可以用，找不到再新造」</text>
+
+  <line x1="692" y1="340" x2="692" y2="400" stroke="#E0E8F0" stroke-width="1"/>
+  <text x="706" y="366" fill="#1B5E20" font-size="11" font-weight="bold">复用已有轮子</text>
+  <text x="706" y="383" fill="#555" font-size="10">避免引入冗余依赖，</text>
+  <text x="706" y="397" fill="#555" font-size="10">代码风格与项目统一</text>
+
+  <!-- 底部小结 -->
+  <rect x="20" y="414" width="920" height="38" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="1.5"/>
+  <text x="480" y="428" text-anchor="middle" fill="#1B5E20" font-size="11" font-weight="bold">编码阶段核心原则</text>
+  <text x="480" y="445" text-anchor="middle" fill="#2E7D32" font-size="11">先出方案再编码 → 追问边界 → 追问影响面 → 先查项目内实现</text>
+</svg>

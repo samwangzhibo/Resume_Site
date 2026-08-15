@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="440" viewBox="0 0 860 440" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <filter id="s"><feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.10"/></filter>
+    <linearGradient id="gTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1A3060"/>
+      <stop offset="100%" style="stop-color:#3A60A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="860" height="440" fill="#F7FAFF" rx="8"/>
+  <rect x="0" y="0" width="860" height="44" fill="url(#gTitle)" rx="8"/>
+  <rect x="0" y="32" width="860" height="12" fill="url(#gTitle)"/>
+  <text x="430" y="26" text-anchor="middle" fill="white" font-size="15" font-weight="bold">八条实战原则</text>
+
+  <!-- 分组标注 -->
+  <rect x="20" y="52" width="265" height="18" rx="4" fill="#E8F2FF"/>
+  <text x="152" y="64" text-anchor="middle" fill="#2B5090" font-size="10" font-weight="bold">1-3：如何与 AI 沟通</text>
+  <rect x="297" y="52" width="265" height="18" rx="4" fill="#F0E8FC"/>
+  <text x="429" y="64" text-anchor="middle" fill="#4A2070" font-size="10" font-weight="bold">4-6：如何保证输出质量</text>
+  <rect x="575" y="52" width="265" height="18" rx="4" fill="#E8F8E8"/>
+  <text x="707" y="64" text-anchor="middle" fill="#1A5A1A" font-size="10" font-weight="bold">7-8：如何构建可持续协作环境</text>
+
+  <!-- 原则1 -->
+  <rect x="20" y="78" width="265" height="110" rx="8" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="78" width="265" height="30" rx="8" fill="#5B8DD9"/>
+  <rect x="20" y="96" width="265" height="12" fill="#5B8DD9"/>
+  <text x="50" y="97" fill="white" font-size="12" font-weight="bold">① 上下文质量 > 提示词技巧</text>
+  <text x="32" y="124" fill="#2B5090" font-size="10">AI 给出的答案，80% 取决于</text>
+  <text x="32" y="140" fill="#2B5090" font-size="10">你给它的信息质量，而不是技巧</text>
+  <rect x="32" y="156" width="241" height="26" rx="4" fill="#D0E8FF"/>
+  <text x="152" y="173" text-anchor="middle" fill="#2B5090" font-size="10">投喂结构化完整 Context &gt; 花时间优化提示词</text>
+
+  <!-- 原则2 -->
+  <rect x="20" y="200" width="265" height="110" rx="8" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="200" width="265" height="30" rx="8" fill="#5B8DD9"/>
+  <rect x="20" y="218" width="265" height="12" fill="#5B8DD9"/>
+  <text x="50" y="219" fill="white" font-size="12" font-weight="bold">② 先出方案，不要直接开干</text>
+  <text x="32" y="246" fill="#2B5090" font-size="10">方案阶段改十遍成本为零</text>
+  <text x="32" y="262" fill="#2B5090" font-size="10">代码结构固化后，重构代价极高</text>
+  <rect x="32" y="278" width="241" height="26" rx="4" fill="#D0E8FF"/>
+  <text x="152" y="295" text-anchor="middle" fill="#2B5090" font-size="10">所有阶段都适用："先给我出方案，不要写代码"</text>
+
+  <!-- 原则3 -->
+  <rect x="20" y="322" width="265" height="110" rx="8" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="20" y="322" width="265" height="30" rx="8" fill="#5B8DD9"/>
+  <rect x="20" y="340" width="265" height="12" fill="#5B8DD9"/>
+  <text x="50" y="341" fill="white" font-size="12" font-weight="bold">③ 追问是 AI 协作的核心技能</text>
+  <text x="32" y="368" fill="#2B5090" font-size="10">AI 第一轮给出的往往不是最好答案</text>
+  <text x="32" y="384" fill="#2B5090" font-size="10">追问能暴露它知道但没说的风险</text>
+  <rect x="32" y="400" width="241" height="26" rx="4" fill="#D0E8FF"/>
+  <text x="152" y="417" text-anchor="middle" fill="#2B5090" font-size="10">"还有什么遗漏" / "这个实现有什么风险"</text>
+
+  <!-- 原则4 -->
+  <rect x="297" y="78" width="265" height="110" rx="8" fill="#F0E8FC" stroke="#9B6DC8" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="297" y="78" width="265" height="30" rx="8" fill="#9B6DC8"/>
+  <rect x="297" y="96" width="265" height="12" fill="#9B6DC8"/>
+  <text x="327" y="97" fill="white" font-size="12" font-weight="bold">④ 让 AI 扮演"杠精 Reviewer"</text>
+  <text x="309" y="124" fill="#4A2070" font-size="10">AI 没有人类的自洽心理</text>
+  <text x="309" y="140" fill="#4A2070" font-size="10">角色切换后挑毛病效果很好</text>
+  <rect x="309" y="156" width="241" height="26" rx="4" fill="#E0D0F0"/>
+  <text x="429" y="173" text-anchor="middle" fill="#4A2070" font-size="10">"假设这是别人写的代码，你来挑毛病"</text>
+
+  <!-- 原则5 -->
+  <rect x="297" y="200" width="265" height="110" rx="8" fill="#F0E8FC" stroke="#9B6DC8" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="297" y="200" width="265" height="30" rx="8" fill="#9B6DC8"/>
+  <rect x="297" y="218" width="265" height="12" fill="#9B6DC8"/>
+  <text x="327" y="219" fill="white" font-size="12" font-weight="bold">⑤ 规则沉淀比单次纠错更有价值</text>
+  <text x="309" y="246" fill="#4A2070" font-size="10">每次纠错是一次性的</text>
+  <text x="309" y="262" fill="#4A2070" font-size="10">规则写进文件是持久的</text>
+  <rect x="309" y="278" width="241" height="26" rx="4" fill="#E0D0F0"/>
+  <text x="429" y="295" text-anchor="middle" fill="#4A2070" font-size="10">每次纠错后，把规则写进 AGENTS.md / Skill</text>
+
+  <!-- 原则6 -->
+  <rect x="297" y="322" width="265" height="110" rx="8" fill="#F0E8FC" stroke="#9B6DC8" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="297" y="322" width="265" height="30" rx="8" fill="#9B6DC8"/>
+  <rect x="297" y="340" width="265" height="12" fill="#9B6DC8"/>
+  <text x="327" y="341" fill="white" font-size="12" font-weight="bold">⑥ 明确影响范围评估是质量底线</text>
+  <text x="309" y="368" fill="#4A2070" font-size="10">"改了 A 破了 B"是最常见低级错误</text>
+  <text x="309" y="384" fill="#4A2070" font-size="10">每次改动必须主动评估影响面</text>
+  <rect x="309" y="400" width="241" height="26" rx="4" fill="#E0D0F0"/>
+  <text x="429" y="417" text-anchor="middle" fill="#4A2070" font-size="10">列影响范围 + 标记重要程度（按严重程度倒排）</text>
+
+  <!-- 原则7 -->
+  <rect x="575" y="78" width="265" height="110" rx="8" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1.5" filter="url(#s)"/>
+  <rect x="575" y="78" width="265" height="30" rx="8" fill="#3A9A3A"/>
+  <rect x="575" y="96" width="265" height="12" fill="#3A9A3A"/>
+  <text x="605" y="97" fill="white" font-size="12" font-weight="bold">⑦ 人负责判断，AI 负责展开</text>
+  <text x="587" y="124" fill="#1A5A1A" font-size="10">有后果的决策归人</text>
+  <text x="587" y="140" fill="#1A5A1A" font-size="10">已确定的事情展开归 AI</text>
+  <rect x="587" y="156" width="241" height="26" rx="4" fill="#C8ECC8"/>
+  <text x="707" y="164" text-anchor="middle" fill="#1A5A1A" font-size="9" font-weight="bold">AI：实现、重构、生成测试</text>
+  <text x="707" y="178" text-anchor="middle" fill="#1A5A1A" font-size="9" font-weight="bold">人：架构取舍、需求优先级、上线决策</text>
+
+  <!-- 原则8 -->
+  <rect x="575" y="200" width="265" height="232" rx="8" fill="#2D3E56" filter="url(#s)"/>
+  <rect x="575" y="200" width="265" height="30" rx="8" fill="#1A2D46"/>
+  <text x="605" y="219" fill="white" font-size="12" font-weight="bold">⑧ 让代码库本身对 AI 友好</text>
+  <text x="587" y="250" fill="#AACCFF" font-size="10">AI 工具底层通过 RAG 检索上下文</text>
+  <text x="587" y="266" fill="#AACCFF" font-size="10">代码质量直接影响 AI 输出质量</text>
+  <text x="587" y="290" fill="#88BBDD" font-size="10" font-weight="bold">API 命名清晰</text>
+  <text x="587" y="308" fill="#88BBDD" font-size="10" font-weight="bold">注释完整 · 类型明确</text>
+  <rect x="587" y="328" width="241" height="26" rx="4" fill="#3A4E62"/>
+  <text x="707" y="345" text-anchor="middle" fill="#AACCFF" font-size="10">不只给人看，也是给 AI 读的</text>
+  <text x="587" y="392" fill="#66AACC" font-size="10">代码写给人看 = 写给 AI 读</text>
+  <text x="587" y="408" fill="#66AACC" font-size="10">这件事现在就要开始做</text>
+</svg>

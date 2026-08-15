@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 320">
+  <defs>
+    <linearGradient id="gHeader" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="gSpecify" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0f9ff"/>
+      <stop offset="100%" style="stop-color:#e0f2fe"/>
+    </linearGradient>
+    <linearGradient id="gPlan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fef3c7"/>
+      <stop offset="100%" style="stop-color:#fde68a"/>
+    </linearGradient>
+    <linearGradient id="gTasks" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0fdf4"/>
+      <stop offset="100%" style="stop-color:#dcfce7"/>
+    </linearGradient>
+    <linearGradient id="gImplement" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fdf2f8"/>
+      <stop offset="100%" style="stop-color:#fce7f3"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="900" height="48" fill="url(#gHeader)" rx="8"/>
+  <text x="450" y="30" text-anchor="middle" fill="white" font-size="18" font-weight="bold">SDD 四阶段工作流：Spec → Code 的确定性路径</text>
+  
+  <!-- Stage 1: Specify -->
+  <g transform="translate(30, 70)">
+    <rect x="0" y="0" width="195" height="220" fill="url(#gSpecify)" rx="12" filter="url(#shadow)" stroke="#0ea5e9" stroke-width="2"/>
+    <rect x="0" y="0" width="195" height="36" fill="#0ea5e9" rx="12"/>
+    <rect x="0" y="18" width="195" height="18" fill="#0ea5e9"/>
+    <text x="97" y="24" text-anchor="middle" fill="white" font-size="14" font-weight="bold">1️⃣ Specify</text>
+    
+    <text x="15" y="60" fill="#1e3a5f" font-size="11" font-weight="bold">输入</text>
+    <text x="15" y="78" fill="#475569" font-size="10">• 高层需求描述</text>
+    <text x="15" y="93" fill="#475569" font-size="10">• "做什么"和"为什么"</text>
+    
+    <text x="15" y="118" fill="#1e3a5f" font-size="11" font-weight="bold">AI 生成</text>
+    <text x="15" y="136" fill="#475569" font-size="10">• 用户旅程分析</text>
+    <text x="15" y="151" fill="#475569" font-size="10">• 功能需求清单</text>
+    <text x="15" y="166" fill="#475569" font-size="10">• 验收标准</text>
+    
+    <text x="15" y="191" fill="#1e3a5f" font-size="11" font-weight="bold">产出</text>
+    <text x="15" y="209" fill="#0ea5e9" font-size="10" font-weight="bold">spec.md</text>
+  </g>
+  
+  <!-- Arrow 1 -->
+  <path d="M235 180 L255 180" stroke="#94a3b8" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  
+  <!-- Stage 2: Plan -->
+  <g transform="translate(265, 70)">
+    <rect x="0" y="0" width="195" height="220" fill="url(#gPlan)" rx="12" filter="url(#shadow)" stroke="#f59e0b" stroke-width="2"/>
+    <rect x="0" y="0" width="195" height="36" fill="#f59e0b" rx="12"/>
+    <rect x="0" y="18" width="195" height="18" fill="#f59e0b"/>
+    <text x="97" y="24" text-anchor="middle" fill="white" font-size="14" font-weight="bold">2️⃣ Plan</text>
+    
+    <text x="15" y="60" fill="#1e3a5f" font-size="11" font-weight="bold">输入</text>
+    <text x="15" y="78" fill="#475569" font-size="10">• 技术栈选择</text>
+    <text x="15" y="93" fill="#475569" font-size="10">• 架构约束</text>
+    
+    <text x="15" y="118" fill="#1e3a5f" font-size="11" font-weight="bold">AI 生成</text>
+    <text x="15" y="136" fill="#475569" font-size="10">• 技术方案设计</text>
+    <text x="15" y="151" fill="#475569" font-size="10">• 接口契约定义</text>
+    <text x="15" y="166" fill="#475569" font-size="10">• 架构模式选择</text>
+    
+    <text x="15" y="191" fill="#1e3a5f" font-size="11" font-weight="bold">产出</text>
+    <text x="15" y="209" fill="#f59e0b" font-size="10" font-weight="bold">plan.md</text>
+  </g>
+  
+  <!-- Arrow 2 -->
+  <path d="M470 180 L490 180" stroke="#94a3b8" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Stage 3: Tasks -->
+  <g transform="translate(500, 70)">
+    <rect x="0" y="0" width="195" height="220" fill="url(#gTasks)" rx="12" filter="url(#shadow)" stroke="#22c55e" stroke-width="2"/>
+    <rect x="0" y="0" width="195" height="36" fill="#22c55e" rx="12"/>
+    <rect x="0" y="18" width="195" height="18" fill="#22c55e"/>
+    <text x="97" y="24" text-anchor="middle" fill="white" font-size="14" font-weight="bold">3️⃣ Tasks</text>
+    
+    <text x="15" y="60" fill="#1e3a5f" font-size="11" font-weight="bold">输入</text>
+    <text x="15" y="78" fill="#475569" font-size="10">• spec.md</text>
+    <text x="15" y="93" fill="#475569" font-size="10">• plan.md</text>
+    
+    <text x="15" y="118" fill="#1e3a5f" font-size="11" font-weight="bold">AI 生成</text>
+    <text x="15" y="136" fill="#475569" font-size="10">• 可独立测试的任务</text>
+    <text x="15" y="151" fill="#475569" font-size="10">• 依赖关系梳理</text>
+    <text x="15" y="166" fill="#475569" font-size="10">• 完成标准定义</text>
+    
+    <text x="15" y="191" fill="#1e3a5f" font-size="11" font-weight="bold">产出</text>
+    <text x="15" y="209" fill="#22c55e" font-size="10" font-weight="bold">tasks.md</text>
+  </g>
+  
+  <!-- Arrow 3 -->
+  <path d="M705 180 L725 180" stroke="#94a3b8" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Stage 4: Implement -->
+  <g transform="translate(735, 70)">
+    <rect x="0" y="0" width="135" height="220" fill="url(#gImplement)" rx="12" filter="url(#shadow)" stroke="#ec4899" stroke-width="2"/>
+    <rect x="0" y="0" width="135" height="36" fill="#ec4899" rx="12"/>
+    <rect x="0" y="18" width="135" height="18" fill="#ec4899"/>
+    <text x="67" y="24" text-anchor="middle" fill="white" font-size="14" font-weight="bold">4️⃣ Implement</text>
+    
+    <text x="10" y="60" fill="#1e3a5f" font-size="11" font-weight="bold">执行</text>
+    <text x="10" y="78" fill="#475569" font-size="10">• 按任务编码</text>
+    <text x="10" y="93" fill="#475569" font-size="10">• 即时验证</text>
+    
+    <text x="10" y="118" fill="#1e3a5f" font-size="11" font-weight="bold">验证</text>
+    <text x="10" y="136" fill="#475569" font-size="10">• 构建通过</text>
+    <text x="10" y="151" fill="#475569" font-size="10">• 测试覆盖</text>
+    
+    <text x="10" y="181" fill="#1e3a5f" font-size="11" font-weight="bold">产出</text>
+    <text x="10" y="199" fill="#ec4899" font-size="10" font-weight="bold">可运行代码</text>
+    <text x="10" y="214" fill="#ec4899" font-size="10" font-weight="bold">+ 测试用例</text>
+  </g>
+  
+  <!-- Human-in-the-loop annotation -->
+  <text x="450" y="310" text-anchor="middle" fill="#6b7280" font-size="11" font-style="italic">每个阶段都有 Human-in-the-Loop 检查点，确保规范与意图一致</text>
+</svg>
