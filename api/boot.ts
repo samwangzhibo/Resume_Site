@@ -84,6 +84,11 @@ process.on("unhandledRejection", (err) => console.error("[boot] unhandledRejecti
 void ensureArticlesStore()
   .then(() => syncArticlesFromGit())
   .then(async (r) => {
+    // 已有同步任务在执行（busy）不算失败，不要触发回退覆盖文章目录
+    if (r.busy) {
+      console.log("[articles] 启动同步跳过：已有同步任务在执行");
+      return;
+    }
     if (r.ok) {
       console.log(`[articles] 启动同步: ${r.message}`);
     } else {
@@ -152,7 +157,7 @@ app.get("/api/debug/pdf-logs", async (c) => {
   return c.json({ version: "v20260812.4", count: getPdfLogs().length, logs: getPdfLogs() });
 });
 
-/** 获取项目 PDF（公开访问）：从 pdfStore 按 id 读文件 */
+/** 获取项目 PDF（公开访问）：从 pdfStore 按 id 读文件，支持 ETag 缓存 */
 app.get("/api/pdfs/:name", async (c) => {
   try {
     const id = decodeURIComponent(c.req.param("name")).replace(/\.pdf$/i, "");
@@ -160,11 +165,21 @@ app.get("/api/pdfs/:name", async (c) => {
     if (!buf) return c.json({ error: "Not Found" }, 404);
     const rec = await getPdf(id);
     const fileName = encodeURIComponent(rec?.fileName || `${id}.pdf`);
+
+    // 生成 ETag：基于文件内容 hash，浏览器缓存命中时返回 304
+    const { createHash } = await import("crypto");
+    const etag = `"${createHash("sha1").update(Buffer.from(buf)).digest("hex").slice(0, 20)}"`;
+    const ifNoneMatch = c.req.header("If-None-Match");
+    if (ifNoneMatch && ifNoneMatch === etag) {
+      return c.body(null, 304, { ETag: etag, "Cache-Control": "no-cache" });
+    }
+
     return c.body(new Uint8Array(buf), 200, {
       "Content-Type": "application/pdf",
       "Content-Disposition": `inline; filename*=UTF-8''${fileName}`,
       "Content-Length": String(buf.length),
       "Cache-Control": "no-cache",
+      ETag: etag,
     });
   } catch {
     return c.json({ error: "Not Found" }, 404);

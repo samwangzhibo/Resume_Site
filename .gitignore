@@ -50,3 +50,6 @@ project-interpretation/
 
 # 平台元数据
 .backend-features.json
+
+# SSH 私钥/证书材料，禁止入库
+*.pem

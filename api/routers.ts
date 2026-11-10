@@ -19,6 +19,7 @@ import {
   syncArticlesFromGit,
   lastSyncedAt,
   getSyncLogs,
+  isSyncing,
 } from "./queries/articlesSync";
 
 /** 管理后台密码：从环境变量 ADMIN_PASSWORD 读取，源码不再硬编码 */
@@ -224,7 +225,7 @@ export const articlesRouter = createRouter({
   /** 同步状态（后台展示，含过程日志） */
   syncStatus: publicQuery.query(() => {
     const cred = credentialStatus();
-    return { ...cred, lastSyncedAt: lastSyncedAt(), logs: getSyncLogs() };
+    return { ...cred, lastSyncedAt: lastSyncedAt(), logs: getSyncLogs(), syncing: isSyncing() };
   }),
 
   /** 保存 Git 凭证（保留接口兼容旧前端；公开仓库 HTTPS 拉取已不需要凭证） */

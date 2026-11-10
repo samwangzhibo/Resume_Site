@@ -1,4 +1,5 @@
 import fsp from "node:fs/promises";
+import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, extname } from "node:path";
 import { sql } from "drizzle-orm";
@@ -77,6 +78,21 @@ function embeddedBuffer(id: string): Buffer | null {
   } catch {
     return null;
   }
+}
+
+/** 仅替换已清理署名/职级的旧内置版本，避免磁盘或数据库副本重新显示旧文案。 */
+const LEGACY_BUNDLED_PDF_HASHES: Record<string, string> = {
+  hongbao: "a8045ddf77003c01de0e3ad4eb52b8ccf5d73a843664178d8f8b187ba146a1d6",
+  "research-ads": "b67ba4d9ff3a19db6d9fde093bbcb6cd117521e1849a6ac9158db9cee48576b0",
+  "research-llm": "67f3f898a030845ad86699c5dbe61960228ffaf5acd274e0fd8126c0985d55f6",
+};
+
+function currentPdfContent(id: string, buf: Buffer): Buffer {
+  const legacyHash = LEGACY_BUNDLED_PDF_HASHES[id];
+  if (legacyHash && createHash("sha256").update(buf).digest("hex") === legacyHash) {
+    return embeddedBuffer(id) ?? buf;
+  }
+  return buf;
 }
 
 /* ================= 数据库持久层（pdf_blobs 表） =================
@@ -265,18 +281,18 @@ export async function readPdf(id: string): Promise<Buffer | null> {
   const sid = safeId(id);
   if (!sid) return null;
   try {
-    return await fsp.readFile(join(UPLOAD_DIR, `${sid}.pdf`));
+    return currentPdfContent(sid, await fsp.readFile(join(UPLOAD_DIR, `${sid}.pdf`)));
   } catch {}
   // 磁盘缺失：先尝试从持久层重建到磁盘（并记录日志）
   await ensureRebuilt(sid);
   try {
-    return await fsp.readFile(join(UPLOAD_DIR, `${sid}.pdf`));
+    return currentPdfContent(sid, await fsp.readFile(join(UPLOAD_DIR, `${sid}.pdf`)));
   } catch {}
   // 数据库优先于资产目录：用户上传的替换版本存在数据库里
   const dbBuf = await dbReadPdf(sid);
-  if (dbBuf) return dbBuf;
+  if (dbBuf) return currentPdfContent(sid, dbBuf);
   try {
-    return await fsp.readFile(join(ASSETS_DIR, `${sid}.pdf`));
+    return currentPdfContent(sid, await fsp.readFile(join(ASSETS_DIR, `${sid}.pdf`)));
   } catch {}
   // 目录被平台清理后，从内置数据兜底
   const emb = embeddedBuffer(sid);

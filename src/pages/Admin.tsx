@@ -517,11 +517,11 @@ function ArticlesManager({ password }: { password: string }) {
           <div className="flex items-center gap-2 flex-wrap">
             <button
               onClick={() => sync.mutate({ password })}
-              disabled={sync.isPending}
+              disabled={sync.isPending || (status.data?.syncing ?? false)}
               className="text-[11px] px-3 py-2 rounded-lg bg-[#e94560] text-white hover:bg-[#d63a54] transition flex items-center gap-1.5 disabled:opacity-50"
             >
               <RefreshCw size={12} className={sync.isPending ? "animate-spin" : ""} />
-              {sync.isPending ? "正在拉取..." : "拉取最新文章"}
+              {sync.isPending ? "正在拉取..." : status.data?.syncing ? "后台同步中..." : "拉取最新文章"}
             </button>
             <span className="text-[10px] text-gray-600">每次部署已内置最新文章；此按钮仅用于线上临时增量拉取，失败会自动回退内置版本</span>
           </div>
@@ -538,10 +538,20 @@ function ArticlesManager({ password }: { password: string }) {
           {syncResult && (
             <div
               className={`flex items-start gap-2 px-3 py-2 rounded-lg text-[11px] ${
-                syncResult.ok ? "bg-green-500/10 text-green-400" : "bg-red-500/10 text-red-400"
+                syncResult.busy
+                  ? "bg-amber-500/10 text-amber-400"
+                  : syncResult.ok
+                    ? "bg-green-500/10 text-green-400"
+                    : "bg-red-500/10 text-red-400"
               }`}
             >
-              {syncResult.ok ? <CheckCircle2 size={13} className="shrink-0 mt-0.5" /> : <XCircle size={13} className="shrink-0 mt-0.5" />}
+              {syncResult.busy ? (
+                <RefreshCw size={13} className="shrink-0 mt-0.5 animate-spin" />
+              ) : syncResult.ok ? (
+                <CheckCircle2 size={13} className="shrink-0 mt-0.5" />
+              ) : (
+                <XCircle size={13} className="shrink-0 mt-0.5" />
+              )}
               <span>{syncResult.message}</span>
             </div>
           )}
@@ -849,7 +859,7 @@ function MaterialItem({
               <input
                 value={tagsStr}
                 onChange={(e) => setTagsStr(e.target.value)}
-                placeholder="架构重构, K4A, 商业化"
+                placeholder="架构重构, 工程提效, 商业化"
                 className="w-full bg-[#0a0a1a] border border-[#1a1a3e] rounded-lg px-3 py-2 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-[#e94560]/50"
               />
             </div>
