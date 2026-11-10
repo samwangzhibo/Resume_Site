@@ -21,7 +21,7 @@ const execFileAsync = promisify(execFile);
 
 const ARTICLES_DIR = join(process.cwd(), "uploads", "articles");
 const CREDENTIAL_FILE = join(process.cwd(), "uploads", "git-credential.json");
-/** 公开仓库固定走 HTTPS 拉取，无需任何凭证 */
+/** 公开仓库固定走 HTTPS 拉取，无需任何凭证（public 仓库匿名即可 clone/pull） */
 const REPO_HTTPS_URL = "https://github.com/samwangzhibo/Result_Resume_Wiki.git";
 
 /** 文章清单需整体屏蔽的目录（大小写不敏感）。WorkBuddyRaw 为 AI 生成素材目录，不入库、不展示 */
@@ -273,8 +273,11 @@ function pickGitError(err: unknown): string {
   return keyLine || raw.slice(0, 200);
 }
 
-/** 执行 git 命令：强制 HTTP/1.1（线上对 GitHub 的 HTTP/2 帧层不稳定），逐行收集 stderr 到同步日志 */
-async function runGit(args: string[], label: string): Promise<void> {
+/**
+ * 执行 git 命令：强制 HTTP/1.1（线上对 GitHub 的 HTTP/2 帧层不稳定），逐行收集 stderr 到同步日志。
+ * timeoutMs：服务器到 GitHub 带宽仅几十 KB/s，200MB 首次克隆需远超默认超时（默认 10 分钟，克隆 30 分钟）。
+ */
+async function runGit(args: string[], label: string, timeoutMs = 600_000): Promise<void> {
   const env: NodeJS.ProcessEnv = { ...process.env, GIT_TERMINAL_PROMPT: "0" };
   const startedAt = Date.now();
   log(`${label}...`);
@@ -282,7 +285,7 @@ async function runGit(args: string[], label: string): Promise<void> {
     const child = execFile(
       "git",
       ["-c", "http.version=HTTP/1.1", "-c", "http.postBuffer=524288000", ...args],
-      { env, timeout: 300_000, maxBuffer: 64 * 1024 * 1024 },
+      { env, timeout: timeoutMs, maxBuffer: 64 * 1024 * 1024 },
     );
     let stderrTail = "";
     child.stderr?.on("data", (chunk: Buffer) => {
@@ -345,7 +348,8 @@ async function downloadRepoTarball(): Promise<boolean> {
   for (const branch of ["main", "master"]) {
     const url = `https://codeload.github.com/samwangzhibo/Result_Resume_Wiki/tar.gz/refs/heads/${branch}`;
     const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 300_000);
+    // 慢链路下压缩包下载同样需要长超时（与克隆一致给 30 分钟）
+    const timer = setTimeout(() => ctrl.abort(), 1_800_000);
     try {
       log(`备用通道：正在下载压缩包（${branch} 分支）...`);
       const startedAt = Date.now();
@@ -452,7 +456,11 @@ async function performSync(): Promise<SyncResult> {
       // clone 前彻底清空残留（上次失败/中断可能留下半拉的 .git，导致 File exists 冲突）
       try { rmrf(repoDir); } catch { /* 忽略清理失败，继续尝试 */ }
       try {
-        await runGit(["clone", "--depth", "1", REPO_HTTPS_URL, repoDir], "正在通过 HTTPS 浅克隆仓库（--depth 1，仓库约 200MB，需等待）");
+        await runGit(
+          ["clone", "--depth", "1", REPO_HTTPS_URL, repoDir],
+          "正在通过 HTTPS 浅克隆仓库（--depth 1，仓库约 200MB，慢链路下最长等 30 分钟）",
+          1_800_000,
+        );
         fetched = true;
       } catch (err) {
         lastFetchErr = pickGitError(err);
