@@ -221,14 +221,126 @@ export interface SyncResult {
   syncedAt?: string;
   /** 本次同步的详细日志行 */
   logs?: string[];
+  /** 因已有同步任务在执行而未被受理（非失败，前端可提示"进行中"） */
+  busy?: boolean;
+}
+
+/** 本地仓库缓存目录：存在有效 git 仓库时走增量更新，避免每次全量克隆 200MB */
+const REPO_CACHE_DIR = join(process.cwd(), "uploads", ".repo-cache");
+/** 备用通道 tar.gz 解压目录：独立于 .repo-cache，避免破坏 git 缓存（否则下次只能全量克隆） */
+const REPO_TARBALL_DIR = join(process.cwd(), "uploads", ".repo-tarball");
+
+/** 本地是否已有可复用的 git 仓库 */
+function hasLocalRepo(dir: string): boolean {
+  return existsSync(join(dir, ".git"));
 }
 
 /**
- * 备用通道：直接下载仓库 tar.gz 压缩包并解压到 destDir。
+ * 校验本地 git 仓库结构是否完好：.git 存在但半拉/损坏（上次中断的 clone）时返回 false，
+ * 用于区分"缓存损坏（应清理重克隆）"与"仓库完好只是网络拉取失败（必须保留缓存）"。
+ */
+async function isRepoUsable(dir: string): Promise<boolean> {
+  try {
+    await execFileAsync("git", ["-C", dir, "rev-parse", "--git-dir"], { timeout: 30_000 });
+    await execFileAsync("git", ["-C", dir, "rev-parse", "--verify", "HEAD"], { timeout: 30_000 });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** 读取仓库当前分支名（detached / 读取失败返回 null） */
+async function currentBranch(dir: string): Promise<string | null> {
+  try {
+    const { stdout } = await execFileAsync("git", ["-C", dir, "rev-parse", "--abbrev-ref", "HEAD"], { timeout: 30_000 });
+    const branch = stdout.trim();
+    return branch && branch !== "HEAD" ? branch : null;
+  } catch {
+    return null;
+  }
+}
+
+/** 从 git 错误里挑出 fatal/error 关键行，作为用户可读 message（避免被进度刷屏污染） */
+function pickGitError(err: unknown): string {
+  const e = err as Error & { stderr?: string };
+  const raw = [e?.stderr, e?.message].filter(Boolean).join(" | ");
+  const keyLine = (e?.stderr || "")
+    .split(/\r|\n/)
+    .map((l) => l.trim())
+    .filter((l) => /^(fatal|error):/i.test(l))
+    .slice(-2)
+    .join("；");
+  return keyLine || raw.slice(0, 200);
+}
+
+/** 执行 git 命令：强制 HTTP/1.1（线上对 GitHub 的 HTTP/2 帧层不稳定），逐行收集 stderr 到同步日志 */
+async function runGit(args: string[], label: string): Promise<void> {
+  const env: NodeJS.ProcessEnv = { ...process.env, GIT_TERMINAL_PROMPT: "0" };
+  const startedAt = Date.now();
+  log(`${label}...`);
+  await new Promise<void>((resolve, reject) => {
+    const child = execFile(
+      "git",
+      ["-c", "http.version=HTTP/1.1", "-c", "http.postBuffer=524288000", ...args],
+      { env, timeout: 300_000, maxBuffer: 64 * 1024 * 1024 },
+    );
+    let stderrTail = "";
+    child.stderr?.on("data", (chunk: Buffer) => {
+      const text = chunk.toString();
+      stderrTail = (stderrTail + text).slice(-2000);
+      for (const line of text.split(/\r|\n/)) {
+        const t = line.trim();
+        if (!t) continue;
+        // 跳过高频进度刷屏行，保留 fatal/error/done 等关键信息
+        if (/^(remote: )?(Enumerating|Counting|Compressing|Receiving|Resolving|Total|Updating)/.test(t)) continue;
+        log(`git: ${t.slice(0, 200)}`);
+      }
+    });
+    child.on("error", reject);
+    child.on("close", (code) =>
+      code === 0 ? resolve() : reject(Object.assign(new Error(`git exit ${code}`), { stderr: stderrTail })),
+    );
+  });
+  log(`${label}完成，耗时 ${Math.round((Date.now() - startedAt) / 1000)}s`);
+}
+
+/**
+ * 增量更新本地仓库：优先 git pull --rebase（本地无改动时等价于快进）。
+ * 浅克隆仓库与新提交没有共同 merge base，rebase 可能失败，此时退回
+ * fetch --depth 1 + reset --hard FETCH_HEAD（语义等价，且不依赖 merge base）。
+ */
+async function updateLocalRepo(dir: string): Promise<void> {
+  const detected = await currentBranch(dir);
+  const branches = detected ? [detected] : ["main", "master"];
+  let lastErr: unknown = null;
+  for (const branch of branches) {
+    try {
+      await runGit(["-C", dir, "pull", "--rebase", "--autostash", "--depth", "1", "origin", branch], `增量更新仓库（pull --rebase ${branch}）`);
+      return;
+    } catch (err) {
+      lastErr = err;
+      log(`pull --rebase（${branch}）不可用，改用 fetch + reset --hard`);
+    }
+    // 清理可能残留的 rebase 中间状态（无 rebase 进行中时该命令失败，忽略即可）
+    try { await execFileAsync("git", ["-C", dir, "rebase", "--abort"], { timeout: 30_000 }); } catch { /* 忽略 */ }
+    try {
+      await runGit(["-C", dir, "fetch", "--depth", "1", "origin", branch], `增量拉取仓库（fetch --depth 1 ${branch}）`);
+      await runGit(["-C", dir, "reset", "--hard", "FETCH_HEAD"], "重置工作区到远端最新提交");
+      return;
+    } catch (err) {
+      lastErr = err;
+    }
+  }
+  throw lastErr;
+}
+
+/**
+ * 备用通道：直接下载仓库 tar.gz 压缩包并解压到独立目录 REPO_TARBALL_DIR。
  * 与 git 智能 HTTP 协议走不同端点（codeload.github.com），
  * 线上平台对 github.com git 协议不稳定（HTTP/2 帧层错误 / Empty reply）时可绕过。
+ * 注意：解压到独立目录而非 .repo-cache，避免毁掉 .git 缓存导致下次退化为全量克隆。
  */
-async function downloadRepoTarball(destDir: string): Promise<boolean> {
+async function downloadRepoTarball(): Promise<boolean> {
   const tgzPath = join(process.cwd(), "uploads", ".repo-tmp.tar.gz");
   for (const branch of ["main", "master"]) {
     const url = `https://codeload.github.com/samwangzhibo/Result_Resume_Wiki/tar.gz/refs/heads/${branch}`;
@@ -247,10 +359,10 @@ async function downloadRepoTarball(destDir: string): Promise<boolean> {
       const sizeMb = (statSync(tgzPath).size / 1024 / 1024).toFixed(1);
       log(`备用通道：压缩包下载完成（${sizeMb}MB，耗时 ${Math.round((Date.now() - startedAt) / 1000)}s），正在解压...`);
 
-      try { rmrf(destDir); } catch { /* 忽略 */ }
-      mkdirSync(destDir, { recursive: true });
-      // tar.gz 解压并剥掉顶层目录（repo-branch/），内容直接落到 destDir
-      await execFileAsync("tar", ["-xzf", tgzPath, "-C", destDir, "--strip-components=1"], { timeout: 120_000, maxBuffer: 16 * 1024 * 1024 });
+      try { rmrf(REPO_TARBALL_DIR); } catch { /* 忽略 */ }
+      mkdirSync(REPO_TARBALL_DIR, { recursive: true });
+      // tar.gz 解压并剥掉顶层目录（repo-branch/），内容直接落到解压目录
+      await execFileAsync("tar", ["-xzf", tgzPath, "-C", REPO_TARBALL_DIR, "--strip-components=1"], { timeout: 120_000, maxBuffer: 16 * 1024 * 1024 });
       log("备用通道：解压完成");
       return true;
     } catch (err) {
@@ -264,73 +376,95 @@ async function downloadRepoTarball(destDir: string): Promise<boolean> {
   return false;
 }
 
-/** 从 Git 仓库拉取最新文章并更新本地目录（公开仓库固定 HTTPS，无需凭证） */
+/** 同步互斥：同一时刻只允许一个同步任务执行，避免重复点击/启动同步与手动同步并发操作同一仓库目录 */
+let syncTask: Promise<SyncResult> | null = null;
+
+/** 当前是否有同步任务在执行 */
+export function isSyncing(): boolean {
+  return syncTask !== null;
+}
+
+/**
+ * 从 Git 仓库拉取最新文章并更新本地目录（公开仓库固定 HTTPS，无需凭证）。
+ * 入口加了互斥：已有任务在执行时直接返回 busy，不会并发操作 .repo-cache。
+ */
 export async function syncArticlesFromGit(): Promise<SyncResult> {
-  const tmpDir = join(process.cwd(), "uploads", ".repo-tmp");
-  // clone 前彻底清空残留（上次失败/中断可能留下半拉的 .git，导致 File exists 冲突）
-  try { rmrf(tmpDir); } catch { /* 忽略清理失败，继续尝试 */ }
+  if (syncTask) {
+    return {
+      ok: false,
+      busy: true,
+      message: "已有同步任务正在执行，请等本次完成后再试",
+      logs: getSyncLogs(),
+    };
+  }
+  syncTask = performSync();
+  try {
+    return await syncTask;
+  } finally {
+    syncTask = null;
+  }
+}
+
+async function performSync(): Promise<SyncResult> {
+  const repoDir = REPO_CACHE_DIR;
   syncLogs.length = 0;
 
   log(`开始同步，仓库地址：${REPO_HTTPS_URL}`);
   try {
-    const env: NodeJS.ProcessEnv = { ...process.env, GIT_TERMINAL_PROMPT: "0" };
-
-    // 第一步：git 浅克隆（最多尝试 2 次，间隔 3s，应对偶发网络抖动）
     let fetched = false;
     let lastFetchErr = "";
+    // 本次实际使用的仓库内容目录：git 通道为 .repo-cache；备用通道为 .repo-tarball
+    let srcDir = repoDir;
+
+    // 第一步：本地已有仓库 → 优先增量更新（pull），避免每次全量克隆
+    if (hasLocalRepo(repoDir)) {
+      if (!(await isRepoUsable(repoDir))) {
+        // 缓存损坏（半拉 .git 等）→ 清理后走全量克隆重建
+        log("本地仓库缓存损坏，清理后重新克隆");
+        try { rmrf(repoDir); } catch { /* 忽略清理失败 */ }
+      } else {
+        log("检测到本地 git 仓库缓存，走增量更新，跳过全量克隆");
+        for (let attempt = 1; attempt <= 2 && !fetched; attempt++) {
+          if (attempt > 1) {
+            log(`等待 3s 后重试增量更新（第 ${attempt}/2 次）...`);
+            await new Promise((r) => setTimeout(r, 3000));
+          }
+          try {
+            await updateLocalRepo(repoDir);
+            fetched = true;
+          } catch (err) {
+            lastFetchErr = pickGitError(err);
+            log(`第 ${attempt} 次增量更新失败：${lastFetchErr}`);
+          }
+        }
+        // 增量失败但缓存完好：保留缓存，绝不因网络抖动删除 200MB 缓存（否则下次必全量克隆）。
+        // 同一网络下全量克隆大概率同样失败，直接转备用通道即可。
+        if (!fetched) log("增量更新失败，保留本地仓库缓存，转备用通道");
+      }
+    }
+
+    // 第二步：无本地仓库（首次同步 / 缓存损坏已清理）→ 全量浅克隆（最多尝试 2 次，间隔 3s，应对偶发网络抖动）
     for (let attempt = 1; attempt <= 2 && !fetched; attempt++) {
       if (attempt > 1) {
         log(`等待 3s 后重试克隆（第 ${attempt}/2 次）...`);
         await new Promise((r) => setTimeout(r, 3000));
-        try { rmrf(tmpDir); } catch { /* 忽略 */ }
       }
-      log(`正在通过 HTTPS 浅克隆仓库（--depth 1，仓库约 200MB，需等待）...`);
+      // clone 前彻底清空残留（上次失败/中断可能留下半拉的 .git，导致 File exists 冲突）
+      try { rmrf(repoDir); } catch { /* 忽略清理失败，继续尝试 */ }
       try {
-        const startedAt = Date.now();
-        // 强制 HTTP/1.1：线上环境对 GitHub 的 HTTP/2 帧层不稳定（curl 16 framing layer error）
-        const child = execFile(
-          "git",
-          ["-c", "http.version=HTTP/1.1", "-c", "http.postBuffer=524288000", "clone", "--depth", "1", REPO_HTTPS_URL, tmpDir],
-          { env, timeout: 300_000, maxBuffer: 64 * 1024 * 1024 },
-        );
-        // 逐行收集 stderr（git 进度信息），写入日志
-        let stderrTail = "";
-        child.stderr?.on("data", (chunk: Buffer) => {
-          const text = chunk.toString();
-          stderrTail = (stderrTail + text).slice(-2000);
-          for (const line of text.split(/\r|\n/)) {
-            const t = line.trim();
-            if (!t) continue;
-            // 跳过高频进度刷屏行，保留 fatal/error/done 等关键信息
-            if (/^(remote: )?(Enumerating|Counting|Compressing|Receiving|Resolving|Total|Updating)/.test(t)) continue;
-            log(`git: ${t.slice(0, 200)}`);
-          }
-        });
-        await new Promise<void>((resolve, reject) => {
-          child.on("error", reject);
-          child.on("close", (code) => (code === 0 ? resolve() : reject(Object.assign(new Error(`git exit ${code}`), { stderr: stderrTail }))));
-        });
-        log(`克隆完成，耗时 ${Math.round((Date.now() - startedAt) / 1000)}s`);
+        await runGit(["clone", "--depth", "1", REPO_HTTPS_URL, repoDir], "正在通过 HTTPS 浅克隆仓库（--depth 1，仓库约 200MB，需等待）");
         fetched = true;
       } catch (err) {
-        const e = err as Error & { stderr?: string };
-        const raw = [e.stderr, e.message].filter(Boolean).join(" | ");
-        // 从 stderr 里挑出 fatal/error 关键行作为用户可读 message（避免被进度刷屏污染）
-        const keyLine = (e.stderr || "")
-          .split(/\r|\n/)
-          .map((l) => l.trim())
-          .filter((l) => /^(fatal|error):/i.test(l))
-          .slice(-2)
-          .join("；");
-        lastFetchErr = keyLine || raw.slice(0, 200);
+        lastFetchErr = pickGitError(err);
         log(`第 ${attempt} 次克隆失败：${lastFetchErr}`);
       }
     }
 
-    // 第二步：git 拉取失败 → 备用通道（codeload tar.gz 直链下载）
+    // 第三步：git 拉取失败 → 备用通道（codeload tar.gz 直链下载，解压到独立目录，不动 .repo-cache）
     if (!fetched) {
       log("git 协议拉取不通，切换备用通道（直接下载仓库压缩包）...");
-      fetched = await downloadRepoTarball(tmpDir);
+      fetched = await downloadRepoTarball();
+      if (fetched) srcDir = REPO_TARBALL_DIR;
     }
 
     if (!fetched) {
@@ -344,14 +478,14 @@ export async function syncArticlesFromGit(): Promise<SyncResult> {
     }
 
     // 定位文章根目录：优先仓库内 articles/ 目录，否则用仓库根目录
-    let srcRoot = tmpDir;
+    let srcRoot = srcDir;
     for (const candidate of ["articles", "Articles", "docs", "wiki"]) {
-      if (existsSync(join(tmpDir, candidate))) {
-        srcRoot = join(tmpDir, candidate);
+      if (existsSync(join(srcDir, candidate))) {
+        srcRoot = join(srcDir, candidate);
         break;
       }
     }
-    log(`文章根目录：${srcRoot === tmpDir ? "仓库根目录" : relative(tmpDir, srcRoot) + "/"}`);
+    log(`文章根目录：${srcRoot === srcDir ? "仓库根目录" : relative(srcDir, srcRoot) + "/"}`);
 
     // 清空并整体复制（含 md、图片等一切资源文件）。
     // 复制后立即重建清单：目录被清空状态下若进程重启/被清理，
@@ -362,13 +496,17 @@ export async function syncArticlesFromGit(): Promise<SyncResult> {
     cpSync(srcRoot, ARTICLES_DIR, {
       recursive: true,
       // 排除 . 开头文件、WorkBuddyRaw 素材目录、README 说明文件
-      filter: (src) => !relative(tmpDir, src).split("/").some((seg) => shouldExcludeSegment(seg)),
+      filter: (src) => !relative(srcDir, src).split("/").some((seg) => shouldExcludeSegment(seg)),
     });
     const copied = await rebuildManifest();
     log(`本地已更新：${copied.length} 篇文章就位`);
+    // 备用通道的解压目录用完即清，避免与 .repo-cache 双份占用磁盘
+    if (srcDir === REPO_TARBALL_DIR) {
+      try { rmrf(REPO_TARBALL_DIR); } catch { /* 忽略 */ }
+    }
 
     const entries = copied;
-    rmrf(tmpDir);
+    // 保留本地仓库缓存（.repo-cache）供下次增量更新复用，不再整体删除
 
     if (entries.length === 0) {
       log("仓库中未找到任何 .md 文章文件");
@@ -380,7 +518,7 @@ export async function syncArticlesFromGit(): Promise<SyncResult> {
     log(`同步成功，共 ${entries.length} 篇文章，目录分组：${groups.join("、")}`);
     return { ok: true, message: `同步成功，共 ${entries.length} 篇文章`, count: entries.length, syncedAt, logs: getSyncLogs() };
   } catch (err) {
-    rmrf(tmpDir);
+    // 异常时不清理仓库缓存：下次可继续尝试增量更新，避免退化为全量克隆
     const msg = err instanceof Error ? err.message : String(err);
     log(`同步异常：${msg.slice(0, 300)}`);
     return { ok: false, message: `同步失败：${msg.slice(0, 200)}`, logs: getSyncLogs() };
