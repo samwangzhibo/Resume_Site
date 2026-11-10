@@ -1,0 +1,1847 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>端侧 AI Native 范式设计（通用版）</title>
+<style>
+:root{--ink:#1F2A3A;--muted:#6B7A8C;--line:#E3E8EF;--accent:#3D6FB0;--bg:#fff}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;line-height:1.7;font-size:15px}
+html{scroll-behavior:smooth}
+main{flex:1 1 auto;min-width:0;max-width:960px;margin:0;padding:0}
+h2,h3{scroll-margin-top:20px}
+.layout{display:flex;align-items:flex-start;gap:40px;max-width:1220px;margin:0 auto;padding:32px 20px 80px}
+.toc{position:sticky;top:24px;flex:0 0 212px;max-height:calc(100vh - 48px);overflow:auto;font-size:13px;border-right:1px solid var(--line);padding-right:10px}
+.toc-hd{font-size:11.5px;letter-spacing:.1em;color:var(--muted);margin:0 0 10px;padding-left:8px}
+.toc nav{margin:0;padding:0;background:none;border-radius:0;font-size:13px;color:var(--ink)}
+.toc a{display:block;color:#4A5A6A;text-decoration:none;padding:5px 8px;border-radius:6px;margin:0 0 2px;line-height:1.45;transition:background .15s,color .15s}
+.toc a:hover{background:#F5F7FA;color:var(--accent)}
+.toc a.sub{padding-left:22px;font-size:12.5px;color:#7A8899}
+.toc a.active{background:#E8F2FF;color:#2B5090;font-weight:600}
+@media (max-width:900px){.layout{display:block;padding:22px 14px 60px}.toc{position:static;flex:none;max-height:none;border-right:0;border-bottom:1px solid var(--line);padding:0 0 10px;margin:0 0 18px;overflow:visible}.toc nav{display:flex;flex-wrap:wrap;gap:4px}.toc a{display:inline-block;margin:0}.toc a.sub{display:none}}
+@media print{.toc{display:none}.layout{display:block;padding:0}}
+h1{font-size:26px;line-height:1.35;margin:0 0 12px}
+h3{font-size:16px;margin:28px 0 8px;color:var(--accent)}
+h4{font-size:14.5px;margin:22px 0 6px;color:var(--ink)}
+h2{font-size:20px;margin:44px 0 12px;padding-top:16px;border-top:2px solid var(--accent)}
+blockquote{margin:0 0 20px;padding:10px 16px;border-left:3px solid var(--line);color:var(--muted);font-size:13.5px}
+hr{display:none}
+ul,ol{padding-left:22px} li{margin:4px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:12px 0 20px}
+th,td{border:1px solid var(--line);padding:7px 10px;text-align:left} th{background:#F5F7FA}
+figure{margin:18px 0 24px;padding:8px;border:1px solid var(--line);border-radius:10px;background:#fff}
+figure svg{width:100%;height:auto;display:block}
+figcaption{text-align:center;color:var(--muted);font-size:12.5px;margin-top:6px}
+code{background:#F5F7FA;padding:1px 5px;border-radius:4px;font-size:13px}
+
+@media print{figure{break-inside:avoid} h2{break-after:avoid}}
+</style></head><body>
+<div class="layout">
+<aside class="toc">
+<div class="toc-hd">目 录</div>
+<nav>
+<a href="#s0">摘要</a>
+<a href="#s1">1 行业判断</a>
+<a href="#s2">2 典型团队现状与窗口</a>
+<a href="#s3">3 总纲</a>
+<a href="#s4">4 范式一 · AICoding</a>
+<a href="#s4-1" class="sub">4.1 方案</a>
+<a href="#s4-2" class="sub">4.2 难点与应对</a>
+<a href="#s5">5 范式二 · 全栈跨端</a>
+<a href="#s5-1" class="sub">5.1 方案</a>
+<a href="#s5-2" class="sub">5.2 难点与应对</a>
+<a href="#s6">6 范式三 · AI Native 端侧架构</a>
+<a href="#s6-1" class="sub">6.1 方案</a>
+<a href="#s6-2" class="sub">6.2 难点与应对</a>
+<a href="#s7">7 组织阵型与路线图</a>
+<a href="#s8">8 风险与不做清单</a>
+<a href="#s9">9 实施前的四个关键决策</a>
+</nav>
+</aside>
+<main><h1>端侧 AI Native 范式设计（通用版）</h1>
+<blockquote>本文为通用方法论整理，不含任何特定企业的内部信息、经营数据或未公开方案；文中架构与流程均为可复用的设计参考。</blockquote>
+<hr />
+<h2 id="s0">摘要</h2>
+<ul>
+<li><strong>判断</strong>：生码能力已被解决，瓶颈在需求、验证、发布等占生命周期 70%–80% 的非编码环节；没有历史包袱的公司，拥有一次性把范式做对的窗口。</li>
+<li><strong>总纲</strong>：<strong>确定性骨架管可控，概率性节点管智能</strong>——Spec 契约、Verify 闭环、白名单、置信度分流四道围栏圈定 AI。三个范式就是这一条规则套在三个对象上：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>范式</th>
+<th>套用对象</th>
+<th>确定性骨架（工程管）</th>
+<th>概率性节点（AI 管）</th>
+<th>用到的围栏</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AICoding</td>
+<td>研发过程</td>
+<td>Spec、数据字典、Verify 门禁、合并/发布批准</td>
+<td>生码、生测试、修复</td>
+<td>Spec 契约 + Verify 闭环</td>
+</tr>
+<tr>
+<td>全栈跨端</td>
+<td>技术栈</td>
+<td>原生壳、纯 TS 契约层、三道退路、需求准入</td>
+<td>一份 Spec 多端生成、ArkTS 补缺口</td>
+<td>Spec 契约 + 共用 Verify</td>
+</tr>
+<tr>
+<td>AI Native 架构</td>
+<td>运行时产品</td>
+<td>主链路、权限、Catalog 白名单、隔离降级</td>
+<td>Agent 理解、规划、结论生成</td>
+<td>白名单 + 置信度分流 + 人审</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>路线</strong>：前两道围栏是后两道的前提，所以三范式按 <strong>AICoding 先行半步 → 跨端 P2 主战 → AI Native 架构 P3 主导</strong> 的顺序推进，三线共用一个试验田；存量走绞杀者双轨，默认渐进、重写不封死。</li>
+<li><strong>节奏与收益</strong>：5–6 人小队，三阶段 12 个月；P1 可能比以前慢，P2 显现，P3 复利。北极星：需求上线周期 -40%~-50%、同等人力年迭代次数 ×1.6~×2、鸿蒙与主端同频；AI 主导的产品需求 P2 起落地样板，从"卖数据"走向"卖结论"。</li>
+<li><strong>实施前的四个关键决策</strong>：小队规模、试验田、P1 度量口径、数据合规口径（见第 9 节）。</li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 640" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <marker id="zArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8A94A6"/>
+    </marker>
+  </defs>
+
+  <text x="540" y="40" text-anchor="middle" font-size="20" font-weight="bold" fill="#1F2A3A">端侧 AI Native 范式 · 一页总览</text>
+
+  <!-- ===== 总纲 ===== -->
+  <rect x="260" y="60" width="560" height="56" rx="12" fill="#2D3E56"/>
+  <text x="540" y="86" text-anchor="middle" font-size="17" font-weight="bold" fill="#FFFFFF">确定性骨架管可控 · 概率性节点管智能</text>
+  <text x="540" y="106" text-anchor="middle" font-size="10.5" fill="#AEB9C8">Spec 契约前置 ｜ TDD/Verify 反馈闭环 ｜ 白名单 Catalog ｜ 置信度分流＋人审</text>
+
+  <!-- ===== 三翼 ===== -->
+  <rect x="60" y="146" width="290" height="110" rx="12" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.6"/>
+  <text x="205" y="176" text-anchor="middle" font-size="14" font-weight="bold" fill="#2B5090">全栈跨端（一人三端）</text>
+  <text x="205" y="198" text-anchor="middle" font-size="10.5" fill="#4A70A8">原生为壳 · RN 主战 · 纯 TS 分层</text>
+  <text x="205" y="216" text-anchor="middle" font-size="10.5" fill="#4A70A8">页面可替换 · 热点可下沉</text>
+  <text x="205" y="240" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#2B5090">收敛 AI 的战场</text>
+
+  <rect x="395" y="146" width="290" height="110" rx="12" fill="#F0E8FC" stroke="#9B6DC8" stroke-width="1.6"/>
+  <text x="540" y="176" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A2070">AI Native 端侧架构</text>
+  <text x="540" y="198" text-anchor="middle" font-size="10.5" fill="#6B4A92">四层＋AI 纵切 · 契约 · 隔离降级</text>
+  <text x="540" y="216" text-anchor="middle" font-size="10.5" fill="#6B4A92">A2UI 受约束渲染 · 结论必溯源</text>
+  <text x="540" y="240" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#4A2070">为 AICoding 铺轨</text>
+
+  <rect x="730" y="146" width="290" height="110" rx="12" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1.6"/>
+  <text x="875" y="176" text-anchor="middle" font-size="14" font-weight="bold" fill="#1A5A1A">AICoding（Agent Loop）</text>
+  <text x="875" y="198" text-anchor="middle" font-size="10.5" fill="#3A7A3A">SDD 规格驱动 · TDD</text>
+  <text x="875" y="216" text-anchor="middle" font-size="10.5" fill="#3A7A3A">分层 Verify · 知识资产</text>
+  <text x="875" y="240" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1A5A1A">释放重构人力</text>
+
+  <line x1="350" y1="201" x2="395" y2="201" stroke="#8A94A6" stroke-width="2.5" marker-end="url(#zArrow)"/>
+  <line x1="685" y1="201" x2="730" y2="201" stroke="#8A94A6" stroke-width="2.5" marker-end="url(#zArrow)"/>
+  <path d="M 875,256 C 875,292 205,292 205,256" fill="none" stroke="#8A94A6" stroke-width="2.5" stroke-dasharray="6,4" marker-end="url(#zArrow)"/>
+
+  <!-- ===== 双轨 ===== -->
+  <rect x="60" y="310" width="960" height="92" rx="12" fill="#FFF8E8" stroke="#E08020" stroke-width="1.6"/>
+  <rect x="60" y="310" width="130" height="92" rx="12" fill="#E08020"/>
+  <text x="125" y="352" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">绞杀者双轨</text>
+  <text x="125" y="372" text-anchor="middle" font-size="9.5" fill="#FFF2DC">业务不停车</text>
+  <rect x="210" y="330" width="370" height="52" rx="8" fill="#FFFFFF" stroke="#E8B06A"/>
+  <text x="395" y="352" text-anchor="middle" font-size="12" font-weight="bold" fill="#7A4000">存量轨：让老代码可被 AI 安全修改</text>
+  <text x="395" y="370" text-anchor="middle" font-size="10" fill="#A07430">工具＋Spec＋特征化测试＋轻量 Verify</text>
+  <rect x="600" y="330" width="400" height="52" rx="8" fill="#E8F8E8" stroke="#7CC47C"/>
+  <text x="800" y="352" text-anchor="middle" font-size="12" font-weight="bold" fill="#1A5A1A">增量轨：新模块天生 AI 原生</text>
+  <text x="800" y="370" text-anchor="middle" font-size="10" fill="#3A7A3A">纯 TS · 契约先行 · 组件白名单 · A2UI</text>
+
+  <!-- ===== 三阶段 ===== -->
+  <rect x="60" y="430" width="310" height="92" rx="12" fill="#F0F6FF" stroke="#5B8DD9" stroke-width="1.4"/>
+  <text x="215" y="460" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#2B5090">P1 试验田（0–3 月）</text>
+  <text x="215" y="482" text-anchor="middle" font-size="10.5" fill="#4A70A8">工具/规范/L0L1/最小基座</text>
+  <text x="215" y="502" text-anchor="middle" font-size="10.5" fill="#4A70A8">1 个需求端到端跑通，拿基线</text>
+
+  <rect x="385" y="430" width="310" height="92" rx="12" fill="#F5F0FC" stroke="#9B6DC8" stroke-width="1.4"/>
+  <text x="540" y="460" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#4A2070">P2 KO 推广（3–6 月）</text>
+  <text x="540" y="482" text-anchor="middle" font-size="10.5" fill="#6B4A92">一人三端 · 鸿蒙同节拍</text>
+  <text x="540" y="502" text-anchor="middle" font-size="10.5" fill="#6B4A92">A2UI 样板 · 隔离护栏 · SDD 默认化</text>
+
+  <rect x="710" y="430" width="310" height="92" rx="12" fill="#F2FAF2" stroke="#3A9A3A" stroke-width="1.4"/>
+  <text x="865" y="460" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#1A5A1A">P3 常态演进（6–12 月）</text>
+  <text x="865" y="482" text-anchor="middle" font-size="10.5" fill="#3A7A3A">新代码原生 · 存量绞杀替换</text>
+  <text x="865" y="502" text-anchor="middle" font-size="10.5" fill="#3A7A3A">专项消失，成为默认工作方式</text>
+
+  <line x1="370" y1="476" x2="385" y2="476" stroke="#8A94A6" stroke-width="2.5" marker-end="url(#zArrow)"/>
+  <line x1="695" y1="476" x2="710" y2="476" stroke="#8A94A6" stroke-width="2.5" marker-end="url(#zArrow)"/>
+
+  <!-- ===== 收口 ===== -->
+  <rect x="60" y="544" width="960" height="66" rx="12" fill="#2D3E56"/>
+  <text x="540" y="572" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#FFFFFF">人最终只守五件事：定目标 · 定口径 · 定边界 · 做关键验收 · 担最终责任</text>
+  <text x="540" y="594" text-anchor="middle" font-size="10.5" fill="#AEB9C8">小队配置：5–6 人（负责人 1 · 基建 1 · 全栈 3–4 · Spec/质量 1 可兼）</text>
+</svg>
+<figcaption>范式总览</figcaption></figure>
+
+<p><strong>指标体系</strong>：北极星看结果、目标指标分到三条线、过程指标看健康。P1 的任务是把基线填上；◇ 为建议值，基线出来后校正。</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 600" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="38" font-size="19" font-weight="bold" fill="#1F2A3A">指标体系：北极星看结果，目标指标分到三条线，过程指标看健康</text>
+  <text x="40" y="60" font-size="11" fill="#6B7A8C">P1 的任务就是把"基线"列填上；带 ◇ 的目标值为建议值，基线出来后校正</text>
+
+  <!-- 北极星 -->
+  <rect x="40" y="76" width="1000" height="118" rx="10" fill="#1F2A3A"/>
+  <text x="58" y="100" font-size="13" font-weight="bold" fill="#F0C060">北极星指标 · 组织层面看的结果</text>
+  <g font-size="10.5" fill="#FFFFFF">
+  <rect x="58" y="112" width="236" height="70" rx="8" fill="#2E3D52"/>
+  <text x="176" y="134" font-weight="bold" text-anchor="middle">需求上线周期</text>
+  <text x="176" y="152" fill="#C9D3E0" text-anchor="middle">需求确认 → 全量上线 中位时长</text>
+  <text x="176" y="170" fill="#F0C060" text-anchor="middle">P3：-40% ~ -50%</text>
+  <rect x="306" y="112" width="236" height="70" rx="8" fill="#2E3D52"/>
+  <text x="424" y="134" font-weight="bold" text-anchor="middle">同等人力年需求迭代次数</text>
+  <text x="424" y="152" fill="#C9D3E0" text-anchor="middle">由周期推导：周期 -40%~-50%</text>
+  <text x="424" y="170" fill="#F0C060" text-anchor="middle">P3：×1.6 ~ ×2</text>
+  <rect x="554" y="112" width="236" height="70" rx="8" fill="#2E3D52"/>
+  <text x="672" y="134" font-weight="bold" text-anchor="middle">三端同频率</text>
+  <text x="672" y="152" fill="#C9D3E0" text-anchor="middle">鸿蒙与主端同版本上线的需求占比</text>
+  <text x="672" y="170" fill="#F0C060" text-anchor="middle">P3：准入内需求 100%</text>
+  <rect x="802" y="112" width="226" height="70" rx="8" fill="#2E3D52"/>
+  <text x="915" y="134" font-weight="bold" text-anchor="middle">AI 主导需求的业务收益</text>
+  <text x="915" y="152" fill="#C9D3E0" text-anchor="middle">结论场景的转化 / 留存 / 交付时长</text>
+  <text x="915" y="170" fill="#F0C060" text-anchor="middle">P2 样板出基线，P3 定目标</text>
+  </g>
+
+  <!-- 目标指标 -->
+  <text x="40" y="222" font-size="13" font-weight="bold" fill="#1F2A3A">目标指标 · 三条线各自的结果</text>
+  <rect x="40" y="234" width="326" height="150" rx="10" fill="#EEF3FA" stroke="#3D6FB0" stroke-width="1.5"/>
+  <text x="56" y="258" font-size="12" font-weight="bold" fill="#1F3A5F">AICoding</text>
+  <text x="56" y="282" font-size="10.5" fill="#1F3A5F">需求代码率：合入代码中 AI 生成且未被</text>
+  <text x="56" y="298" font-size="10.5" fill="#1F3A5F">人工重写的占比　P1 30–50% → P3 70%+</text>
+  <text x="56" y="322" font-size="10.5" fill="#1F3A5F">需求提交效率：单需求点人日</text>
+  <text x="56" y="338" font-size="10.5" fill="#1F3A5F">P1 拿基线 → P3 ◇ -40%</text>
+  <text x="56" y="362" font-size="10.5" fill="#1F3A5F">能验收 AI 代码的人占比：10–20% → ◇ 50%+</text>
+  <rect x="377" y="234" width="326" height="150" rx="10" fill="#EEF7EE" stroke="#3A9A3A" stroke-width="1.5"/>
+  <text x="393" y="258" font-size="12" font-weight="bold" fill="#2A4A2A">全栈跨端</text>
+  <text x="393" y="282" font-size="10.5" fill="#2A4A2A">一人三端交付的需求数</text>
+  <text x="393" y="298" font-size="10.5" fill="#2A4A2A">P1 1 个试点 → P2 2–3 个 → P3 准入内默认</text>
+  <text x="393" y="322" font-size="10.5" fill="#2A4A2A">三端总人日 / 单端人日</text>
+  <text x="393" y="338" font-size="10.5" fill="#2A4A2A">基线≈3（三端各写）→ P3 ◇ ≤1.5</text>
+  <text x="393" y="362" font-size="10.5" fill="#2A4A2A">架构漂移项数：每阶段 Review 趋零</text>
+  <rect x="714" y="234" width="326" height="150" rx="10" fill="#F3EEF9" stroke="#6D4A9C" stroke-width="1.5"/>
+  <text x="730" y="258" font-size="12" font-weight="bold" fill="#4A2A70">AI Native</text>
+  <text x="730" y="282" font-size="10.5" fill="#4A2A70">AI 主导的产品需求数</text>
+  <text x="730" y="298" font-size="10.5" fill="#4A2A70">P2 2 个样板 → P3 新需求默认 AI 原生</text>
+  <text x="730" y="322" font-size="10.5" fill="#4A2A70">结论采纳率：用户采纳 / 点开证据占比</text>
+  <text x="730" y="338" font-size="10.5" fill="#4A2A70">P2 出基线 → P3 定目标</text>
+  <text x="730" y="362" font-size="10.5" fill="#4A2A70">存量模块 AI 驱动改造周期：基线 → ◇ -50%</text>
+
+  <!-- 过程指标 -->
+  <text x="40" y="412" font-size="13" font-weight="bold" fill="#1F2A3A">过程指标 · 团队看的健康度（不进对外看板，进度量面板）</text>
+  <rect x="40" y="424" width="1000" height="110" rx="10" fill="#F5F7FA" stroke="#9AA7B8"/>
+  <g font-size="10.5" fill="#4A5A6A">
+  <text x="56" y="448">质量：线下缺陷率（千行）◇ -30% ~ -50% · 线上事故 0（存量绞杀零事故）· 幻觉红线 0 漏网 · Golden Set 通过率</text>
+  <text x="56" y="470">AI 使用：生码渗透率与完整采纳率分开记 · AI 测试采纳率 40%→70%+ · Agent 自测覆盖 30–40%→60–80% · 知识库评测分不掉</text>
+  <text x="56" y="492">成本：单结论成本 · 单需求 Token 成本 · 模型分流比例</text>
+  <text x="56" y="514">动态化：Catalog / 模板 热更次数与回滚率 · 回落项数</text>
+  </g>
+
+  <rect x="40" y="548" width="1000" height="36" rx="8" fill="#FFF8E8" stroke="#E0B060"/>
+  <text x="540" y="571" font-size="11" fill="#7A4000" text-anchor="middle">度量口径：P1 按"基线是否拿到 + 退出标准"评估；P2 起按目标指标；北极星按年看。过程指标只用于诊断，不设单一 KPI</text>
+</svg>
+<figcaption>指标体系</figcaption></figure>
+
+<table>
+<thead>
+<tr>
+<th>范式</th>
+<th>北极星指标（结果）</th>
+<th>过程指标（健康度，P1 → P3）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AICoding</td>
+<td>需求上线周期 -40% ~ -50%；同等人力年需求迭代次数 ×1.6 ~ ×2</td>
+<td>需求代码率 30–50% → 70%+；单需求点人日 ◇ -40%；线下缺陷率 ◇ -30% ~ -50%；渗透率与完整采纳率分开记</td>
+</tr>
+<tr>
+<td>全栈跨端</td>
+<td>三端同频：鸿蒙与主端同版本上线，准入内需求 100%（并入上线周期）</td>
+<td>一人三端需求数 1 → 2–3 → 准入内默认；三端总人日 / 单端人日 ≈3 → ◇ ≤1.5；架构漂移项趋零</td>
+</tr>
+<tr>
+<td>AI Native</td>
+<td>AI 主导需求的业务收益：结论场景的转化 / 留存 / 交付时长（P2 样板出基线，P3 定目标）</td>
+<td>AI 主导需求数 2 → 新需求默认；结论采纳率涨、人审占比降；幻觉红线 0 漏网；单结论成本</td>
+</tr>
+</tbody>
+</table>
+<p>◇ 为建议值，基线出来后校正；北极星按年看，过程指标进度量面板、不设单一 KPI。</p>
+<hr />
+<h2 id="s1">1. 行业判断</h2>
+<p><strong>结论：三股潮流已经跑通，但瓶颈全部从"生成"转移到"可控"；大厂方案太重，体量更小的公司的答案是用最小工程子集吃同一波红利。</strong></p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="38" font-size="19" font-weight="bold" fill="#1F2A3A">行业判断：三股潮流，同一个瓶颈转移</text>
+  <text x="1040" y="38" text-anchor="end" font-size="11" fill="#7A8494">生码能力已被解决（SWE-bench 约 80%），胜负手在占生命周期 70%–80% 的非编码环节</text>
+
+  <!-- ===== 列1 AICoding（绿） ===== -->
+  <rect x="40" y="60" width="320" height="330" rx="12" fill="#F2FAF2" stroke="#3A9A3A" stroke-width="1.6"/>
+  <rect x="40" y="60" width="320" height="52" rx="12" fill="#3A9A3A"/>
+  <text x="200" y="84" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">潮流一 · AICoding</text>
+  <text x="200" y="103" text-anchor="middle" font-size="10" fill="#DCF2DC">从「写得快」转向「做得对」</text>
+
+  <text x="60" y="138" font-size="11" font-weight="bold" fill="#1A5A1A">实战水位</text>
+  <circle cx="64" cy="158" r="3" fill="#3A9A3A"/><text x="76" y="162" font-size="10.5" fill="#2A4A2A">阿里千问 3 个月：交付周期 -50%</text>
+  <circle cx="64" cy="178" r="3" fill="#3A9A3A"/><text x="76" y="182" font-size="10.5" fill="#2A4A2A">千行缺陷 -70%、变更失败 -90%+</text>
+  <circle cx="64" cy="198" r="3" fill="#3A9A3A"/><text x="76" y="202" font-size="10.5" fill="#2A4A2A">快手鸿蒙：生码 80%、人效 1.7 倍</text>
+  <circle cx="64" cy="218" r="3" fill="#3A9A3A"/><text x="76" y="222" font-size="10.5" fill="#2A4A2A">2 名工程师完成三端需求</text>
+
+  <rect x="60" y="246" width="280" height="124" rx="8" fill="#FFF8E8" stroke="#E08020"/>
+  <text x="76" y="268" font-size="11" font-weight="bold" fill="#7A4000">残留问题</text>
+  <text x="76" y="290" font-size="10.5" fill="#7A4000">生码率高 ≠ 效率同比例释放</text>
+  <text x="76" y="312" font-size="10.5" fill="#7A4000">验证仍靠人；上下文散落</text>
+  <text x="76" y="334" font-size="10.5" fill="#7A4000">质量随模型波动</text>
+  <text x="76" y="356" font-size="10.5" fill="#7A4000">渗透率 60% / 完整采纳仅 50%</text>
+
+  <!-- ===== 列2 全栈跨端（蓝） ===== -->
+  <rect x="380" y="60" width="320" height="330" rx="12" fill="#F0F6FF" stroke="#3D6FB0" stroke-width="1.6"/>
+  <rect x="380" y="60" width="320" height="52" rx="12" fill="#3D6FB0"/>
+  <text x="540" y="84" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">潮流二 · 全栈跨端</text>
+  <text x="540" y="103" text-anchor="middle" font-size="10" fill="#D6E4F7">AI 让「一人多端」首次经济成立</text>
+
+  <text x="400" y="138" font-size="11" font-weight="bold" fill="#2B5090">实战水位</text>
+  <circle cx="404" cy="158" r="3" fill="#3D6FB0"/><text x="416" y="162" font-size="10.5" fill="#24406B">闲鱼：90% Flutter，鸿蒙移植为主</text>
+  <circle cx="404" cy="178" r="3" fill="#3D6FB0"/><text x="416" y="182" font-size="10.5" fill="#24406B">快手：KMP ＋ Spec 双生成</text>
+  <circle cx="404" cy="198" r="3" fill="#3D6FB0"/><text x="416" y="202" font-size="10.5" fill="#24406B">RNOH 华为官方维护，可生产</text>
+  <circle cx="404" cy="218" r="3" fill="#3D6FB0"/><text x="416" y="222" font-size="10.5" fill="#24406B">跨栈实测：AI 贡献 65%</text>
+
+  <rect x="400" y="246" width="280" height="124" rx="8" fill="#FFF8E8" stroke="#E08020"/>
+  <text x="416" y="268" font-size="11" font-weight="bold" fill="#7A4000">残留问题</text>
+  <text x="416" y="290" font-size="10.5" fill="#7A4000">重型客户端闭环仍弱</text>
+  <text x="416" y="312" font-size="10.5" fill="#7A4000">方案/CR 仍依赖对端同学</text>
+  <text x="416" y="334" font-size="10.5" fill="#7A4000">平台暗知识要求人有判断</text>
+  <text x="416" y="356" font-size="10.5" fill="#7A4000">RNOH 跟版滞后、插件偏弱</text>
+
+  <!-- ===== 列3 AI Native 端侧（紫） ===== -->
+  <rect x="720" y="60" width="320" height="330" rx="12" fill="#F5F0FC" stroke="#6D4A9C" stroke-width="1.6"/>
+  <rect x="720" y="60" width="320" height="52" rx="12" fill="#6D4A9C"/>
+  <text x="880" y="84" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">潮流三 · AI Native 端侧</text>
+  <text x="880" y="103" text-anchor="middle" font-size="10" fill="#E2D6F2">服务端 Agent 对话，端侧受约束渲染</text>
+
+  <text x="740" y="138" font-size="11" font-weight="bold" fill="#4A2070">实战水位</text>
+  <circle cx="744" cy="158" r="3" fill="#6D4A9C"/><text x="756" y="162" font-size="10.5" fill="#3E2A60">A2UI 协议化：Google / 腾讯 / 字节</text>
+  <circle cx="744" cy="178" r="3" fill="#6D4A9C"/><text x="756" y="182" font-size="10.5" fill="#3E2A60">Catalog 约束 ＋ Registry 渲染</text>
+  <circle cx="744" cy="198" r="3" fill="#6D4A9C"/><text x="756" y="202" font-size="10.5" fill="#3E2A60">Jev 类 System One 概率投票</text>
+  <circle cx="744" cy="218" r="3" fill="#6D4A9C"/><text x="756" y="222" font-size="10.5" fill="#3E2A60">70–500ms · 置信度可分流</text>
+
+  <rect x="740" y="246" width="280" height="124" rx="8" fill="#FFF8E8" stroke="#E08020"/>
+  <text x="756" y="268" font-size="11" font-weight="bold" fill="#7A4000">残留问题</text>
+  <text x="756" y="290" font-size="10.5" fill="#7A4000">概率性输出可信度</text>
+  <text x="756" y="312" font-size="10.5" fill="#7A4000">与核心链路隔离降级</text>
+  <text x="756" y="334" font-size="10.5" fill="#7A4000">端侧成本与功耗</text>
+  <text x="756" y="356" font-size="10.5" fill="#7A4000">幻觉损伤品牌</text>
+
+  <!-- ===== 收口 ===== -->
+  <rect x="40" y="414" width="1000" height="106" rx="12" fill="#2D3E56"/>
+  <text x="540" y="448" text-anchor="middle" font-size="15" font-weight="bold" fill="#FFFFFF">同类团队的生态位</text>
+  <text x="540" y="474" text-anchor="middle" font-size="11.5" fill="#D6DEE9">大厂方案太重（自研平台 / Skill 市场 / 千人团队），无法也不必照搬</text>
+  <text x="540" y="496" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFD27A">小团队的答卷：用最小工程子集吃到同一波红利 —— 业务不停车，把概率性圈定成可靠交付</text>
+</svg>
+<figcaption>行业三股潮流</figcaption></figure>
+
+<ul>
+<li>AICoding：千问 3 个月周期 -50%、千行缺陷 -70%；快手鸿蒙生码 80%、2 人做三端——但渗透率 60% 时完整采纳仅 50%。</li>
+<li>全栈跨端：Flutter（闲鱼）与 KMP+Spec 双生成（快手）两条路线均已生产验证；RNOH 鸿蒙官方维护可用。</li>
+<li>AI Native 端侧：A2UI 协议化（Google/腾讯/字节）、Jev 类概率投票模型成熟；残留问题是可信度、隔离降级与品牌风险。</li>
+</ul>
+<hr />
+<h2 id="s2">2. 典型团队的现状与窗口</h2>
+<p><strong>结论：业务有 Agent 化空间、技术是跨端甜区、组织有放大器红利、"业务不停车"是硬约束——四个条件同时成立，只允许渐进路线。</strong></p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="38" font-size="19" font-weight="bold" fill="#1F2A3A">典型团队的窗口：为什么是现在、为什么是这类团队</text>
+
+  <!-- 业务（橙） -->
+  <rect x="40" y="62" width="450" height="160" rx="12" fill="#FFF8E8" stroke="#E08020" stroke-width="1.6"/>
+  <text x="62" y="94" font-size="14" font-weight="bold" fill="#7A4000">业务侧 · 从卖线索到卖决策</text>
+  <circle cx="66" cy="118" r="3" fill="#E08020"/><text x="78" y="122" font-size="11" fill="#7A4000">C 端付费用户：查主体信息、卖线索型数据</text>
+  <circle cx="66" cy="142" r="3" fill="#E08020"/><text x="78" y="146" font-size="11" fill="#7A4000">B 端：企业客户 / 合规 / 战略部门，卖数据服务</text>
+  <circle cx="66" cy="166" r="3" fill="#E08020"/><text x="78" y="170" font-size="11" fill="#7A4000">品牌信任度高、营收健康、竞争不激烈</text>
+  <rect x="62" y="184" width="406" height="26" rx="6" fill="#E08020"/>
+  <text x="265" y="202" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">下一程：Agent 把「查一下」变成「给我结论」</text>
+
+  <!-- 技术（蓝） -->
+  <rect x="510" y="62" width="450" height="160" rx="12" fill="#F0F6FF" stroke="#3D6FB0" stroke-width="1.6"/>
+  <text x="532" y="94" font-size="14" font-weight="bold" fill="#2B5090">技术侧 · 天然适合跨端与 AI 化</text>
+  <circle cx="536" cy="118" r="3" fill="#3D6FB0"/><text x="548" y="122" font-size="11" fill="#24406B">搜索 / 列表 / 详情 / 报告为主，实时性低</text>
+  <circle cx="536" cy="142" r="3" fill="#3D6FB0"/><text x="548" y="146" font-size="11" fill="#24406B">交互不复杂、强硬件依赖少（扫码/支付除外）</text>
+  <circle cx="536" cy="166" r="3" fill="#3D6FB0"/><text x="548" y="170" font-size="11" fill="#24406B">系统精简、历史包袱小</text>
+  <rect x="532" y="184" width="406" height="26" rx="6" fill="#3D6FB0"/>
+  <text x="735" y="202" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">硬约束：鸿蒙与主端同一迭代频率</text>
+
+  <!-- 组织（绿） -->
+  <rect x="40" y="242" width="450" height="160" rx="12" fill="#F2FAF2" stroke="#3A9A3A" stroke-width="1.6"/>
+  <text x="62" y="274" font-size="14" font-weight="bold" fill="#1A5A1A">组织侧 · 小团队 × 放大器</text>
+  <circle cx="66" cy="298" r="3" fill="#3A9A3A"/><text x="78" y="302" font-size="11" fill="#2A4A2A">好范式 ＋ 好数据 ＝ 精干团队不输大厂人力</text>
+  <circle cx="66" cy="322" r="3" fill="#3A9A3A"/><text x="78" y="326" font-size="11" fill="#2A4A2A">调头快、共识成本低</text>
+  <circle cx="66" cy="346" r="3" fill="#3A9A3A"/><text x="78" y="350" font-size="11" fill="#2A4A2A">但放大器双向：混乱也会被放大</text>
+  <rect x="62" y="364" width="406" height="26" rx="6" fill="#3A9A3A"/>
+  <text x="265" y="382" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">选择：渐进、可回滚、小步验证，不要一步到位</text>
+
+  <!-- 约束（红/深色） -->
+  <rect x="510" y="242" width="450" height="160" rx="12" fill="#2D3E56"/>
+  <text x="532" y="274" font-size="14" font-weight="bold" fill="#FFFFFF">真约束 · 跑着换轮子</text>
+  <circle cx="536" cy="300" r="3" fill="#FFD27A"/><text x="548" y="304" font-size="11" fill="#D6DEE9">老系统要维护</text>
+  <circle cx="536" cy="324" r="3" fill="#FFD27A"/><text x="548" y="328" font-size="11" fill="#D6DEE9">业务迭代不能停</text>
+  <circle cx="536" cy="348" r="3" fill="#FFD27A"/><text x="548" y="352" font-size="11" fill="#D6DEE9">运行中换底座，还要保证线上数据不出问题</text>
+  <rect x="532" y="364" width="406" height="26" rx="6" fill="#C0504D"/>
+  <text x="735" y="382" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">重写需过评估关 → 默认渐进式总路线</text>
+
+  <!-- 底部收口 -->
+  <text x="500" y="442" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1F2A3A">四个条件同时成立：</text>
+  <text x="500" y="468" text-anchor="middle" font-size="12" fill="#5A6472">产品有 Agent 化空间 ＋ 场景是跨端甜区 ＋ 小团队有放大器红利 ＋ 约束要求渐进 —— 窗口期就在当下</text>
+</svg>
+<figcaption>典型团队窗口</figcaption></figure>
+
+<ul>
+<li><strong>业务</strong>：C 端卖线索型数据、B 端卖数据服务；下一程是 Agent 把"查一下"变成"给我结论"——研发范式升级与产品形态升级是同一件事。</li>
+<li><strong>技术</strong>：展示型为主、实时性低、逻辑不复杂，是跨端与 AI 闭环的双重甜区；鸿蒙与主端同频是既定硬约束，靠人力三写撑不住。</li>
+<li><strong>组织</strong>：小团队 × 放大器，但混乱同样被放大——所有选择偏向可回滚、小步验证。</li>
+<li><strong>约束</strong>：老系统要维护、迭代不能停、跑着换底座、还不能影响线上数据。四件事同时做，排除无条件 big-bang 重写作为默认起点。</li>
+</ul>
+<p>现状起点与 12 个月目标的对照（现状项为典型团队画像，以自身实际为准）：</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 540" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="38" font-size="19" font-weight="bold" fill="#1F2A3A">起点与 12 个月目标：三条线各改一件事</text>
+  <text x="40" y="60" font-size="11" fill="#6B7A8C">现状列为一类典型团队的画像推断，带 ◇ 的项以自身实际情况为准</text>
+
+  <!-- 表头 -->
+  <rect x="40" y="76" width="130" height="34" rx="6" fill="#1F2A3A"/>
+  <text x="105" y="98" font-size="12.5" font-weight="bold" fill="#FFFFFF" text-anchor="middle">范式</text>
+  <rect x="180" y="76" width="300" height="34" rx="6" fill="#8A6D3B"/>
+  <text x="330" y="98" font-size="12.5" font-weight="bold" fill="#FFFFFF" text-anchor="middle">现状起点</text>
+  <rect x="520" y="76" width="300" height="34" rx="6" fill="#3D6FB0"/>
+  <text x="670" y="98" font-size="12.5" font-weight="bold" fill="#FFFFFF" text-anchor="middle">12 个月目标（P3 末）</text>
+  <rect x="830" y="76" width="210" height="34" rx="6" fill="#3A9A3A"/>
+  <text x="935" y="98" font-size="12.5" font-weight="bold" fill="#FFFFFF" text-anchor="middle">改变的那一件事</text>
+
+  <!-- 行1 AICoding -->
+  <rect x="40" y="122" width="130" height="120" rx="8" fill="#EEF3FA" stroke="#3D6FB0" stroke-width="1.5"/>
+  <text x="105" y="176" font-size="13" font-weight="bold" fill="#1F2A3A" text-anchor="middle">AICoding</text>
+  <text x="105" y="196" font-size="10.5" fill="#6B7A8C" text-anchor="middle">P1 先行半步</text>
+  <rect x="180" y="122" width="300" height="120" rx="8" fill="#FFF8E8" stroke="#E0B060"/>
+  <text x="196" y="148" font-size="11" fill="#7A4000">◇ AI 工具个人化使用，效果靠个人技巧</text>
+  <text x="196" y="170" font-size="11" fill="#7A4000">◇ 无统一 Spec、无数据字典</text>
+  <text x="196" y="192" font-size="11" fill="#7A4000">◇ 生成后靠人肉联调，无自动 Verify</text>
+  <text x="196" y="214" font-size="11" fill="#7A4000">◇ 只记"用过"，不记"真采纳"</text>
+  <path d="M488 182 L512 182" stroke="#9AA7B8" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="520" y="122" width="300" height="120" rx="8" fill="#EEF3FA" stroke="#7FA3D4"/>
+  <text x="536" y="148" font-size="11" fill="#1F3A5F">SDD 默认流：Specify→Plan→Tasks→Implement</text>
+  <text x="536" y="170" font-size="11" fill="#1F3A5F">L0–L3 Verify 跑通，生码→编译→验证→修复小循环</text>
+  <text x="536" y="192" font-size="11" fill="#1F3A5F">AI 生码率 70%+，测试采纳率 70%+</text>
+  <text x="536" y="214" font-size="11" fill="#1F3A5F">渗透率 / 完整采纳率分开度量</text>
+  <rect x="830" y="122" width="210" height="120" rx="8" fill="#EEF7EE" stroke="#3A9A3A" stroke-width="1.5"/>
+  <text x="935" y="176" font-size="12.5" font-weight="bold" fill="#2A4A2A" text-anchor="middle">把反馈闭环建起来</text>
+  <text x="935" y="198" font-size="10.5" fill="#3A6A3A" text-anchor="middle">瓶颈在验证，不在生码</text>
+
+  <!-- 行2 跨端 -->
+  <rect x="40" y="256" width="130" height="120" rx="8" fill="#EEF3FA" stroke="#3D6FB0" stroke-width="1.5"/>
+  <text x="105" y="310" font-size="13" font-weight="bold" fill="#1F2A3A" text-anchor="middle">全栈跨端</text>
+  <text x="105" y="330" font-size="10.5" fill="#6B7A8C" text-anchor="middle">P2 主战</text>
+  <rect x="180" y="256" width="300" height="120" rx="8" fill="#FFF8E8" stroke="#E0B060"/>
+  <text x="196" y="282" font-size="11" fill="#7A4000">◇ iOS / Android / 鸿蒙三端各自实现</text>
+  <text x="196" y="304" font-size="11" fill="#7A4000">◇ 鸿蒙同频靠人力堆叠，节拍难持续</text>
+  <text x="196" y="326" font-size="11" fill="#7A4000">◇ RN/H5 占比、既有跨端尝试待确认</text>
+  <text x="196" y="348" font-size="11" fill="#7A4000">  展示型页面为主，是跨端甜区</text>
+  <path d="M488 316 L512 316" stroke="#9AA7B8" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="520" y="256" width="300" height="120" rx="8" fill="#EEF3FA" stroke="#7FA3D4"/>
+  <text x="536" y="282" font-size="11" fill="#1F3A5F">原生为壳、RN 主战、纯 TS 分层、三道退路内建</text>
+  <text x="536" y="304" font-size="11" fill="#1F3A5F">一份 Spec + AI 多端生成 + 三端共用 Verify</text>
+  <text x="536" y="326" font-size="11" fill="#1F3A5F">鸿蒙与主端同节拍交付，缺口 AI 双生成</text>
+  <text x="536" y="348" font-size="11" fill="#1F3A5F">准入内的新需求默认一人三端</text>
+  <rect x="830" y="256" width="210" height="120" rx="8" fill="#EEF7EE" stroke="#3A9A3A" stroke-width="1.5"/>
+  <text x="935" y="310" font-size="12.5" font-weight="bold" fill="#2A4A2A" text-anchor="middle">同步机制从人力换成 Spec</text>
+  <text x="935" y="332" font-size="10.5" fill="#3A6A3A" text-anchor="middle">框架可换，机制是资产</text>
+
+  <!-- 行3 AI Native -->
+  <rect x="40" y="390" width="130" height="120" rx="8" fill="#EEF3FA" stroke="#3D6FB0" stroke-width="1.5"/>
+  <text x="105" y="440" font-size="13" font-weight="bold" fill="#1F2A3A" text-anchor="middle">AI Native</text>
+  <text x="105" y="458" font-size="13" font-weight="bold" fill="#1F2A3A" text-anchor="middle">端侧架构</text>
+  <text x="105" y="478" font-size="10.5" fill="#6B7A8C" text-anchor="middle">P1 最小骨架 · P3 主导</text>
+  <rect x="180" y="390" width="300" height="120" rx="8" fill="#FFF8E8" stroke="#E0B060"/>
+  <text x="196" y="416" font-size="11" fill="#7A4000">  产品形态：查一下 → 返回原始字段</text>
+  <text x="196" y="438" font-size="11" fill="#7A4000">◇ 数据能力丰富，但未工具化、Agent 不可调用</text>
+  <text x="196" y="460" font-size="11" fill="#7A4000">◇ 端上无受约束渲染 / 降级通道</text>
+  <text x="196" y="482" font-size="11" fill="#7A4000">◇ 无 bad case 回流与评测集</text>
+  <path d="M488 450 L512 450" stroke="#9AA7B8" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="520" y="390" width="300" height="120" rx="8" fill="#EEF3FA" stroke="#7FA3D4"/>
+  <text x="536" y="416" font-size="11" fill="#1F3A5F">三层底座：Agent 编排 / 模型网关 / 数据回路</text>
+  <text x="536" y="438" font-size="11" fill="#1F3A5F">数据 API、图谱、风险规则 MCP 工具资产化</text>
+  <text x="536" y="460" font-size="11" fill="#1F3A5F">A2UI 白名单渲染，结论强制来源+时间戳+置信度</text>
+  <text x="536" y="482" font-size="11" fill="#1F3A5F">AI 不进主链路，新模块默认 AI 原生</text>
+  <rect x="830" y="390" width="210" height="120" rx="8" fill="#EEF7EE" stroke="#3A9A3A" stroke-width="1.5"/>
+  <text x="935" y="444" font-size="12.5" font-weight="bold" fill="#2A4A2A" text-anchor="middle">把数据能力工具资产化</text>
+  <text x="935" y="466" font-size="10.5" fill="#3A6A3A" text-anchor="middle">"查一下" → "给我结论"</text>
+
+  <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9AA7B8"/></marker></defs>
+</svg>
+<figcaption>现状与目标对照</figcaption></figure>
+
+<hr />
+<h2 id="s3">3. 总纲：确定性骨架 × 概率性智能</h2>
+<p><strong>核心划界：状态/权限/契约/口径/主链路归工程；生成/理解/诊断/对话归 AI；人定目标、口径、边界、验收、责任。</strong></p>
+<p>圈定概率性的四个手段：<strong>Spec 契约前置 · TDD/Verify 闭环 · 白名单 Catalog · 置信度分流＋人审</strong>。</p>
+<p>三个范式互为前提，单独推任何一个都会撞墙：</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 600" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <marker id="flyArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8A94A6"/>
+    </marker>
+    <marker id="flyArrow2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8A94A6"/>
+    </marker>
+  </defs>
+
+  <text x="440" y="38" text-anchor="middle" font-size="19" font-weight="bold" fill="#1F2A3A">三翼飞轮：三个范式互为前提</text>
+
+  <!-- ===== 循环弧（绕中心圆外侧） ===== -->
+  <!-- 跨端(左下) -> 架构(顶部) -->
+  <path d="M 286,352 C 306,250 360,182 398,152" fill="none" stroke="#8A94A6" stroke-width="2.5" marker-end="url(#flyArrow)"/>
+  <!-- 架构(顶部) -> AICoding(右下) -->
+  <path d="M 482,152 C 520,182 574,250 594,352" fill="none" stroke="#8A94A6" stroke-width="2.5" marker-end="url(#flyArrow2)"/>
+  <!-- AICoding(右下) -> 跨端(左下) -->
+  <path d="M 600,432 C 480,486 400,486 280,432" fill="none" stroke="#8A94A6" stroke-width="2.5" marker-end="url(#flyArrow)"/>
+
+  <!-- 弧标签（置于中心圆上方两侧，避开圆面） -->
+  <rect x="216" y="182" width="118" height="22" rx="11" fill="#FFFFFF" stroke="#C9D2DE"/>
+  <text x="275" y="197" text-anchor="middle" font-size="10" fill="#5A6472">统一上下文域</text>
+  <rect x="546" y="182" width="128" height="22" rx="11" fill="#FFFFFF" stroke="#C9D2DE"/>
+  <text x="610" y="197" text-anchor="middle" font-size="10" fill="#5A6472">契约分层决定生码质量</text>
+  <rect x="372" y="462" width="136" height="22" rx="11" fill="#FFFFFF" stroke="#C9D2DE"/>
+  <text x="440" y="477" text-anchor="middle" font-size="10" fill="#5A6472">重构人力释放 · 反哺存量</text>
+
+  <!-- ===== 中心 ===== -->
+  <circle cx="440" cy="292" r="88" fill="#2D3E56"/>
+  <text x="440" y="282" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">确定性骨架</text>
+  <text x="440" y="304" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">× 概率性智能</text>
+  <text x="440" y="326" text-anchor="middle" font-size="10" fill="#AEB9C8">Spec · Verify · Catalog · 置信度</text>
+
+  <!-- ===== 三翼节点 ===== -->
+  <!-- 顶部：架构（紫） -->
+  <rect x="340" y="74" width="200" height="78" rx="12" fill="#F0E8FC" stroke="#9B6DC8" stroke-width="1.6"/>
+  <text x="440" y="104" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A2070">AI Native 架构</text>
+  <text x="440" y="124" text-anchor="middle" font-size="10" fill="#6B4A92">分层 / 契约 / 隔离</text>
+  <text x="440" y="140" text-anchor="middle" font-size="10" fill="#6B4A92">为 AICoding 铺轨</text>
+
+  <!-- 左下：跨端（蓝） -->
+  <rect x="115" y="362" width="200" height="78" rx="12" fill="#E8F2FF" stroke="#5B8DD9" stroke-width="1.6"/>
+  <text x="215" y="392" text-anchor="middle" font-size="13" font-weight="bold" fill="#2B5090">全栈跨端（一人三端）</text>
+  <text x="215" y="412" text-anchor="middle" font-size="10" fill="#4A70A8">RN 主战 · 纯 TS 分层</text>
+  <text x="215" y="428" text-anchor="middle" font-size="10" fill="#4A70A8">收敛 AI 的战场</text>
+
+  <!-- 右下：AICoding（绿） -->
+  <rect x="565" y="362" width="200" height="78" rx="12" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1.6"/>
+  <text x="665" y="392" text-anchor="middle" font-size="13" font-weight="bold" fill="#1A5A1A">AICoding（Agent Loop）</text>
+  <text x="665" y="412" text-anchor="middle" font-size="10" fill="#3A7A3A">SDD · TDD · Verify</text>
+  <text x="665" y="428" text-anchor="middle" font-size="10" fill="#3A7A3A">释放迁移人力</text>
+
+  <!-- ===== 第二圈：运行时产品 ===== -->
+  <line x1="440" y1="500" x2="440" y2="518" stroke="#E08020" stroke-width="2" stroke-dasharray="5,4"/>
+  <rect x="110" y="520" width="660" height="58" rx="12" fill="#FFF8E8" stroke="#E08020" stroke-width="1.6"/>
+  <text x="440" y="544" text-anchor="middle" font-size="13" font-weight="bold" fill="#7A4000">第二圈：运行时 AI Native 产品</text>
+  <text x="440" y="564" text-anchor="middle" font-size="10.5" fill="#9A6020">服务端 Agent 主导 ＋ A2UI 受约束渲染 ｜ 卖数据 → 卖决策</text>
+</svg>
+<figcaption>三翼飞轮</figcaption></figure>
+
+<ul>
+<li><strong>跨端 → 给 AI 收敛战场</strong>：AI 闭环可靠性与栈标准化程度正相关；统一的上下文域、Spec、验证是 AICoding 的前提。</li>
+<li><strong>架构 → 为 AICoding 铺轨</strong>：单一职责、显式契约、逻辑/UI 分层直接决定生码渗透率和验证闭环率；坏味道模块里 AI 只会照抄坏模式。</li>
+<li><strong>AICoding → 让存量重构第一次可行</strong>：特征化测试生成、契约对照、模块重写的成本压低一个数量级后，绞杀者式迁移在小团队才有经济性。</li>
+<li>第二圈：用这套范式开发出的 App 本身是运行时 AI Native 的——服务端 Agent 驱动端侧受约束渲染，产品从"卖数据"走向"卖决策"。</li>
+</ul>
+<p>人永不退出的三件事：<strong>目标与优先级、数据口径与契约、合并与上线批准</strong>。</p>
+<hr />
+<h2 id="s4">4. 范式一 · AICoding 工程体系（P1 先行半步）</h2>
+<h3 id="s4-1">4.1 方案</h3>
+<p><strong>结论：瓶颈在反馈不在生码；小循环"生码→编译→Verify→修复"跑通，效率才真正释放。人面向协议与知识库，不面向逐行代码。</strong></p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 760" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="38" font-size="19" font-weight="bold" fill="#1F2A3A">AICoding 工程体系：瓶颈在反馈，不在生码</text>
+  <text x="40" y="60" font-size="11" fill="#6B7A8C">从上往下读：流程 → 每个任务的小循环 → 循环靠什么验证 → 循环靠什么活、受什么约束 → 人站在哪；右侧是实测佐证</text>
+
+  <!-- ① SDD -->
+  <rect x="40" y="76" width="720" height="62" rx="10" fill="#1F2A3A"/>
+  <text x="58" y="100" font-size="12.5" font-weight="bold" fill="#FFFFFF">① SDD 默认研发流</text>
+  <text x="400" y="104" font-size="13" font-weight="bold" fill="#F0C060" text-anchor="middle">Specify → Plan → Tasks → Implement → Converge</text>
+  <text x="400" y="126" font-size="10.5" fill="#C9D3E0" text-anchor="middle">Spec 是人机共同的唯一事实源；每个 Task 进入下面的小循环</text>
+
+  <!-- ② 小循环 -->
+  <rect x="40" y="150" width="720" height="130" rx="10" fill="#EEF7EE" stroke="#3A9A3A" stroke-width="1.5"/>
+  <text x="58" y="174" font-size="12.5" font-weight="bold" fill="#2A4A2A">② Agent 小循环（每个 Task）</text>
+  <rect x="70" y="190" width="140" height="56" rx="8" fill="#FFFFFF" stroke="#3A9A3A"/>
+  <text x="140" y="213" font-size="12" font-weight="bold" fill="#2A4A2A" text-anchor="middle">生码</text>
+  <text x="140" y="233" font-size="10" fill="#3A6A3A" text-anchor="middle">TS / ArkTS / 多端</text>
+  <path d="M212 218 L236 218" stroke="#3A9A3A" stroke-width="2.5" marker-end="url(#g)"/>
+  <rect x="240" y="190" width="140" height="56" rx="8" fill="#FFFFFF" stroke="#3A9A3A"/>
+  <text x="310" y="213" font-size="12" font-weight="bold" fill="#2A4A2A" text-anchor="middle">编译</text>
+  <text x="310" y="233" font-size="10" fill="#3A6A3A" text-anchor="middle">L0 门禁</text>
+  <path d="M382 218 L406 218" stroke="#3A9A3A" stroke-width="2.5" marker-end="url(#g)"/>
+  <rect x="410" y="190" width="140" height="56" rx="8" fill="#1F2A3A"/>
+  <text x="480" y="213" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Verify</text>
+  <text x="480" y="233" font-size="10" fill="#C9D3E0" text-anchor="middle">分层验证 · 出证据</text>
+  <path d="M552 218 L576 218" stroke="#3A9A3A" stroke-width="2.5" marker-end="url(#g)"/>
+  <rect x="580" y="190" width="140" height="56" rx="8" fill="#FFFFFF" stroke="#3A9A3A"/>
+  <text x="650" y="213" font-size="12" font-weight="bold" fill="#2A4A2A" text-anchor="middle">修复</text>
+  <text x="650" y="233" font-size="10" fill="#3A6A3A" text-anchor="middle">Agent 自纠错</text>
+  <path d="M650 248 C 650 262, 140 262, 140 250" stroke="#D9534F" stroke-width="1.8" fill="none" stroke-dasharray="5 3" marker-end="url(#r)"/>
+  <text x="400" y="276" font-size="10" fill="#9A2A28" text-anchor="middle">验证失败 → 带证据回到生码；通过 → 人看证据批准合并</text>
+
+  <!-- ③ Verify 分层 -->
+  <rect x="40" y="292" width="720" height="92" rx="10" fill="#EEF3FA" stroke="#3D6FB0" stroke-width="1.5"/>
+  <text x="58" y="316" font-size="12.5" font-weight="bold" fill="#1F3A5F">③ Verify 分层 · 小循环靠什么验证（小团队裁剪版，不建重型平台）</text>
+  <rect x="58" y="330" width="130" height="42" rx="6" fill="#3D6FB0"/>
+  <text x="123" y="348" font-size="10.5" font-weight="bold" fill="#FFF" text-anchor="middle">L0 编译门禁</text><text x="123" y="364" font-size="9.5" fill="#DDE6F3" text-anchor="middle">P1</text>
+  <rect x="196" y="330" width="130" height="42" rx="6" fill="#4A7CC0"/>
+  <text x="261" y="348" font-size="10.5" font-weight="bold" fill="#FFF" text-anchor="middle">L1 纯 TS 单测</text><text x="261" y="364" font-size="9.5" fill="#DDE6F3" text-anchor="middle">PC 秒跑 · P1</text>
+  <rect x="334" y="330" width="130" height="42" rx="6" fill="#7FA3D4"/>
+  <text x="399" y="348" font-size="10.5" font-weight="bold" fill="#FFF" text-anchor="middle">L2 半白盒</text><text x="399" y="364" font-size="9.5" fill="#F0F4FA" text-anchor="middle">mock / inspect · P2</text>
+  <rect x="472" y="330" width="130" height="42" rx="6" fill="#A9C3E4"/>
+  <text x="537" y="348" font-size="10.5" font-weight="bold" fill="#1F3A5F" text-anchor="middle">L3 UI 走查</text><text x="537" y="364" font-size="9.5" fill="#1F3A5F" text-anchor="middle">Catalog 化 · P2</text>
+  <rect x="610" y="330" width="130" height="42" rx="6" fill="#D4E1F2"/>
+  <text x="675" y="348" font-size="10.5" font-weight="bold" fill="#1F3A5F" text-anchor="middle">L4 需求级验收</text><text x="675" y="364" font-size="9.5" fill="#1F3A5F" text-anchor="middle">P3</text>
+
+  <!-- ④ 支撑与约束 -->
+  <rect x="40" y="396" width="720" height="150" rx="10" fill="#F3EEF9" stroke="#6D4A9C" stroke-width="1.5"/>
+  <text x="58" y="420" font-size="12.5" font-weight="bold" fill="#4A2A70">④ 小循环靠什么活、受什么约束</text>
+  <rect x="58" y="434" width="222" height="100" rx="8" fill="#FFFFFF" stroke="#9B7FC0"/>
+  <text x="169" y="456" font-size="11.5" font-weight="bold" fill="#4A2A70" text-anchor="middle">知识资产 → 喂给生码</text>
+  <text x="70" y="478" font-size="10.5" fill="#4A2A70">· 业务 Spec · 企业数据字典 · 技术 spec</text>
+  <text x="70" y="496" font-size="10.5" fill="#4A2A70">· Code Docs：决策理由 / 契约 / 踩坑</text>
+  <text x="70" y="514" font-size="10.5" fill="#4A2A70">· 资产随代码走，不沉淀的会丢（4.2）</text>
+  <rect x="290" y="434" width="222" height="100" rx="8" fill="#FFFFFF" stroke="#9B7FC0"/>
+  <text x="401" y="456" font-size="11.5" font-weight="bold" fill="#4A2A70" text-anchor="middle">模型分流 → 承载循环</text>
+  <text x="302" y="478" font-size="10.5" fill="#4A2A70">· 强模型做理解 / 规划 / 疑难</text>
+  <text x="302" y="496" font-size="10.5" fill="#4A2A70">· 弱模型做执行 / 修复 / 批量</text>
+  <text x="302" y="514" font-size="10.5" fill="#4A2A70">· MCP 接内部系统，不绑供应商</text>
+  <rect x="522" y="434" width="222" height="100" rx="8" fill="#FFFFFF" stroke="#D9534F"/>
+  <text x="633" y="456" font-size="11.5" font-weight="bold" fill="#9A2A28" text-anchor="middle">数据安全 → 约束循环</text>
+  <text x="534" y="478" font-size="10.5" fill="#9A2A28">· 上下文分级：非敏感 SaaS / 敏感私有化</text>
+  <text x="534" y="496" font-size="10.5" fill="#9A2A28">· 核心代码区 Agent 默认只读</text>
+  <text x="534" y="514" font-size="10.5" fill="#9A2A28">· 全程审计留痕</text>
+  <!-- 支撑指向循环的箭头 -->
+  <path d="M169 434 L169 400" stroke="#9B7FC0" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <path d="M401 434 L401 400" stroke="#9B7FC0" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <path d="M633 434 L633 400" stroke="#D9534F" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+  <!-- ⑤ 人 -->
+  <rect x="40" y="558" width="720" height="120" rx="10" fill="#FFF8E8" stroke="#E08020" stroke-width="2"/>
+  <text x="58" y="582" font-size="12.5" font-weight="bold" fill="#7A4000">⑤ 人 · 面向协议与知识库，不面向逐行代码</text>
+  <rect x="58" y="594" width="222" height="72" rx="8" fill="#FFFFFF" stroke="#E0B060"/>
+  <text x="169" y="614" font-size="11" font-weight="bold" fill="#7A4000" text-anchor="middle">做什么</text>
+  <text x="70" y="634" font-size="10" fill="#8A5A20">写 / 审 Spec · 定数据口径 · 派活</text>
+  <text x="70" y="652" font-size="10" fill="#8A5A20">看 Verify 证据 · 批准合并 / 发布</text>
+  <rect x="290" y="594" width="222" height="72" rx="8" fill="#FFFFFF" stroke="#E0B060"/>
+  <text x="401" y="614" font-size="11" font-weight="bold" fill="#7A4000" text-anchor="middle">不做什么</text>
+  <text x="302" y="634" font-size="10" fill="#8A5A20">不逐行写、不逐行读；合并 / 发布 /</text>
+  <text x="302" y="652" font-size="10" fill="#8A5A20">资金代码三件事不交给 AI</text>
+  <rect x="522" y="594" width="222" height="72" rx="8" fill="#FFFFFF" stroke="#E0B060"/>
+  <text x="633" y="614" font-size="11" font-weight="bold" fill="#7A4000" text-anchor="middle">熟悉度与不确定性</text>
+  <text x="534" y="634" font-size="10" fill="#8A5A20">本栈：熟悉度高，不确定性低</text>
+  <text x="534" y="652" font-size="10" fill="#8A5A20">跨栈（5.1）：熟悉度弱 → 要求体系更成熟</text>
+
+  <!-- 右侧佐证 -->
+  <rect x="780" y="76" width="260" height="602" rx="10" fill="#FFF8E8" stroke="#E0B060" stroke-width="1.5"/>
+  <text x="910" y="102" font-size="12.5" font-weight="bold" fill="#7A4000" text-anchor="middle">实测佐证（亿级 DAU 客户端）</text>
+  <line x1="796" y1="112" x2="1024" y2="112" stroke="#F0D8B0"/>
+
+  <text x="796" y="140" font-size="11" font-weight="bold" fill="#7A4000">① 高可测模块：AI 单测质量可超人均</text>
+  <text x="796" y="160" font-size="10.5" fill="#8A5A20">契约清晰、逻辑纯函数化的模块，</text>
+  <text x="796" y="176" font-size="10.5" fill="#8A5A20">AI 生成的单测覆盖和边界用例优于人均</text>
+  <text x="796" y="198" font-size="10" fill="#B85552">→ 佐证 ③：L1 纯 TS 单测是最先兑现的红利</text>
+
+  <text x="796" y="236" font-size="11" font-weight="bold" fill="#7A4000">② 坏味道模块：AI 只会照抄坏模式</text>
+  <text x="796" y="256" font-size="10.5" fill="#8A5A20">耦合重、无契约的模块，AI 生码照搬</text>
+  <text x="796" y="272" font-size="10.5" fill="#8A5A20">已有写法，单测写成"假测试"</text>
+  <text x="796" y="294" font-size="10" fill="#B85552">→ 佐证 ④：知识资产与架构约束先于生码</text>
+
+  <text x="796" y="332" font-size="11" font-weight="bold" fill="#7A4000">③ 能有效验收 AI 代码的人仅 10%–20%</text>
+  <text x="796" y="352" font-size="10.5" fill="#8A5A20">大多数人看不出 AI 代码的隐性问题，</text>
+  <text x="796" y="368" font-size="10.5" fill="#8A5A20">要靠证据报告，不能靠肉眼</text>
+  <text x="796" y="390" font-size="10" fill="#B85552">→ 佐证 ⑤：人看证据批准，Review 准入不授权</text>
+
+  <text x="796" y="428" font-size="11" font-weight="bold" fill="#7A4000">④ 渗透率 60% 时完整采纳仅 50%</text>
+  <text x="796" y="448" font-size="10.5" fill="#8A5A20">"用过"和"真采纳"差一倍，</text>
+  <text x="796" y="464" font-size="10.5" fill="#8A5A20">单看生码率会严重高估收益</text>
+  <text x="796" y="486" font-size="10" fill="#B85552">→ 佐证度量：渗透率与采纳率分开记</text>
+
+  <text x="796" y="524" font-size="11" font-weight="bold" fill="#7A4000">⑤ 重度使用单人日 Token 可达千万级</text>
+  <text x="796" y="544" font-size="10.5" fill="#8A5A20">不分流成本不可控</text>
+  <text x="796" y="566" font-size="10" fill="#B85552">→ 佐证 ④：模型强弱分流是必选项</text>
+
+  <rect x="796" y="596" width="228" height="66" rx="8" fill="#E08020"/>
+  <text x="910" y="622" font-size="11.5" font-weight="bold" fill="#FFF" text-anchor="middle">先有架构约束</text>
+  <text x="910" y="642" font-size="11.5" font-weight="bold" fill="#FFF" text-anchor="middle">后有 AI 单测红利，顺序不能反</text>
+
+  <rect x="40" y="692" width="1000" height="40" rx="8" fill="#F5F7FA" stroke="#9AA7B8"/>
+  <text x="540" y="717" font-size="11" fill="#4A5A6A" text-anchor="middle">大循环：需求任务编排 ｜ 外循环：合入 / 灰度后的经验、规则、Skill 持续回流知识资产（4.2 联动准入）</text>
+
+  <defs>
+    <marker id="g" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#3A9A3A"/></marker>
+    <marker id="r" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#D9534F"/></marker>
+  </defs>
+</svg>
+<figcaption>AICoding工程体系</figcaption></figure>
+
+<ul>
+<li><strong>① SDD 默认流</strong>：Specify→Plan→Tasks→Implement→Converge；Spec 是人机共同的唯一事实源，每个 Task 进入小循环。</li>
+<li><strong>② Agent 小循环</strong>：生码→编译→Verify→修复；验证失败带证据回到生码，通过则人看证据批准合并。</li>
+<li><strong>③ Verify 分层</strong>：L0 门禁（P1）→ L1 纯 TS 单测 PC 秒跑（P1）→ L2 半白盒（P2）→ L3 Catalog 化 UI 走查（P2）→ L4 需求级验收（P3）；不建重型平台。</li>
+<li><strong>④ 小循环靠什么活、受什么约束</strong>：知识资产（业务 Spec、数据字典、技术 spec、Code Docs）喂给生码；模型分流（强模型理解/规划、弱模型执行/修复、MCP 不绑供应商）承载循环；数据安全（上下文分级、核心区只读、全程审计）约束循环。</li>
+<li><strong>⑤ 人的角色</strong>：写/审 Spec、定数据口径、派活、看 Verify 证据、批准合并与发布；不逐行写、不逐行读；合并、发布、资金代码三件事不交给 AI。在本栈上人的熟悉度高、不确定性低；跨栈时（5.1）熟悉度弱、不确定性更强，因此对这套体系的成熟度要求更高——这是 AICoding 必须先行半步的原因。</li>
+<li><strong>实测佐证</strong>：高可测模块 AI 单测质量可超人均，坏味道模块 AI 只会照抄坏模式——先有架构约束后有 AI 单测红利；能有效验收 AI 代码的人仅 10%–20%；渗透率 60% 时完整采纳仅 50%，渗透率与采纳率必须分开记。</li>
+</ul>
+<h3 id="s4-2">4.2 难点与应对</h3>
+<p><strong>结论：生码和 Verify 已经相对标准化，真难点在业务知识库——它对不对没人能肉眼判断、长会话会污染它、代码变了它不会自己跟。三件事共用一套评测体系解决。</strong></p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="38" font-size="19" font-weight="bold" fill="#1F2A3A">AICoding 的真难点不在 Verify，在业务知识库</text>
+  <text x="40" y="60" font-size="11" fill="#6B7A8C">生码与 Verify 已相对标准化；知识库对不对、上下文会不会污染、代码变了知识库怎么跟——这三件事没有现成答案</text>
+
+  <!-- 三张难点卡 -->
+  <rect x="40" y="80" width="326" height="250" rx="10" fill="#FDEDED" stroke="#D9534F" stroke-width="1.5"/>
+  <text x="56" y="108" font-size="13" font-weight="bold" fill="#9A2A28">① 业务知识库怎么证明是对的</text>
+  <text x="56" y="132" font-size="10.5" fill="#B85552">难点</text>
+  <text x="56" y="152" font-size="11" fill="#9A2A28">Spec / 数据字典 / Code Docs 写得对不对，</text>
+  <text x="56" y="170" font-size="11" fill="#9A2A28">没人能肉眼判断；错了 AI 会自信地错下去</text>
+  <line x1="56" y1="184" x2="350" y2="184" stroke="#F0C8C8"/>
+  <text x="56" y="206" font-size="10.5" fill="#B85552">应对：知识库评测体系</text>
+  <text x="56" y="226" font-size="11" fill="#9A2A28">· 从历史需求抽样建 Golden 任务集</text>
+  <text x="56" y="246" font-size="11" fill="#9A2A28">· 定期重跑：一次通过率 / 人工改动量 /</text>
+  <text x="56" y="264" font-size="11" fill="#9A2A28">  Verify 通过率，分模块出分</text>
+  <text x="56" y="284" font-size="11" fill="#9A2A28">· 知识库每次变更前后对比，掉分即回退</text>
+  <text x="56" y="304" font-size="11" fill="#9A2A28">· 分数进度量，不看生码率</text>
+
+  <rect x="377" y="80" width="326" height="250" rx="10" fill="#FFF8E8" stroke="#E08020" stroke-width="1.5"/>
+  <text x="393" y="108" font-size="13" font-weight="bold" fill="#7A4000">② 长会话降质与上下文污染</text>
+  <text x="393" y="132" font-size="10.5" fill="#A07430">难点</text>
+  <text x="393" y="152" font-size="11" fill="#7A4000">一次塞 10 个 ticket 上下文就爆；干扰项越多</text>
+  <text x="393" y="170" font-size="11" fill="#7A4000">注意力越散；任务拆多细、何时开新窗口没标准</text>
+  <line x1="393" y1="184" x2="687" y2="184" stroke="#F0D8B0"/>
+  <text x="393" y="206" font-size="10.5" fill="#A07430">应对：用评测跑出边界，再定规则</text>
+  <text x="393" y="226" font-size="11" fill="#7A4000">· 用 Golden 任务集压测：N 个任务 / 多长上下文</text>
+  <text x="393" y="244" font-size="11" fill="#7A4000">  开始掉分，拿到自家边界值</text>
+  <text x="393" y="264" font-size="11" fill="#7A4000">· 规则化：单任务上下文预算、超预算新会话 +</text>
+  <text x="393" y="282" font-size="11" fill="#7A4000">  摘要交接、拆解粒度按预算反推</text>
+  <text x="393" y="304" font-size="11" fill="#7A4000">· 注意力治理：只喂相关 Spec / 字典片段，上下文分级</text>
+
+  <rect x="714" y="80" width="326" height="250" rx="10" fill="#F3EEF9" stroke="#6D4A9C" stroke-width="1.5"/>
+  <text x="730" y="108" font-size="13" font-weight="bold" fill="#4A2A70">③ 代码变了，知识库怎么跟着变</text>
+  <text x="730" y="132" font-size="10.5" fill="#7A5A9A">难点</text>
+  <text x="730" y="152" font-size="11" fill="#4A2A70">代码合了知识库没更新，下一次生成就是</text>
+  <text x="730" y="170" font-size="11" fill="#4A2A70">盲人摸象；没有标准说"这次可以合"</text>
+  <line x1="730" y1="184" x2="1024" y2="184" stroke="#D8C8E8"/>
+  <text x="730" y="206" font-size="10.5" fill="#7A5A9A">应对：代码 + 知识库联动准入</text>
+  <text x="730" y="226" font-size="11" fill="#4A2A70">· 代码与知识库变更同一分支、同一 PR</text>
+  <text x="730" y="246" font-size="11" fill="#4A2A70">· 合并前起工作流，用更新后的知识库</text>
+  <text x="730" y="264" font-size="11" fill="#4A2A70">  重跑本需求 + 相关 Golden 任务</text>
+  <text x="730" y="284" font-size="11" fill="#4A2A70">· 通过标准：Verify 全绿 + 评测不掉分</text>
+  <text x="730" y="304" font-size="11" fill="#4A2A70">· 不过不合，知识库和代码一起打回</text>
+
+  <!-- 准入流程 -->
+  <text x="40" y="366" font-size="13" font-weight="bold" fill="#1F2A3A">联动准入流程（P2 起作为合并门禁）</text>
+  <rect x="40" y="380" width="150" height="70" rx="8" fill="#FFFFFF" stroke="#9AA7B8"/>
+  <text x="115" y="408" font-size="11.5" font-weight="bold" fill="#1F2A3A" text-anchor="middle">代码 + 知识库</text>
+  <text x="115" y="428" font-size="10.5" fill="#4A5A6A" text-anchor="middle">同一分支变更</text>
+  <path d="M190 415 L212 415" stroke="#9AA7B8" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="216" y="380" width="150" height="70" rx="8" fill="#FFFFFF" stroke="#9AA7B8"/>
+  <text x="291" y="408" font-size="11.5" font-weight="bold" fill="#1F2A3A" text-anchor="middle">起准入工作流</text>
+  <text x="291" y="428" font-size="10.5" fill="#4A5A6A" text-anchor="middle">自动触发</text>
+  <path d="M366 415 L388 415" stroke="#9AA7B8" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="392" y="380" width="190" height="70" rx="8" fill="#FFFFFF" stroke="#9AA7B8"/>
+  <text x="487" y="408" font-size="11.5" font-weight="bold" fill="#1F2A3A" text-anchor="middle">用新知识库重跑</text>
+  <text x="487" y="428" font-size="10.5" fill="#4A5A6A" text-anchor="middle">本需求 + 相关 Golden 任务</text>
+  <path d="M582 415 L604 415" stroke="#9AA7B8" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="608" y="380" width="170" height="70" rx="8" fill="#FFFFFF" stroke="#9AA7B8"/>
+  <text x="693" y="408" font-size="11.5" font-weight="bold" fill="#1F2A3A" text-anchor="middle">判定</text>
+  <text x="693" y="428" font-size="10.5" fill="#4A5A6A" text-anchor="middle">Verify 全绿 且 评测不掉分</text>
+  <path d="M778 400 L808 386" stroke="#3A9A3A" stroke-width="2" marker-end="url(#g)"/>
+  <path d="M778 430 L808 444" stroke="#D9534F" stroke-width="2" marker-end="url(#r)"/>
+  <rect x="812" y="366" width="228" height="40" rx="8" fill="#EEF7EE" stroke="#3A9A3A"/>
+  <text x="926" y="391" font-size="11.5" font-weight="bold" fill="#2A4A2A" text-anchor="middle">通过 → 代码与知识库一起合并</text>
+  <rect x="812" y="424" width="228" height="40" rx="8" fill="#FDEDED" stroke="#D9534F"/>
+  <text x="926" y="449" font-size="11.5" font-weight="bold" fill="#9A2A28" text-anchor="middle">不过 → 一起打回，修知识库或拆任务</text>
+
+  <rect x="40" y="480" width="1000" height="60" rx="8" fill="#1F2A3A"/>
+  <text x="60" y="505" font-size="12" font-weight="bold" fill="#FFF">三件事共用一套评测体系：Golden 任务集既测知识库对不对，也测上下文边界在哪，也当合并门禁</text>
+  <text x="60" y="526" font-size="11" fill="#C9D3E0">P1 建任务集拿基线 · P2 作为合并门禁与边界压测常态化 · 分数进度量面板，与渗透率 / 采纳率并列</text>
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9AA7B8"/></marker>
+    <marker id="g" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#3A9A3A"/></marker>
+    <marker id="r" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#D9534F"/></marker>
+  </defs>
+</svg>
+<figcaption>AICoding难点与应对</figcaption></figure>
+
+<ul>
+<li><strong>知识库怎么证明是对的</strong>：从历史需求抽样建 Golden 任务集，定期重跑，按一次通过率、人工改动量、Verify 通过率分模块出分；知识库每次变更前后对比，掉分即回退。分数进度量面板，和渗透率、采纳率并列。</li>
+<li><strong>长会话降质与上下文污染</strong>：一次塞 10 个 ticket 上下文就爆，干扰项越多注意力越散，任务拆多细、何时开新窗口目前没标准。用 Golden 任务集压测出自家边界值（多少任务、多长上下文开始掉分），再规则化：单任务上下文预算、超预算即新会话加摘要交接、拆解粒度按预算反推；注意力治理——只喂相关的 Spec 和数据字典片段，上下文分级。</li>
+<li><strong>代码变了，知识库怎么跟着变</strong>：代码合了知识库没更新，下一次生成就是盲人摸象。做联动准入：代码与知识库变更走同一分支同一 PR，合并前起工作流，用更新后的知识库重跑本需求和相关 Golden 任务；Verify 全绿且评测不掉分才合，不过则代码和知识库一起打回。P2 起作为合并门禁。</li>
+</ul>
+<hr />
+<h2 id="s5">5. 范式二 · 全栈跨端：一人三端（P2 主战）</h2>
+<h3 id="s5-1">5.1 方案</h3>
+<p><strong>结论：一个人面向 AI Coding 体系做三端，不面向三套技术栈。人管需求、方案与 Loop 校验，AI 在同向的分栈知识库上多端生成，三端共用 Verify。</strong></p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 640" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="38" font-size="19" font-weight="bold" fill="#1F2A3A">一人三端的工作模型：人面向 AI Coding 体系，不面向三套技术栈</text>
+  <text x="40" y="60" font-size="11" fill="#6B7A8C">自下而上：人 → AI Coding 体系 → 分栈知识库 → 三端产出；Verify 证据回到人做 Loop 校验</text>
+
+  <rect x="40" y="78" width="880" height="118" rx="10" fill="#EEF7EE" stroke="#3A9A3A" stroke-width="1.5"/>
+  <text x="58" y="104" font-size="13" font-weight="bold" fill="#2A4A2A">④ 三端产出 · 同一需求同节拍交付</text>
+  <rect x="58" y="116" width="200" height="66" rx="8" fill="#FFFFFF" stroke="#3A9A3A"/>
+  <text x="158" y="140" font-size="11.5" font-weight="bold" fill="#2A4A2A" text-anchor="middle">iOS</text>
+  <text x="158" y="160" font-size="10.5" fill="#3A6A3A" text-anchor="middle">原生壳 + RN 页面</text>
+  <text x="158" y="176" font-size="10.5" fill="#3A6A3A" text-anchor="middle">逻辑层纯 TS 共享</text>
+  <rect x="272" y="116" width="200" height="66" rx="8" fill="#FFFFFF" stroke="#3A9A3A"/>
+  <text x="372" y="140" font-size="11.5" font-weight="bold" fill="#2A4A2A" text-anchor="middle">Android</text>
+  <text x="372" y="160" font-size="10.5" fill="#3A6A3A" text-anchor="middle">原生壳 + RN 页面</text>
+  <text x="372" y="176" font-size="10.5" fill="#3A6A3A" text-anchor="middle">逻辑层纯 TS 共享</text>
+  <rect x="486" y="116" width="200" height="66" rx="8" fill="#FFFFFF" stroke="#3A9A3A"/>
+  <text x="586" y="140" font-size="11.5" font-weight="bold" fill="#2A4A2A" text-anchor="middle">鸿蒙</text>
+  <text x="586" y="160" font-size="10.5" fill="#3A6A3A" text-anchor="middle">RNOH + AI 生成 ArkTS 补缺口</text>
+  <text x="586" y="176" font-size="10.5" fill="#3A6A3A" text-anchor="middle">逻辑层纯 TS 共享</text>
+  <rect x="700" y="116" width="204" height="66" rx="8" fill="#1F2A3A"/>
+  <text x="802" y="140" font-size="11.5" font-weight="bold" fill="#FFFFFF" text-anchor="middle">三端共用 Verify</text>
+  <text x="802" y="160" font-size="10.5" fill="#C9D3E0" text-anchor="middle">L0 门禁 · L1 纯 TS 单测</text>
+  <text x="802" y="176" font-size="10.5" fill="#C9D3E0" text-anchor="middle">输出证据报告，不输出"感觉"</text>
+
+  <rect x="40" y="222" width="880" height="134" rx="10" fill="#EEF3FA" stroke="#3D6FB0" stroke-width="1.5"/>
+  <text x="58" y="248" font-size="13" font-weight="bold" fill="#1F3A5F">③ 分栈知识库与架构现状 · 三份，但同向（5.2 治理）</text>
+  <rect x="58" y="260" width="846" height="30" rx="6" fill="#1F2A3A"/>
+  <text x="481" y="280" font-size="11" font-weight="bold" fill="#FFFFFF" text-anchor="middle">三端共用：业务 Spec · 企业数据字典 · 架构基线（组件化 / 分层 / 复用粒度 / 依赖方向）</text>
+  <rect x="58" y="298" width="272" height="48" rx="8" fill="#FFFFFF" stroke="#7FA3D4"/>
+  <text x="194" y="318" font-size="11" font-weight="bold" fill="#1F3A5F" text-anchor="middle">iOS 知识库</text>
+  <text x="194" y="336" font-size="10" fill="#4A5A6A" text-anchor="middle">技术 spec · 组件清单 · Code Docs · 现状</text>
+  <rect x="345" y="298" width="272" height="48" rx="8" fill="#FFFFFF" stroke="#7FA3D4"/>
+  <text x="481" y="318" font-size="11" font-weight="bold" fill="#1F3A5F" text-anchor="middle">Android 知识库</text>
+  <text x="481" y="336" font-size="10" fill="#4A5A6A" text-anchor="middle">技术 spec · 组件清单 · Code Docs · 现状</text>
+  <rect x="632" y="298" width="272" height="48" rx="8" fill="#FFFFFF" stroke="#7FA3D4"/>
+  <text x="768" y="318" font-size="11" font-weight="bold" fill="#1F3A5F" text-anchor="middle">鸿蒙知识库</text>
+  <text x="768" y="336" font-size="10" fill="#4A5A6A" text-anchor="middle">技术 spec · 组件清单 · Code Docs · 能力缺口</text>
+
+  <rect x="40" y="382" width="880" height="100" rx="10" fill="#F3EEF9" stroke="#6D4A9C" stroke-width="1.5"/>
+  <text x="58" y="408" font-size="13" font-weight="bold" fill="#4A2A70">② AI Coding 体系 · §4 已建，人只和这一层打交道</text>
+  <rect x="58" y="420" width="200" height="50" rx="8" fill="#FFFFFF" stroke="#9B7FC0"/>
+  <text x="158" y="441" font-size="11" font-weight="bold" fill="#4A2A70" text-anchor="middle">SDD 流程</text>
+  <text x="158" y="459" font-size="10" fill="#6A4A8A" text-anchor="middle">Spec → Plan → Tasks → 生成</text>
+  <rect x="272" y="420" width="200" height="50" rx="8" fill="#FFFFFF" stroke="#9B7FC0"/>
+  <text x="372" y="441" font-size="11" font-weight="bold" fill="#4A2A70" text-anchor="middle">AI 多端生成</text>
+  <text x="372" y="459" font-size="10" fill="#6A4A8A" text-anchor="middle">一份 Spec，读各栈知识库出三端</text>
+  <rect x="486" y="420" width="200" height="50" rx="8" fill="#FFFFFF" stroke="#9B7FC0"/>
+  <text x="586" y="441" font-size="11" font-weight="bold" fill="#4A2A70" text-anchor="middle">Verify 闭环</text>
+  <text x="586" y="459" font-size="10" fill="#6A4A8A" text-anchor="middle">生成 → 编译 → 验证 → 修复</text>
+  <rect x="700" y="420" width="204" height="50" rx="8" fill="#FFFFFF" stroke="#9B7FC0"/>
+  <text x="802" y="441" font-size="11" font-weight="bold" fill="#4A2A70" text-anchor="middle">评测与联动准入</text>
+  <text x="802" y="459" font-size="10" fill="#6A4A8A" text-anchor="middle">Golden 任务集 · 代码+知识库同合</text>
+
+  <rect x="40" y="508" width="880" height="110" rx="10" fill="#FFF8E8" stroke="#E08020" stroke-width="2"/>
+  <text x="58" y="534" font-size="13" font-weight="bold" fill="#7A4000">① 人 · 一个人，不必精通三端技术栈</text>
+  <rect x="58" y="546" width="272" height="62" rx="8" fill="#FFFFFF" stroke="#E0B060"/>
+  <text x="194" y="566" font-size="11" font-weight="bold" fill="#7A4000" text-anchor="middle">面向什么</text>
+  <text x="194" y="584" font-size="10" fill="#8A5A20" text-anchor="middle">需求 · 技术方案 · 架构现状与基线</text>
+  <text x="194" y="600" font-size="10" fill="#8A5A20" text-anchor="middle">不面向具体技术栈，边做边补</text>
+  <rect x="345" y="546" width="272" height="62" rx="8" fill="#FFFFFF" stroke="#E0B060"/>
+  <text x="481" y="566" font-size="11" font-weight="bold" fill="#7A4000" text-anchor="middle">做什么</text>
+  <text x="481" y="584" font-size="10" fill="#8A5A20" text-anchor="middle">写 / 审 Spec · 派活 · 看 Verify 证据</text>
+  <text x="481" y="600" font-size="10" fill="#8A5A20" text-anchor="middle">查方案是否符合基线 · 批准合并</text>
+  <rect x="632" y="546" width="272" height="62" rx="8" fill="#FFFFFF" stroke="#E0B060"/>
+  <text x="768" y="566" font-size="11" font-weight="bold" fill="#7A4000" text-anchor="middle">不做什么</text>
+  <text x="768" y="584" font-size="10" fill="#8A5A20" text-anchor="middle">不手写三端代码 · 不逐行读 ArkTS</text>
+  <text x="768" y="600" font-size="10" fill="#8A5A20" text-anchor="middle">不要求全员学三栈（成本不可承受）</text>
+
+  <polygon points="22,500 30,488 38,500" fill="#9AA7B8"/><line x1="30" y1="500" x2="30" y2="506" stroke="#9AA7B8" stroke-width="2"/>
+  <polygon points="22,374 30,362 38,374" fill="#9AA7B8"/><line x1="30" y1="374" x2="30" y2="380" stroke="#9AA7B8" stroke-width="2"/>
+  <polygon points="22,214 30,202 38,214" fill="#9AA7B8"/><line x1="30" y1="214" x2="30" y2="220" stroke="#9AA7B8" stroke-width="2"/>
+
+  <rect x="940" y="78" width="100" height="540" rx="10" fill="#F5F7FA" stroke="#9AA7B8"/>
+  <path d="M990 200 L990 500" stroke="#E08020" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#dn)"/>
+  <text x="990" y="120" font-size="11" font-weight="bold" fill="#7A4000" text-anchor="middle">Loop 校验</text>
+  <text x="990" y="140" font-size="10" fill="#8A5A20" text-anchor="middle">Verify 证据</text>
+  <text x="990" y="156" font-size="10" fill="#8A5A20" text-anchor="middle">+ 方案</text>
+  <text x="990" y="172" font-size="10" fill="#8A5A20" text-anchor="middle">回到人</text>
+  <text x="990" y="540" font-size="10" fill="#8A5A20" text-anchor="middle">校验成本</text>
+  <text x="990" y="556" font-size="10" fill="#8A5A20" text-anchor="middle">取决于三端</text>
+  <text x="990" y="572" font-size="10" fill="#8A5A20" text-anchor="middle">架构是否同向</text>
+  <text x="990" y="592" font-size="10" font-weight="bold" fill="#9A2A28" text-anchor="middle">→ 5.2</text>
+
+  <defs>
+    <marker id="up" markerWidth="8" markerHeight="8" refX="4" refY="2" orient="auto"><path d="M0,8 L4,0 L8,8 z" fill="#9AA7B8"/></marker>
+    <marker id="dn" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#E08020"/></marker>
+  </defs>
+</svg>
+<figcaption>一人三端工作模型</figcaption></figure>
+
+<ul>
+<li><strong>① 人</strong>：一个人不必精通 iOS/Android/鸿蒙三套栈。面向需求、技术方案、架构现状与基线，不面向具体技术栈，边做边补。做的是写/审 Spec、派活、看 Verify 证据、查方案是否符合架构基线、批准合并；不手写三端代码、不逐行读 ArkTS。不要求全员学三栈——那个成本不可承受。</li>
+<li><strong>② AI Coding 体系</strong>：§4 已建的 SDD 流程、AI 多端生成、Verify 闭环、评测与联动准入。人只和这一层打交道，这是一人三端成立的前提。人的角色和 4.1 相同，区别是跨栈时人对目标栈架构的熟悉度更弱、不确定性更强，所以这里对 §4 体系的成熟度要求比本栈更高——AICoding 先行半步、跨端 P2 才主战，顺序由此而来。</li>
+<li><strong>③ 分栈知识库与架构现状</strong>：业务 Spec、企业数据字典、架构基线三端共用；各端技术 spec、组件清单、Code Docs、现状分栈维护。三份知识库必须同向（5.2），否则 AI 读到的是三种架构。</li>
+<li><strong>④ 三端产出</strong>：原生为壳、RN 主战、逻辑层纯 TS 三端共享；鸿蒙走 RNOH，缺口由 AI 生成 ArkTS 补齐；三端共用 Verify，输出证据报告回到人做 Loop 校验。</li>
+<li><strong>需求准入</strong>：PRD 清晰、逻辑内聚、UI 简单、单端 &lt;5pd 才走一人三端；关系图谱、扫码、支付、推送、极端长列表为原生保留地。</li>
+<li><strong>人守什么</strong>：选型与退路决策、架构基线的升级裁决。</li>
+</ul>
+<h3 id="s5-2">5.2 难点与应对</h3>
+<p><strong>结论：一人三端有两种"不会"——人不熟其他技术栈，这个 §4 的体系已经解决，不是难点；真难点是同一个需求在三端架构上天然分叉，分叉越厚 Loop 越慢，必须做同向治理。</strong></p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="38" font-size="19" font-weight="bold" fill="#1F2A3A">三端架构同向治理：分叉越厚，Loop 越慢</text>
+  <text x="40" y="60" font-size="11" fill="#6B7A8C">鸿蒙与 iOS / Android 在广义架构上保持一致，人和 AI 看到的才是同一套知识库</text>
+
+  <!-- 左：分叉 -->
+  <rect x="40" y="80" width="490" height="230" rx="10" fill="#FDEDED" stroke="#D9534F" stroke-width="1.5"/>
+  <text x="60" y="108" font-size="13.5" font-weight="bold" fill="#9A2A28">不治理：三端各走各的</text>
+  <!-- 分叉线 -->
+  <path d="M80 150 L180 150" stroke="#9A2A28" stroke-width="3"/>
+  <path d="M180 150 C 230 150, 240 118, 300 112 L 380 108" stroke="#9A2A28" stroke-width="3" fill="none"/>
+  <path d="M180 150 L 380 150" stroke="#9A2A28" stroke-width="3"/>
+  <path d="M180 150 C 230 150, 240 182, 300 188 L 380 192" stroke="#9A2A28" stroke-width="3" fill="none"/>
+  <text x="388" y="112" font-size="11" fill="#9A2A28">iOS 架构</text>
+  <text x="388" y="154" font-size="11" fill="#9A2A28">Android 架构</text>
+  <text x="388" y="196" font-size="11" fill="#9A2A28">鸿蒙架构</text>
+  <text x="80" y="138" font-size="10.5" fill="#B85552">同一需求</text>
+  <text x="60" y="230" font-size="11" fill="#9A2A28">→ 知识库变三份，组件/分层/复用粒度各不相同</text>
+  <text x="60" y="252" font-size="11" fill="#9A2A28">→ AI 生成方案三端不可预期，Verify 能做但跑得慢</text>
+  <text x="60" y="274" font-size="11" fill="#9A2A28">→ 人看方案理解成本高，校验成本高</text>
+  <text x="60" y="296" font-size="11" font-weight="bold" fill="#9A2A28">→ 分叉越走越厚，技术债累积，Loop 速度逐步劣化</text>
+
+  <!-- 右：同向 -->
+  <rect x="550" y="80" width="490" height="230" rx="10" fill="#EEF7EE" stroke="#3A9A3A" stroke-width="1.5"/>
+  <text x="570" y="108" font-size="13.5" font-weight="bold" fill="#2A4A2A">同向治理：一套架构基线，三端落位</text>
+  <path d="M590 150 L690 150" stroke="#2A4A2A" stroke-width="3"/>
+  <rect x="690" y="118" width="200" height="64" rx="8" fill="#FFFFFF" stroke="#3A9A3A" stroke-width="1.5"/>
+  <text x="790" y="144" font-size="11.5" font-weight="bold" fill="#2A4A2A" text-anchor="middle">同一架构基线</text>
+  <text x="790" y="164" font-size="10.5" fill="#3A6A3A" text-anchor="middle">组件化 · 分层 · 复用粒度 · 依赖方向</text>
+  <path d="M890 132 L930 132" stroke="#2A4A2A" stroke-width="2"/><text x="936" y="136" font-size="10.5" fill="#2A4A2A">iOS</text>
+  <path d="M890 150 L930 150" stroke="#2A4A2A" stroke-width="2"/><text x="936" y="154" font-size="10.5" fill="#2A4A2A">Android</text>
+  <path d="M890 168 L930 168" stroke="#2A4A2A" stroke-width="2"/><text x="936" y="172" font-size="10.5" fill="#2A4A2A">鸿蒙</text>
+  <text x="990" y="154" font-size="10" fill="#6B7A8C">差异只在</text>
+  <text x="990" y="168" font-size="10" fill="#6B7A8C">适配层</text>
+  <text x="590" y="138" font-size="10.5" fill="#3A6A3A">同一需求</text>
+  <text x="570" y="230" font-size="11" fill="#2A4A2A">→ 知识库一份：Spec、数据字典、Code Docs 三端同构</text>
+  <text x="570" y="252" font-size="11" fill="#2A4A2A">→ AI 生成方案可预期，三端共用 Verify 跑得快</text>
+  <text x="570" y="274" font-size="11" fill="#2A4A2A">→ 人校验的是同一种结构，理解成本低</text>
+  <text x="570" y="296" font-size="11" font-weight="bold" fill="#2A4A2A">→ Loop 不劣化，迭代速度随知识库积累变快</text>
+
+  <!-- 对齐维度 -->
+  <text x="40" y="346" font-size="13" font-weight="bold" fill="#1F2A3A">对齐什么（广义一致，不求代码一致）</text>
+  <rect x="40" y="358" width="192" height="60" rx="8" fill="#EEF3FA" stroke="#7FA3D4"/>
+  <text x="136" y="382" font-size="11.5" font-weight="bold" fill="#1F3A5F" text-anchor="middle">组件化方式</text>
+  <text x="136" y="402" font-size="10.5" fill="#4A5A6A" text-anchor="middle">有哪些组件、组件清单一致</text>
+  <rect x="242" y="358" width="192" height="60" rx="8" fill="#EEF3FA" stroke="#7FA3D4"/>
+  <text x="338" y="382" font-size="11.5" font-weight="bold" fill="#1F3A5F" text-anchor="middle">分层边界</text>
+  <text x="338" y="402" font-size="10.5" fill="#4A5A6A" text-anchor="middle">UI / 逻辑 / 数据 同一划法</text>
+  <rect x="444" y="358" width="192" height="60" rx="8" fill="#EEF3FA" stroke="#7FA3D4"/>
+  <text x="540" y="382" font-size="11.5" font-weight="bold" fill="#1F3A5F" text-anchor="middle">业务组件复用</text>
+  <text x="540" y="402" font-size="10.5" fill="#4A5A6A" text-anchor="middle">复用的维度与粒度一致</text>
+  <rect x="646" y="358" width="192" height="60" rx="8" fill="#EEF3FA" stroke="#7FA3D4"/>
+  <text x="742" y="382" font-size="11.5" font-weight="bold" fill="#1F3A5F" text-anchor="middle">目录 · 命名 · 依赖方向</text>
+  <text x="742" y="402" font-size="10.5" fill="#4A5A6A" text-anchor="middle">AI 和人按同一张地图找东西</text>
+  <rect x="848" y="358" width="192" height="60" rx="8" fill="#EEF3FA" stroke="#7FA3D4"/>
+  <text x="944" y="382" font-size="11.5" font-weight="bold" fill="#1F3A5F" text-anchor="middle">契约与数据口径</text>
+  <text x="944" y="402" font-size="10.5" fill="#4A5A6A" text-anchor="middle">共用 Spec 与数据字典</text>
+
+  <!-- 治理机制 -->
+  <text x="40" y="452" font-size="13" font-weight="bold" fill="#1F2A3A">怎么治理（P1 立基线，P2 起门禁）</text>
+  <rect x="40" y="464" width="326" height="76" rx="8" fill="#F3EEF9" stroke="#9B7FC0"/>
+  <text x="56" y="488" font-size="11.5" font-weight="bold" fill="#4A2A70">① 架构基线进知识库</text>
+  <text x="56" y="508" font-size="10.5" fill="#4A2A70">分层/组件/复用规则写成 Code Docs，</text>
+  <text x="56" y="526" font-size="10.5" fill="#4A2A70">作为 AI 生成和人 Review 的共同依据</text>
+  <rect x="377" y="464" width="326" height="76" rx="8" fill="#F3EEF9" stroke="#9B7FC0"/>
+  <text x="393" y="488" font-size="11.5" font-weight="bold" fill="#4A2A70">② 一致性进 L0 门禁</text>
+  <text x="393" y="508" font-size="10.5" fill="#4A2A70">分层越界、依赖方向、目录落位自动检查，</text>
+  <text x="393" y="526" font-size="10.5" fill="#4A2A70">AI 双生成的鸿蒙代码必须按同一架构落位</text>
+  <rect x="714" y="464" width="326" height="76" rx="8" fill="#F3EEF9" stroke="#9B7FC0"/>
+  <text x="730" y="488" font-size="11.5" font-weight="bold" fill="#4A2A70">③ 每阶段一次漂移 Review</text>
+  <text x="730" y="508" font-size="10.5" fill="#4A2A70">盘点三端偏离基线的点，决定收敛还是</text>
+  <text x="730" y="526" font-size="10.5" fill="#4A2A70">升级基线；不允许差异静默累积</text>
+</svg>
+<figcaption>三端架构同向治理</figcaption></figure>
+
+<ul>
+<li><strong>第一种：人不熟其他栈</strong>——不是难点。人面向 AI Coding 体系和架构基线工作，技术栈细节由分栈知识库供给 AI；人校验的是方案与 Verify 证据，不是逐行代码。前提是 §4 的知识库评测和联动准入跑通，否则人就在盲校。</li>
+<li><strong>第二种：架构分叉</strong>——真难点。鸿蒙与 iOS/Android 各自演进，知识库变三份、组件/分层/复用粒度各不相同：AI 生成的方案三端不可预期，Verify 能做但跑得慢，人校验方案的理解成本越来越高——知识库最终是要人理解的。长此以往 Loop 里人的环节被拖慢，系统迭代速度劣化、技术债累积。鸿蒙是分叉最容易发生的地方：生态不成熟、能力缺口多，AI 生成的 ArkTS 如果不按同一架构落位，鸿蒙知识库会最先漂走。</li>
+<li><strong>治理什么</strong>：组件化方式（有哪些组件）、分层边界（UI/逻辑/数据）、业务组件复用的维度与粒度、目录/命名/依赖方向、契约与数据口径——五项三端对齐，广义一致、不求代码一致，差异只允许出现在平台适配层。</li>
+<li><strong>怎么治理</strong>：架构基线写进知识库，作为 AI 生成和人 Review 的共同依据（P1 立基线）；一致性检查进 L0 门禁，分层越界、依赖方向、目录落位自动查，AI 生成的鸿蒙代码必须按同一架构落位（P2 起）；每阶段一次漂移 Review，决定收敛还是升级基线，不允许差异静默累积。</li>
+</ul>
+<hr />
+<h2 id="s6">6. 范式三 · AI Native 端侧架构（P1 最小骨架 · P3 主导）</h2>
+<h3 id="s6-1">6.1 方案</h3>
+<p><strong>结论：AI Native 不是加一个聊天入口或一条 AI 旁路，而是 AI 能力长在业务每一层里、每个 AI 点自带确定性兜底；智能主体在云，端负责交互、呈现、采集与兜底。</strong></p>
+<p><strong>AI 主导的产品需求与收益</strong>——架构是手段，目的只有一个：让业务跑得更快。重构之后需求应该是 AI 主导的，它靠一个数据飞轮越转越快：</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 620" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="38" font-size="19" font-weight="bold" fill="#1F2A3A">AI 主导需求的数据飞轮：越用越准，业务越跑越快</text>
+  <text x="40" y="60" font-size="11" fill="#6B7A8C">和推荐算法一样——AI 原生产品产生数据，数据喂模型，模型把场景编排得更好，场景产生更好的数据</text>
+
+  <!-- 中心 -->
+  <circle cx="400" cy="340" r="78" fill="#1F2A3A"/>
+  <text x="400" y="328" font-size="13" font-weight="bold" fill="#F0C060" text-anchor="middle">唯一目的</text>
+  <text x="400" y="350" font-size="12.5" font-weight="bold" fill="#FFFFFF" text-anchor="middle">让业务跑得更快</text>
+  <text x="400" y="370" font-size="10.5" fill="#C9D3E0" text-anchor="middle">卖数据 → 卖结论</text>
+
+  <!-- 环上四个节点，顺时针 -->
+  <!-- 顶：AI 主导的需求上线 -->
+  <rect x="290" y="96" width="220" height="90" rx="10" fill="#EEF3FA" stroke="#3D6FB0" stroke-width="2"/>
+  <text x="400" y="120" font-size="12.5" font-weight="bold" fill="#1F3A5F" text-anchor="middle">① AI 主导的需求上线</text>
+  <text x="400" y="140" font-size="10.5" fill="#1F3A5F" text-anchor="middle">Agent 给结论，端上受约束渲染</text>
+  <text x="400" y="158" font-size="10.5" fill="#1F3A5F" text-anchor="middle">结论带来源 · 时间戳 · 置信度</text>
+  <text x="400" y="176" font-size="10" fill="#9A2A28" text-anchor="middle">P2 样板：尽调结论 · 风险研判推送</text>
+
+  <!-- 右：产生证据级数据 -->
+  <rect x="590" y="295" width="220" height="90" rx="10" fill="#EEF7EE" stroke="#3A9A3A" stroke-width="2"/>
+  <text x="700" y="319" font-size="12.5" font-weight="bold" fill="#2A4A2A" text-anchor="middle">② 用户使用，产生证据级数据</text>
+  <text x="700" y="339" font-size="10.5" fill="#2A4A2A" text-anchor="middle">采纳 / 纠错 / 点开证据 / 追问</text>
+  <text x="700" y="357" font-size="10.5" fill="#2A4A2A" text-anchor="middle">结论 ID × 来源 ID × 用户动作</text>
+  <text x="700" y="375" font-size="10" fill="#9A2A28" text-anchor="middle">B 端纠错直达专家，是最贵的数据</text>
+
+  <!-- 底：数据进评测与训练 -->
+  <rect x="290" y="494" width="220" height="90" rx="10" fill="#F3EEF9" stroke="#6D4A9C" stroke-width="2"/>
+  <text x="400" y="518" font-size="12.5" font-weight="bold" fill="#4A2A70" text-anchor="middle">③ 数据进评测与训练</text>
+  <text x="400" y="538" font-size="10.5" fill="#4A2A70" text-anchor="middle">Golden Set 评测 · 专家标注 bad case</text>
+  <text x="400" y="556" font-size="10.5" fill="#4A2A70" text-anchor="middle">Jev 阈值校准 · RAG 知识库更新 · 微调</text>
+  <text x="400" y="574" font-size="10" fill="#9A2A28" text-anchor="middle">P2 人工回流起步，P3 自动化</text>
+
+  <!-- 左：模型与编排更好 -->
+  <rect x="40" y="295" width="220" height="90" rx="10" fill="#FFF8E8" stroke="#E08020" stroke-width="2" transform="translate(0,0)"/>
+  <text x="150" y="319" font-size="12.5" font-weight="bold" fill="#7A4000" text-anchor="middle">④ 模型与编排更好</text>
+  <text x="150" y="339" font-size="10.5" fill="#7A4000" text-anchor="middle">意图更准 · 结论更可信 · 模板更贴</text>
+  <text x="150" y="357" font-size="10.5" fill="#7A4000" text-anchor="middle">灰度放量，置信度分流自动占比上升</text>
+  <text x="150" y="375" font-size="10" fill="#9A2A28" text-anchor="middle">P3：新需求默认 AI 原生</text>
+
+  <!-- 弧线箭头：顺时针 -->
+  <path d="M520 160 C 640 190, 690 230, 700 290" stroke="#3D6FB0" stroke-width="3" fill="none" marker-end="url(#b)"/>
+  <path d="M700 390 C 690 460, 620 510, 515 540" stroke="#3A9A3A" stroke-width="3" fill="none" marker-end="url(#g)"/>
+  <path d="M285 540 C 200 510, 150 460, 150 390" stroke="#6D4A9C" stroke-width="3" fill="none" marker-end="url(#p)"/>
+  <path d="M150 290 C 150 230, 200 190, 285 160" stroke="#E08020" stroke-width="3" fill="none" marker-end="url(#o)"/>
+  <text x="700" y="230" font-size="10" fill="#3D6FB0">上线即采集</text>
+  <text x="690" y="470" font-size="10" fill="#3A9A3A">回流</text>
+  <text x="40" y="440" font-size="10" fill="#6D4A9C">模型 / 阈值 / 模板更新</text><text x="40" y="456" font-size="10" fill="#6D4A9C">热更下发</text>
+  <text x="40" y="250" font-size="10" fill="#E08020">更多场景交给 AI 主导</text>
+
+  <!-- 右侧对比 -->
+  <rect x="840" y="96" width="200" height="488" rx="10" fill="#F5F7FA" stroke="#9AA7B8"/>
+  <text x="940" y="122" font-size="12" font-weight="bold" fill="#1F2A3A" text-anchor="middle">飞轮转起来的标志</text>
+  <line x1="856" y1="132" x2="1024" y2="132" stroke="#E3E8EF"/>
+  <text x="856" y="156" font-size="10.5" font-weight="bold" fill="#1F2A3A">看三个数</text>
+  <text x="856" y="176" font-size="10.5" fill="#4A5A6A">· 结论采纳率在涨</text>
+  <text x="856" y="194" font-size="10.5" fill="#4A5A6A">· 人审占比在降（分流自动化）</text>
+  <text x="856" y="212" font-size="10.5" fill="#4A5A6A">· AI 主导需求数在涨</text>
+  <line x1="856" y1="228" x2="1024" y2="228" stroke="#E3E8EF"/>
+  <text x="856" y="252" font-size="10.5" font-weight="bold" fill="#1F2A3A">以前的循环</text>
+  <text x="856" y="272" font-size="10.5" fill="#4A5A6A">需求 → 开发 → 上线 → 看数</text>
+  <text x="856" y="290" font-size="10.5" fill="#4A5A6A">→ 下个需求；人驱动，月级</text>
+  <text x="856" y="308" font-size="10.5" fill="#4A5A6A">每一圈都要人重新决定</text>
+  <line x1="856" y1="324" x2="1024" y2="324" stroke="#E3E8EF"/>
+  <text x="856" y="348" font-size="10.5" font-weight="bold" fill="#1F2A3A">飞轮</text>
+  <text x="856" y="368" font-size="10.5" fill="#4A5A6A">数据驱动，天级</text>
+  <text x="856" y="386" font-size="10.5" fill="#4A5A6A">模型自己变好，人只守红线</text>
+  <text x="856" y="404" font-size="10.5" fill="#4A5A6A">架构（6.1）是让它能转的轨道</text>
+  <text x="856" y="422" font-size="10.5" fill="#4A5A6A">动态化（6.2.1）是让它转得快</text>
+  <line x1="856" y1="438" x2="1024" y2="438" stroke="#E3E8EF"/>
+  <text x="856" y="462" font-size="10.5" font-weight="bold" fill="#9A2A28">不转的原因</text>
+  <text x="856" y="482" font-size="10.5" fill="#9A2A28">· 结论没挂证据，数据没法回溯</text>
+  <text x="856" y="500" font-size="10.5" fill="#9A2A28">· 回流靠自动化空转，没人标</text>
+  <text x="856" y="518" font-size="10.5" fill="#9A2A28">· 发版周期卡住更新</text>
+  <text x="856" y="536" font-size="10.5" fill="#9A2A28">· 幻觉伤品牌，业务不敢放量</text>
+  <text x="856" y="562" font-size="10" fill="#6B7A8C">→ 对应 6.1 围栏 / 6.2 动态化</text>
+
+  <defs>
+    <marker id="b" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#3D6FB0"/></marker>
+    <marker id="g" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#3A9A3A"/></marker>
+    <marker id="p" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#6D4A9C"/></marker>
+    <marker id="o" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#E08020"/></marker>
+  </defs>
+</svg>
+<figcaption>AI主导需求数据飞轮</figcaption></figure>
+
+<ul>
+<li><strong>① AI 主导的需求上线</strong>：Agent 给结论、端上受约束渲染，结论带来源、时间戳、置信度。P2 先上两个样板——尽调结论、风险研判推送。</li>
+<li><strong>② 用户使用产生证据级数据</strong>：采纳、纠错、点开证据、追问，按"结论 ID × 来源 ID × 用户动作"采集；B 端纠错直达专家，是最贵的数据。</li>
+<li><strong>③ 数据进评测与训练</strong>：Golden Set 评测、专家标注 bad case、Jev 阈值校准、RAG 知识库更新、微调。P2 人工回流起步，P3 自动化。</li>
+<li><strong>④ 模型与编排更好</strong>：意图更准、结论更可信、模板更贴，置信度分流里自动放行的占比上升，灰度放量；更多场景交给 AI 主导，P3 新需求默认 AI 原生——回到 ①。</li>
+</ul>
+<p>和推荐算法一样，越用越准；以前的循环是"需求→开发→上线→看数→下个需求"，人驱动、月级，飞轮是数据驱动、天级，人只守红线。飞轮转起来的标志看三个数：结论采纳率在涨、人审占比在降、AI 主导需求数在涨。架构是让它能转的轨道，动态化（6.2.1）是让它转得快。</p>
+<p>行业通用骨架（抽象版，五层，端云各做什么）：</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 400" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="38" font-size="19" font-weight="bold" fill="#1F2A3A">行业通用端侧 AI Native 架构（抽象版）：五层，端做什么、云做什么</text>
+  <text x="40" y="60" font-size="11" fill="#6B7A8C">智能主体在云；端负责交互、呈现、采集与兜底。云侧只看职责，不展开</text>
+
+  <rect x="40" y="76" width="120" height="28" rx="6" fill="#1F2A3A"/><text x="100" y="95" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">层</text>
+  <rect x="170" y="76" width="560" height="28" rx="6" fill="#3D6FB0"/><text x="450" y="95" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">端侧职责</text>
+  <rect x="740" y="76" width="200" height="28" rx="6" fill="#6D4A9C"/><text x="840" y="95" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">云侧职责</text>
+  <rect x="950" y="76" width="90" height="28" rx="6" fill="#8A6D3B"/><text x="995" y="95" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">协议</text>
+
+  <g font-size="11">
+  <rect x="40" y="112" width="120" height="46" rx="6" fill="#F5F7FA" stroke="#9AA7B8"/><text x="100" y="140" font-weight="bold" fill="#1F2A3A" text-anchor="middle">呈现与交互</text>
+  <rect x="170" y="112" width="560" height="46" rx="6" fill="#EEF3FA" stroke="#7FA3D4"/><text x="186" y="140" fill="#1F3A5F">多模态入口 · 生成式 UI 受约束渲染（Catalog 白名单）· 溯源与置信度展示 · 与业务同容器</text>
+  <rect x="740" y="112" width="200" height="46" rx="6" fill="#F3EEF9" stroke="#9B7FC0"/><text x="840" y="140" fill="#4A2A70" text-anchor="middle">生成 UI 结构 + 结论挂证据</text>
+  <rect x="950" y="112" width="90" height="46" rx="6" fill="#FFF8E8" stroke="#E0B060"/><text x="995" y="140" fill="#7A4000" text-anchor="middle">A2UI</text>
+
+  <rect x="40" y="166" width="120" height="46" rx="6" fill="#F5F7FA" stroke="#9AA7B8"/><text x="100" y="194" font-weight="bold" fill="#1F2A3A" text-anchor="middle">Agent 运行</text>
+  <rect x="170" y="166" width="560" height="46" rx="6" fill="#EEF3FA" stroke="#7FA3D4"/><text x="186" y="194" fill="#1F3A5F">意图识别与分流（封闭集）· 会话状态 · 本地工具 · 降级编排：超时 / 越界 / 低置信 → 兜底</text>
+  <rect x="740" y="166" width="200" height="46" rx="6" fill="#F3EEF9" stroke="#9B7FC0"/><text x="840" y="194" fill="#4A2A70" text-anchor="middle">规划 · 工具编排 · 长期记忆</text>
+  <rect x="950" y="166" width="90" height="46" rx="6" fill="#FFF8E8" stroke="#E0B060"/><text x="995" y="194" fill="#7A4000" text-anchor="middle">MCP</text>
+
+  <rect x="40" y="220" width="120" height="46" rx="6" fill="#F5F7FA" stroke="#9AA7B8"/><text x="100" y="248" font-weight="bold" fill="#1F2A3A" text-anchor="middle">模型服务</text>
+  <rect x="170" y="220" width="560" height="46" rx="6" fill="#EEF3FA" stroke="#7FA3D4"/><text x="186" y="248" fill="#1F3A5F">端侧小模型（意图 / 排序 / 隐私 / 离线）· 推理引擎与模型包 · 缓存 —— 仅在成本 / 隐私 / 离线触发时下沉</text>
+  <rect x="740" y="220" width="200" height="46" rx="6" fill="#F3EEF9" stroke="#9B7FC0"/><text x="840" y="248" fill="#4A2A70" text-anchor="middle">大模型 · 决策模型 · RAG · 网关</text>
+  <rect x="950" y="220" width="90" height="46" rx="6" fill="#FFF8E8" stroke="#E0B060"/><text x="995" y="248" fill="#7A4000" text-anchor="middle">模型网关</text>
+
+  <rect x="40" y="274" width="120" height="46" rx="6" fill="#F5F7FA" stroke="#9AA7B8"/><text x="100" y="302" font-weight="bold" fill="#1F2A3A" text-anchor="middle">数据回路</text>
+  <rect x="170" y="274" width="560" height="46" rx="6" fill="#EEF3FA" stroke="#7FA3D4"/><text x="186" y="302" fill="#1F3A5F">证据级埋点（哪条结论 · 哪个来源 · 用户怎么反应）· 采纳 / 纠错采集 · 本地脱敏 —— 端只采集不训练</text>
+  <rect x="740" y="274" width="200" height="46" rx="6" fill="#F3EEF9" stroke="#9B7FC0"/><text x="840" y="302" fill="#4A2A70" text-anchor="middle">标注 · 评测集 · 训练 · 灰度</text>
+  <rect x="950" y="274" width="90" height="46" rx="6" fill="#FFF8E8" stroke="#E0B060"/><text x="995" y="302" fill="#7A4000" text-anchor="middle">证据 ID</text>
+
+  <rect x="40" y="328" width="120" height="46" rx="6" fill="#F5F7FA" stroke="#9AA7B8"/><text x="100" y="356" font-weight="bold" fill="#1F2A3A" text-anchor="middle">治理与基础</text>
+  <rect x="170" y="328" width="560" height="46" rx="6" fill="#EEF3FA" stroke="#7FA3D4"/><text x="186" y="356" fill="#1F3A5F">模型网关 SDK（流式 / 超时 / 配额 / 熔断）· AI 路径与主链路隔离 · 本地权限与审计埋点</text>
+  <rect x="740" y="328" width="200" height="46" rx="6" fill="#F3EEF9" stroke="#9B7FC0"/><text x="840" y="356" fill="#4A2A70" text-anchor="middle">权限 · Guardrail · 配额 · 审计</text>
+  <rect x="950" y="328" width="90" height="46" rx="6" fill="#FFF8E8" stroke="#E0B060"/><text x="995" y="356" fill="#7A4000" text-anchor="middle">鉴权 / Trace</text>
+  </g>
+</svg>
+<figcaption>行业端侧AI Native架构</figcaption></figure>
+
+<p>典型团队的端侧架构长在这个骨架上，端侧展开、云侧抽象，右列是推荐选型与分期：</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 760" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="38" font-size="19" font-weight="bold" fill="#1F2A3A">端侧 AI Native 架构（业务落位示例）：长在通用骨架上，端侧展开、云侧抽象</text>
+  <text x="40" y="60" font-size="11" fill="#6B7A8C">橙标为业务专属项；每个端侧 AI 点自带确定性兜底；右列是推荐选型与分期</text>
+
+  <rect x="40" y="76" width="110" height="28" rx="6" fill="#1F2A3A"/><text x="95" y="95" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">层</text>
+  <rect x="160" y="76" width="490" height="28" rx="6" fill="#3D6FB0"/><text x="405" y="95" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">端侧（iOS / Android / 鸿蒙 同一套）</text>
+  <rect x="660" y="76" width="160" height="28" rx="6" fill="#6D4A9C"/><text x="740" y="95" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">云侧（抽象）</text>
+  <rect x="830" y="76" width="210" height="28" rx="6" fill="#8A6D3B"/><text x="935" y="95" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">推荐选型 · 分期</text>
+
+  <!-- 行1 呈现 -->
+  <rect x="40" y="112" width="110" height="112" rx="8" fill="#F5F7FA" stroke="#9AA7B8"/>
+  <text x="95" y="162" font-size="12" font-weight="bold" fill="#1F2A3A" text-anchor="middle">呈现与交互</text>
+  <text x="95" y="182" font-size="9.5" fill="#6B7A8C" text-anchor="middle">结论长在业务页里</text>
+  <rect x="160" y="112" width="490" height="112" rx="8" fill="#EEF3FA" stroke="#7FA3D4" stroke-width="1.5"/>
+  <rect x="172" y="120" width="40" height="14" rx="7" fill="#E08020"/><text x="192" y="131" font-size="9" font-weight="bold" fill="#FFF" text-anchor="middle">业务项</text>
+  <text x="176" y="154" font-size="11" fill="#1F3A5F">· 搜索框即对话入口：关键词 / 自然语言同框，意图不明走传统搜索</text>
+  <text x="176" y="174" font-size="11" fill="#1F3A5F">· 尽调报告 / 风险推送 / 企业详情直接出结论；兜底退回字段展示</text>
+  <text x="176" y="194" font-size="11" fill="#1F3A5F">· 组件库即 A2UI 白名单：信息卡片 · 风险标签 · 报告排版 · 溯源 / 置信度组件</text>
+  <text x="176" y="214" font-size="11" fill="#1F3A5F">· 关系图谱原生保留地，Agent 只给穿透结论不碰渲染　→ A2UI 展开见下文</text>
+  <rect x="660" y="112" width="160" height="112" rx="8" fill="#F3EEF9" stroke="#9B7FC0"/>
+  <text x="740" y="160" font-size="10.5" fill="#4A2A70" text-anchor="middle">输出 A2UI 结构</text>
+  <text x="740" y="178" font-size="10.5" fill="#4A2A70" text-anchor="middle">结论强制挂证据</text>
+  <text x="740" y="196" font-size="10.5" fill="#4A2A70" text-anchor="middle">B 端敏感结论人工签发</text>
+  <rect x="830" y="112" width="210" height="112" rx="8" fill="#FFF8E8" stroke="#E0B060"/>
+  <text x="935" y="140" font-size="11" font-weight="bold" fill="#7A4000" text-anchor="middle">RN 页面 + 组件注册表</text>
+  <text x="935" y="160" font-size="10" fill="#8A5A20" text-anchor="middle">Catalog = RN 组件库 + props schema</text>
+  <text x="935" y="178" font-size="10" fill="#8A5A20" text-anchor="middle">原生保留地走统一路由混合</text>
+  <text x="935" y="204" font-size="10.5" font-weight="bold" fill="#9A2A28" text-anchor="middle">P2 样板 → P3 全量</text>
+
+  <!-- 行2 Agent -->
+  <rect x="40" y="232" width="110" height="112" rx="8" fill="#F5F7FA" stroke="#9AA7B8"/>
+  <text x="95" y="282" font-size="12" font-weight="bold" fill="#1F2A3A" text-anchor="middle">Agent 运行</text>
+  <text x="95" y="302" font-size="9.5" fill="#6B7A8C" text-anchor="middle">端做闸门，云做作者</text>
+  <rect x="160" y="232" width="490" height="112" rx="8" fill="#EEF3FA" stroke="#7FA3D4" stroke-width="1.5"/>
+  <text x="176" y="258" font-size="11" fill="#1F3A5F">· Jev 入口闸：封闭意图集（查企业 / 查风险 / 要报告 / 对比 / 追问）概率投票</text>
+  <text x="176" y="278" font-size="11" fill="#1F3A5F">· 容器持有生命周期：Agent 只描述"出现什么"，实例化 / 更新 / 销毁归容器</text>
+  <text x="176" y="298" font-size="11" fill="#1F3A5F">· 降级契约：超时 / 越界 / 低置信 → 确定性展示，主链路不等 AI、不因 AI 挂</text>
+  <text x="176" y="318" font-size="11" fill="#1F3A5F">· 动作回流白名单：追问 / 确认 / 纠错 / 白名单内路由；会话状态与 Deeplink 同一入口</text>
+  <rect x="660" y="232" width="160" height="112" rx="8" fill="#F3EEF9" stroke="#9B7FC0"/>
+  <rect x="672" y="240" width="40" height="14" rx="7" fill="#E08020"/><text x="692" y="251" font-size="9" font-weight="bold" fill="#FFF" text-anchor="middle">业务项</text>
+  <text x="740" y="276" font-size="10.5" fill="#4A2A70" text-anchor="middle">尽调 / 风险研判规划</text>
+  <text x="740" y="294" font-size="10.5" fill="#4A2A70" text-anchor="middle">MCP 工具集（数据能力）</text>
+  <text x="740" y="312" font-size="10.5" fill="#4A2A70" text-anchor="middle">Jev 模板闸 · 出口闸</text>
+  <text x="740" y="330" font-size="10.5" fill="#4A2A70" text-anchor="middle">企业画像长期记忆</text>
+  <rect x="830" y="232" width="210" height="112" rx="8" fill="#FFF8E8" stroke="#E0B060"/>
+  <text x="935" y="260" font-size="11" font-weight="bold" fill="#7A4000" text-anchor="middle">Jev 小模型（端）+ 大模型（云）</text>
+  <text x="935" y="280" font-size="10" fill="#8A5A20" text-anchor="middle">容器 = RN 场景容器 + 统一路由</text>
+  <text x="935" y="298" font-size="10" fill="#8A5A20" text-anchor="middle">动作白名单走统一服务路由</text>
+  <text x="935" y="324" font-size="10.5" font-weight="bold" fill="#9A2A28" text-anchor="middle">P1 工具注册 → P2 编排</text>
+
+  <!-- 行3 模型 -->
+  <rect x="40" y="352" width="110" height="92" rx="8" fill="#F5F7FA" stroke="#9AA7B8"/>
+  <text x="95" y="392" font-size="12" font-weight="bold" fill="#1F2A3A" text-anchor="middle">模型服务</text>
+  <text x="95" y="412" font-size="9.5" fill="#6B7A8C" text-anchor="middle">云为主，端按刚需</text>
+  <rect x="160" y="352" width="490" height="92" rx="8" fill="#EEF3FA" stroke="#7FA3D4" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="176" y="378" font-size="11" fill="#1F3A5F">· 端侧模型运行时架构预留、不提前投；第一个候选是 Jev 意图分类小模型（离线也能分流）</text>
+  <text x="176" y="398" font-size="11" fill="#1F3A5F">· 触发条件：涉密客户离线 / 单结论成本 / 弱网；结果缓存减少往返</text>
+  <text x="176" y="418" font-size="11" fill="#9A2A28">· P3 前端上只做渲染与兜底，不做开放决策</text>
+  <rect x="660" y="352" width="160" height="92" rx="8" fill="#F3EEF9" stroke="#9B7FC0"/>
+  <text x="740" y="386" font-size="10.5" fill="#4A2A70" text-anchor="middle">System 2 / System 1</text>
+  <text x="740" y="404" font-size="10.5" fill="#4A2A70" text-anchor="middle">RAG 企业知识库</text>
+  <text x="740" y="422" font-size="10.5" fill="#4A2A70" text-anchor="middle">统一模型网关</text>
+  <rect x="830" y="352" width="210" height="92" rx="8" fill="#FFF8E8" stroke="#E0B060"/>
+  <text x="935" y="380" font-size="11" font-weight="bold" fill="#7A4000" text-anchor="middle">端：推理引擎按需（P3）</text>
+  <text x="935" y="400" font-size="10" fill="#8A5A20" text-anchor="middle">云：多供应商，不自研模型</text>
+  <text x="935" y="426" font-size="10.5" font-weight="bold" fill="#9A2A28" text-anchor="middle">云 P1/P2 · 端 P3 刚需触发</text>
+
+  <!-- 行4 数据回路 -->
+  <rect x="40" y="452" width="110" height="92" rx="8" fill="#F5F7FA" stroke="#9AA7B8"/>
+  <text x="95" y="492" font-size="12" font-weight="bold" fill="#1F2A3A" text-anchor="middle">数据回路</text>
+  <text x="95" y="512" font-size="9.5" fill="#6B7A8C" text-anchor="middle">端只采集不训练</text>
+  <rect x="160" y="452" width="490" height="92" rx="8" fill="#EEF3FA" stroke="#7FA3D4" stroke-width="1.5"/>
+  <text x="176" y="478" font-size="11" fill="#1F3A5F">· 证据级埋点：结论 ID × 来源 ID × 用户动作，同一套埋点 SDK</text>
+  <text x="176" y="498" font-size="11" fill="#1F3A5F">· 采纳 / 纠错 / 举报一键反馈，B 端纠错直达专家回流</text>
+  <text x="176" y="518" font-size="11" fill="#1F3A5F">· 本地脱敏后上报；反馈数据同时喂 Jev 阈值校准与 Golden Set</text>
+  <rect x="660" y="452" width="160" height="92" rx="8" fill="#F3EEF9" stroke="#9B7FC0"/>
+  <rect x="672" y="460" width="40" height="14" rx="7" fill="#E08020"/><text x="692" y="471" font-size="9" font-weight="bold" fill="#FFF" text-anchor="middle">业务项</text>
+  <text x="740" y="496" font-size="10.5" fill="#4A2A70" text-anchor="middle">专家人工回流起步</text>
+  <text x="740" y="514" font-size="10.5" fill="#4A2A70" text-anchor="middle">Golden Set 红线否决</text>
+  <text x="740" y="532" font-size="10.5" fill="#4A2A70" text-anchor="middle">客户数据默认隔离</text>
+  <rect x="830" y="452" width="210" height="92" rx="8" fill="#FFF8E8" stroke="#E0B060"/>
+  <text x="935" y="480" font-size="11" font-weight="bold" fill="#7A4000" text-anchor="middle">复用现有埋点 SDK 加证据字段</text>
+  <text x="935" y="500" font-size="10" fill="#8A5A20" text-anchor="middle">不建新采集通道</text>
+  <text x="935" y="526" font-size="10.5" font-weight="bold" fill="#9A2A28" text-anchor="middle">P2 人工回流 → P3 自动化</text>
+
+  <!-- 行5 治理与基础 -->
+  <rect x="40" y="552" width="110" height="92" rx="8" fill="#F5F7FA" stroke="#9AA7B8"/>
+  <text x="95" y="592" font-size="12" font-weight="bold" fill="#1F2A3A" text-anchor="middle">治理与基础</text>
+  <text x="95" y="612" font-size="9.5" fill="#6B7A8C" text-anchor="middle">头号资产在这层</text>
+  <rect x="160" y="552" width="490" height="92" rx="8" fill="#EEF3FA" stroke="#7FA3D4" stroke-width="1.5"/>
+  <rect x="172" y="560" width="40" height="14" rx="7" fill="#E08020"/><text x="192" y="571" font-size="9" font-weight="bold" fill="#FFF" text-anchor="middle">业务项</text>
+  <text x="176" y="594" font-size="11" font-weight="bold" fill="#1F3A5F">· 企业数据 SDK ＝ MCP 工具集 ＝ 组件取数源：工商 / 股权 / 风险 / 诉讼 / 财报 同一口径</text>
+  <text x="176" y="614" font-size="11" fill="#1F3A5F">· 模型网关 SDK（流式 / 超时 / 配额 / 熔断）；AI 路径与主链路隔离；纯 TS 逻辑层三端共享</text>
+  <text x="176" y="634" font-size="11" fill="#1F3A5F">· 可观测：业务指标与 Token / 置信度 / 采纳同一面板</text>
+  <rect x="660" y="552" width="160" height="92" rx="8" fill="#F3EEF9" stroke="#9B7FC0"/>
+  <text x="740" y="586" font-size="10.5" fill="#4A2A70" text-anchor="middle">数据分级隔离</text>
+  <text x="740" y="604" font-size="10.5" fill="#4A2A70" text-anchor="middle">工具调用审批 · 审计</text>
+  <text x="740" y="622" font-size="10.5" fill="#4A2A70" text-anchor="middle">单结论成本一等指标</text>
+  <rect x="830" y="552" width="210" height="92" rx="8" fill="#FFF8E8" stroke="#E0B060"/>
+  <text x="935" y="580" font-size="11" font-weight="bold" fill="#7A4000" text-anchor="middle">数据字典 v1 + SDK 工具化</text>
+  <text x="935" y="600" font-size="10" fill="#8A5A20" text-anchor="middle">网关 SDK 用标准协议，不绑供应商</text>
+  <text x="935" y="626" font-size="10.5" font-weight="bold" fill="#9A2A28" text-anchor="middle">P1 骨架</text>
+
+  <!-- 人 -->
+  <rect x="40" y="656" width="1000" height="90" rx="10" fill="#FFF8E8" stroke="#E08020" stroke-width="2"/>
+  <text x="58" y="680" font-size="12.5" font-weight="bold" fill="#7A4000">人 · 面向协议与白名单，不面向模型内部</text>
+  <rect x="58" y="692" width="310" height="44" rx="8" fill="#FFFFFF" stroke="#E0B060"/>
+  <text x="213" y="710" font-size="10.5" font-weight="bold" fill="#7A4000" text-anchor="middle">建设期 · 定规则</text>
+  <text x="213" y="728" font-size="10" fill="#8A5A20" text-anchor="middle">定 Catalog 白名单与 schema · 定数据口径 · 定置信度阈值</text>
+  <rect x="380" y="692" width="310" height="44" rx="8" fill="#FFFFFF" stroke="#E0B060"/>
+  <text x="535" y="710" font-size="10.5" font-weight="bold" fill="#7A4000" text-anchor="middle">运行期 · 守闸门</text>
+  <text x="535" y="728" font-size="10" fill="#8A5A20" text-anchor="middle">B 端敏感结论人工签发 · 回流 bad case · 灰度放量 / 回滚决策</text>
+  <rect x="702" y="692" width="326" height="44" rx="8" fill="#FFFFFF" stroke="#E0B060"/>
+  <text x="865" y="710" font-size="10.5" font-weight="bold" fill="#7A4000" text-anchor="middle">永不交出</text>
+  <text x="865" y="728" font-size="10" fill="#8A5A20" text-anchor="middle">动不动骨架 · 白名单增删 · 结论对外口径与责任</text>
+</svg>
+<figcaption>端侧 AI Native 架构（业务落位示例）</figcaption></figure>
+
+<ul>
+<li><strong>呈现与交互</strong>：搜索框即对话入口；尽调报告、风险推送、企业详情直接出结论；组件库即 A2UI 白名单；关系图谱原生保留地。选型：RN 页面 + 组件注册表，P2 样板 → P3 全量。</li>
+<li><strong>Agent 运行</strong>：端做闸门、云做作者——端上 Jev 入口闸做意图分流，容器持有生命周期，降级契约保主链路，动作回流走白名单；云上做规划、MCP 工具编排、Jev 模板闸与出口闸。选型：Jev 小模型（端）+ 大模型（云），P1 工具注册 → P2 编排。</li>
+<li><strong>模型服务</strong>：云为主；端侧运行时架构预留不提前投，第一个候选是 Jev 意图分类小模型，触发条件是涉密离线/成本/弱网，P3 前端上只做渲染与兜底。</li>
+<li><strong>数据回路</strong>：端只采集不训练——证据级埋点复用现有埋点 SDK 加字段，反馈同时喂 Jev 阈值校准与 Golden Set；云上 P2 专家人工回流起步，P3 自动化。</li>
+<li><strong>治理与基础</strong>：企业数据 SDK ＝ MCP 工具集 ＝ 组件取数源，同一口径；模型网关 SDK 流式/超时/配额/熔断；AI 路径与主链路隔离。P1 骨架。</li>
+<li><strong>P2 起按业务触发追加</strong>：多模态解析（B 端尽调 PDF/OCR/表格，优先级最高）、长程任务状态机、成本治理、五维评测、Prompt/Skill 版本管理。P1 骨架不含，按刚需排期。</li>
+<li><strong>人的角色</strong>：面向协议与白名单，不面向模型内部。建设期定规则——Catalog 收哪些组件、schema 怎么定、数据口径、置信度阈值；运行期守闸门——B 端敏感结论人工签发、回流 bad case、灰度放量与回滚决策；永不交出——动不动骨架、白名单增删、结论对外口径与责任。</li>
+</ul>
+<p><strong>A2UI：让 Agent 编排 UI 的模板式工程——三个问题，三个解法</strong></p>
+<p>Agent 的结论是动态的，需要灵活组织界面，但不能让它自由画 UI。做法是把业务做成可编排的组件模板，Agent 只在模板里搭积木。现有"服务端编排 + 组件自解析"的透传体系就是底座，区别只有一个——编排者从可信的运营规则换成了会幻觉的大模型，所以要解决三个问题：</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 520" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="38" font-size="19" font-weight="bold" fill="#1F2A3A">A2UI：让 Agent 编排 UI 的模板式工程——三个问题，三个解法</text>
+  <text x="40" y="60" font-size="11" fill="#6B7A8C">Agent 的结论是动态的，需要灵活组织界面；但不能让它自由画 UI。做法是把业务做成可编排的组件模板，Agent 只在模板里搭积木</text>
+
+  <rect x="40" y="76" width="1000" height="54" rx="10" fill="#1F2A3A"/>
+  <text x="58" y="100" font-size="12" font-weight="bold" fill="#F0C060">它是什么</text>
+  <text x="58" y="120" font-size="10.5" fill="#C9D3E0">现有"服务端编排 + 组件自解析"的透传体系就是底座；区别只有一个——编排者从可信的运营规则换成了会幻觉的大模型，所以要补三件事</text>
+
+  <!-- 三列 -->
+  <g font-size="10.5">
+  <!-- 问题1 -->
+  <rect x="40" y="148" width="326" height="92" rx="10" fill="#FDEDED" stroke="#D9534F" stroke-width="1.5"/>
+  <text x="56" y="172" font-size="12" font-weight="bold" fill="#9A2A28">问题 ① Agent 编出来的东西怎么长在业务页面里</text>
+  <text x="56" y="196" fill="#9A2A28">让它自由画 UI：样式不一致、三端不一致、</text>
+  <text x="56" y="214" fill="#9A2A28">品牌风险、没法 Verify；贴 WebView 又成了旁路</text>
+  <path d="M203 240 L203 262" stroke="#9AA7B8" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="40" y="266" width="326" height="150" rx="10" fill="#EEF3FA" stroke="#3D6FB0" stroke-width="1.5"/>
+  <text x="56" y="290" font-size="12" font-weight="bold" fill="#1F3A5F">解法 ① Catalog：给它一份组件清单</text>
+  <text x="56" y="314" fill="#1F3A5F">· 清单里是业务组件：结论卡、风险标签、证据列表、</text>
+  <text x="56" y="332" fill="#1F3A5F">  企业简介——每个就是页面上一个区域</text>
+  <text x="56" y="350" fill="#1F3A5F">· 样式在组件内部锁死，Agent 只决定出现哪些、</text>
+  <text x="56" y="368" fill="#1F3A5F">  什么顺序、填什么内容</text>
+  <text x="56" y="386" fill="#1F3A5F">· 不给布局原子（行 / 列 / 文本），否则等于让它画</text>
+  <text x="56" y="404" font-weight="bold" fill="#1F3A5F">· 和跨端的组件清单是同一份（5.2）</text>
+
+  <!-- 问题2 -->
+  <rect x="377" y="148" width="326" height="92" rx="10" fill="#FDEDED" stroke="#D9534F" stroke-width="1.5"/>
+  <text x="393" y="172" font-size="12" font-weight="bold" fill="#9A2A28">问题 ② 编排者会幻觉，怎么不污染业务、不炸主链路</text>
+  <text x="393" y="196" fill="#9A2A28">它会编不存在的组件、填错字段、把注册资本</text>
+  <text x="393" y="214" fill="#9A2A28">"改"了、下发不该跳的链接；主链路不能等它</text>
+  <path d="M540 240 L540 262" stroke="#9AA7B8" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="377" y="266" width="326" height="150" rx="10" fill="#EEF3FA" stroke="#3D6FB0" stroke-width="1.5"/>
+  <text x="393" y="290" font-size="12" font-weight="bold" fill="#1F3A5F">解法 ② 围栏：四道闸，不过就兜底</text>
+  <text x="393" y="314" fill="#1F3A5F">· 进门先查：组件在不在清单、字段对不对，</text>
+  <text x="393" y="332" fill="#1F3A5F">  不对整块不渲染，退回原来的字段展示</text>
+  <text x="393" y="350" fill="#1F3A5F">· 确定性数据只传 ID 不传内容，组件自己从</text>
+  <text x="393" y="368" fill="#1F3A5F">  企业数据 SDK 取——幻觉碰不到真实字段</text>
+  <text x="393" y="386" fill="#1F3A5F">· 生命周期归容器、动作走白名单</text>
+  <text x="393" y="404" font-weight="bold" fill="#1F3A5F">· Jev 在入口 / 模板 / 出口 / 动作四处把关（见 6.1）</text>
+
+  <!-- 问题3 -->
+  <rect x="714" y="148" width="326" height="92" rx="10" fill="#FDEDED" stroke="#D9534F" stroke-width="1.5"/>
+  <text x="730" y="172" font-size="12" font-weight="bold" fill="#9A2A28">问题 ③ 协议和生态都没定，怎么分期不返工</text>
+  <text x="730" y="196" fill="#9A2A28">A2UI spec 还在 0.9 → 1.0 变动，各端渲染器</text>
+  <text x="730" y="214" fill="#9A2A28">版本不齐；现在绑死协议，一年后要重做</text>
+  <path d="M877 240 L877 262" stroke="#9AA7B8" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="714" y="266" width="326" height="150" rx="10" fill="#EEF3FA" stroke="#3D6FB0" stroke-width="1.5"/>
+  <text x="730" y="290" font-size="12" font-weight="bold" fill="#1F3A5F">解法 ③ 分期：先借壳，后平移</text>
+  <text x="730" y="314" fill="#1F3A5F">· P1：用现有透传协议做传输，Catalog 先注册</text>
+  <text x="730" y="332" fill="#1F3A5F">  3–5 个业务组件；结构照 A2UI 定，不绑版本</text>
+  <text x="730" y="350" fill="#1F3A5F">· P2：有限模板选形、大模型填槽，样板页跑通</text>
+  <text x="730" y="368" fill="#1F3A5F">  流式与兜底，拿结论采纳率基线</text>
+  <text x="730" y="386" fill="#1F3A5F">· P3：评估放开自由编排、接官方生态是平移</text>
+  <text x="730" y="404" font-weight="bold" fill="#1F3A5F">· 载体先动态后回落，见上一节</text>
+  </g>
+
+  <rect x="40" y="434" width="1000" height="66" rx="10" fill="#FFF8E8" stroke="#E08020" stroke-width="1.5"/>
+  <text x="58" y="458" font-size="12" font-weight="bold" fill="#7A4000">人定什么</text>
+  <text x="58" y="480" font-size="10.5" fill="#8A5A20">清单里收哪些组件、字段怎么定、置信度阈值多少、动作白名单范围——人定；Agent 怎么拼、模型怎么选——人不碰，人看的是证据和分流结果</text>
+
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9AA7B8"/></marker></defs>
+</svg>
+<figcaption>A2UI问题与解法</figcaption></figure>
+
+<ul>
+<li><strong>问题 ① Agent 编出来的东西怎么长在业务页面里</strong>——让它自由画 UI 就是样式不一致、三端不一致、品牌风险、没法 Verify；贴 WebView 又成了旁路。<strong>解法：Catalog</strong>，给它一份业务组件清单（结论卡、风险标签、证据列表、企业简介，每个就是页面上一个区域），样式在组件内部锁死，Agent 只决定出现哪些、什么顺序、填什么内容；不给布局原子。这份清单和跨端的组件清单是同一份（5.2）。</li>
+<li><strong>问题 ② 编排者会幻觉，怎么不污染业务、不炸主链路</strong>——它会编不存在的组件、填错字段、把注册资本"改"了、下发不该跳的链接。<strong>解法：围栏</strong>，进门先查组件在不在清单、字段对不对，不对整块不渲染、退回字段展示；确定性数据只传 ID 不传内容，组件自己从企业数据 SDK 取，幻觉碰不到真实字段；生命周期归容器、动作走白名单；Jev 在入口/模板/出口/动作四处把关。</li>
+<li><strong>问题 ③ 协议和生态都没定，怎么分期不返工</strong>——A2UI spec 还在 0.9 → 1.0 变动，各端渲染器版本不齐（原生、Flutter 有官方实现，RN 只有社区版）。<strong>解法：分期</strong>，P1 用现有透传协议做传输、Catalog 先注册 3–5 个业务组件、结构照 A2UI 定但不绑版本；P2 有限模板选形、大模型填槽，样板页跑通流式与兜底、拿结论采纳率基线；P3 评估放开自由编排，接官方生态是平移不是重做。载体先动态后回落，见 6.2.1。</li>
+<li><strong>人定什么</strong>：清单里收哪些组件、字段怎么定、置信度阈值、动作白名单范围——人定；Agent 怎么拼、模型怎么选——人不碰，人看的是证据和分流结果。</li>
+</ul>
+<h3 id="s6-2">6.2 难点与应对</h3>
+<p><strong>结论：两个真难点——AI 的快和工程栈的慢怎么平衡；老架构边跑边换怎么不出事。前者用动态化先行、分级回落，后者用绞杀者双轨。</strong></p>
+<h4>6.2.1 怎么平衡 AI 的快与工程栈的慢</h4>
+<p><strong>问题</strong>：AI 把生成成本压到接近零，Catalog、模板、阈值、意图集每周都在变，数据回路要靠多轮灰度才能收敛；而原生技术栈一次发版两到四周，一轮验证就是一个发版周期。AI 一天能出三版，工程栈一个月才能放一版——回路转不起来。那就全上动态化？疯狂动态化之后 Bridge 序列化、JS 线程、启动开销一起来，性能顶不住又怎么办？</p>
+<p><strong>解法</strong>：先动态化拿验证速度，稳定之后分级回落拿性能，两件事按一个能力的生命周期分阶段做，不是二选一。</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 600" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="38" font-size="19" font-weight="bold" fill="#1F2A3A">动态化先行、稳定后回落：AI Native 时代一个能力的三种状态</text>
+  <text x="40" y="60" font-size="11" fill="#6B7A8C">AI 把生成成本压到接近零之后，迭代速度由验证速度决定，验证速度由发版速度决定——所以先动态化；验证稳定了再为性能回落</text>
+
+  <!-- 上：为什么 -->
+  <rect x="40" y="76" width="1000" height="78" rx="10" fill="#1F2A3A"/>
+  <text x="58" y="100" font-size="12" font-weight="bold" fill="#F0C060">为什么动态化对 A2UI / AI Native 是前提而不是优化</text>
+  <text x="58" y="122" font-size="10.5" fill="#C9D3E0">· Catalog 加组件、调 schema、改分流阈值、换模板——P2 样板期每周都在变，卡在发版周期上就等于回路不转</text>
+  <text x="58" y="140" font-size="10.5" fill="#C9D3E0">· 数据回路要靠多轮灰度回采才能收敛；一次发版一轮，三个月只能试六次；动态下发，一天能试三次</text>
+
+  <!-- 三态 -->
+  <rect x="40" y="172" width="320" height="250" rx="10" fill="#EEF3FA" stroke="#3D6FB0" stroke-width="1.5"/>
+  <text x="200" y="198" font-size="13" font-weight="bold" fill="#1F3A5F" text-anchor="middle">① 动态态 · 快速验证</text>
+  <text x="56" y="222" font-size="10.5" fill="#1F3A5F">载体：RN 页面 / Catalog 组件 / 模板 / 阈值配置</text>
+  <text x="56" y="240" font-size="10.5" fill="#1F3A5F">发布：热更 + 灰度，分钟级到用户</text>
+  <text x="56" y="258" font-size="10.5" fill="#1F3A5F">目的：拿到真实回流数据，跑出边界和阈值</text>
+  <text x="56" y="276" font-size="10.5" fill="#1F3A5F">代价：Bridge 序列化、JS 线程、启动开销</text>
+  <line x1="56" y1="290" x2="344" y2="290" stroke="#C9D7EA"/>
+  <text x="56" y="312" font-size="10.5" font-weight="bold" fill="#9A2A28">动态 ≠ 无约束</text>
+  <text x="56" y="330" font-size="10.5" fill="#9A2A28">· 热更包同样过联动准入与 Verify</text>
+  <text x="56" y="348" font-size="10.5" fill="#9A2A28">· 灰度可回滚，单次放量有上限</text>
+  <text x="56" y="366" font-size="10.5" fill="#9A2A28">· 热更内容限于 Catalog / 模板 / 配置 /</text>
+  <text x="56" y="384" font-size="10.5" fill="#9A2A28">  页面逻辑，不动骨架、不动支付与权限</text>
+  <text x="56" y="408" font-size="10" fill="#6B7A8C">适用：新结论卡、新意图、新模板、新分流规则</text>
+
+  <path d="M362 297 L396 297" stroke="#9AA7B8" stroke-width="2.5" marker-end="url(#a)"/>
+  <text x="379" y="286" font-size="9.5" fill="#6B7A8C" text-anchor="middle">达标</text>
+
+  <rect x="400" y="172" width="300" height="250" rx="10" fill="#EEF7EE" stroke="#3A9A3A" stroke-width="1.5"/>
+  <text x="550" y="198" font-size="13" font-weight="bold" fill="#2A4A2A" text-anchor="middle">② 稳定态 · 判定回落资格</text>
+  <text x="416" y="222" font-size="10.5" fill="#2A4A2A">一个能力满足以下全部，才有资格回落：</text>
+  <text x="416" y="246" font-size="10.5" fill="#2A4A2A">· 连续 N 个迭代（建议 ≥3）无结构变更</text>
+  <text x="416" y="264" font-size="10.5" fill="#2A4A2A">· Verify 用例覆盖完整，Golden Set 通过</text>
+  <text x="416" y="282" font-size="10.5" fill="#2A4A2A">· 有量：调用频次 / 页面 PV 到了阈值</text>
+  <text x="416" y="300" font-size="10.5" fill="#2A4A2A">· 有痛：性能指标测得到瓶颈（帧率 /</text>
+  <text x="416" y="318" font-size="10.5" fill="#2A4A2A">  首屏 / 内存），不是感觉慢</text>
+  <text x="416" y="336" font-size="10.5" fill="#2A4A2A">· 回落后契约不变：JS 侧签名、schema 不动</text>
+  <line x1="416" y1="350" x2="684" y2="350" stroke="#C9E3C9"/>
+  <text x="416" y="372" font-size="10.5" font-weight="bold" fill="#2A4A2A">不满足就留在动态态，不为"原生更快"回落</text>
+  <text x="416" y="392" font-size="10" fill="#6B7A8C">判定由人做（守闸门），数据由可观测给</text>
+  <text x="416" y="408" font-size="10" fill="#6B7A8C">每阶段一次盘点，和漂移 Review 同节奏</text>
+
+  <path d="M702 297 L736 297" stroke="#9AA7B8" stroke-width="2.5" marker-end="url(#a)"/>
+  <text x="719" y="286" font-size="9.5" fill="#6B7A8C" text-anchor="middle">回落</text>
+
+  <rect x="740" y="172" width="300" height="250" rx="10" fill="#FFF8E8" stroke="#E08020" stroke-width="1.5"/>
+  <text x="890" y="198" font-size="13" font-weight="bold" fill="#7A4000" text-anchor="middle">③ 下沉态 · 为性能固化</text>
+  <text x="756" y="222" font-size="10.5" fill="#7A4000">回落到哪，按层对应：</text>
+  <text x="756" y="246" font-size="10.5" fill="#7A4000">· 热点逻辑 → JSI 直调，去掉序列化 Bridge</text>
+  <text x="756" y="264" font-size="10.5" fill="#7A4000">· 高频事件 → Native 事件流，不过 JS 线程</text>
+  <text x="756" y="282" font-size="10.5" fill="#7A4000">· 稳定组件 → 原生实现，Catalog 里换绑定</text>
+  <text x="756" y="300" font-size="10.5" fill="#7A4000">· 固化模板 → 预编译，不再运行时解析</text>
+  <text x="756" y="318" font-size="10.5" fill="#7A4000">· 稳定决策 → Jev 端侧小模型 / 规则</text>
+  <text x="756" y="336" font-size="10.5" fill="#7A4000">· 极端页面 → 原生保留地（图谱已在此）</text>
+  <line x1="756" y1="350" x2="1024" y2="350" stroke="#F0D8B0"/>
+  <text x="756" y="372" font-size="10.5" font-weight="bold" fill="#7A4000">回落后失去动态性，再改要走发版</text>
+  <text x="756" y="392" font-size="10" fill="#6B7A8C">所以只回落已经不会变的东西</text>
+  <text x="756" y="408" font-size="10" fill="#6B7A8C">契约不变 = 对 Agent 和 Spec 透明</text>
+
+  <!-- 回流箭头：下沉态再变 → 回动态态 -->
+  <path d="M890 422 C 890 460, 200 460, 200 424" stroke="#D9534F" stroke-width="1.5" fill="none" stroke-dasharray="5 3" marker-end="url(#r)"/>
+  <text x="545" y="468" font-size="10" fill="#9A2A28" text-anchor="middle">下沉后需求又变 → 先在动态态改验证，稳定后再回落一次；不在原生上直接试错</text>
+
+  <!-- 底：与三条线的关系 -->
+  <rect x="40" y="490" width="1000" height="90" rx="10" fill="#F5F7FA" stroke="#9AA7B8"/>
+  <text x="58" y="514" font-size="12" font-weight="bold" fill="#1F2A3A">这条路径和三条线的关系</text>
+  <text x="58" y="536" font-size="10.5" fill="#4A5A6A">· AICoding：动态态的改动小、频次高，正是 Agent 小循环最擅长的粒度；回落是一次有契约对照的重构，走 Verify 和联动准入</text>
+  <text x="58" y="554" font-size="10.5" fill="#4A5A6A">· 跨端：RN 主战的根本理由是动态化，不是跨端本身；三道退路（混合路由 / 纯 TS / JSI 下沉）就是回落的三条通道，第一天内建</text>
+  <text x="58" y="572" font-size="10.5" fill="#4A5A6A">· AI Native：Catalog、模板、阈值、Jev 都先在动态态收敛；端侧模型运行时是"稳定决策回落到端"的终点，所以 P3 才投</text>
+
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#9AA7B8"/></marker>
+    <marker id="r" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#D9534F"/></marker>
+  </defs>
+</svg>
+<figcaption>动态化与回落路径</figcaption></figure>
+
+<ul>
+<li><strong>动态态：先拿验证速度</strong>：载体是 RN 页面、Catalog 组件、模板、阈值配置，热更加灰度分钟级到用户，目的是拿真实回流数据跑出边界和阈值。一次发版一轮三个月只能试六次，动态下发一天能试三次。RN 在这里只是动态态的载体：快速验证用它，性能顶不住就按下面的路径回落，它不是终态。</li>
+<li><strong>动态态 ≠ 无约束</strong>：热更包同样走联动准入与 Verify，灰度可回滚、单次放量有上限；热更内容限于 Catalog、模板、配置、页面逻辑，不动骨架、不动支付与权限。</li>
+<li><strong>稳定态：回落要有资格</strong>：连续 ≥3 个迭代无结构变更、Verify 覆盖完整且 Golden Set 通过、有量（调用频次到阈值）、有痛（性能指标测得到瓶颈而不是感觉慢）、回落后契约不变（JS 侧签名和 schema 不动）。不满足就留在动态态，不为"原生更快"回落。判定由人做，数据由可观测给，每阶段盘点一次，和漂移 Review 同节奏。</li>
+<li><strong>下沉态：按层回落</strong>：热点逻辑 → JSI 直调去掉序列化 Bridge；高频事件 → Native 事件流不过 JS 线程；稳定组件 → 原生实现、Catalog 里换绑定；固化模板 → 预编译；稳定决策 → Jev 端侧小模型或规则；极端页面 → 原生保留地。回落后失去动态性，再改要走发版，所以只回落已经不会变的东西；契约不变意味着对 Agent 和 Spec 透明。下沉后需求又变，先回动态态改、验证稳定再回落一次，不在原生上直接试错。</li>
+<li><strong>和三条线的关系</strong>：AICoding——动态态改动小、频次高，正是 Agent 小循环最擅长的粒度，回落是一次有契约对照的重构；跨端——RN 主战的理由是动态化而不是跨端本身，三道退路（混合路由、纯 TS、JSI 下沉）就是回落的三条通道，第一天内建；AI Native——Catalog、模板、阈值、Jev 都先在动态态收敛，端侧模型运行时是"稳定决策回落到端"的终点，所以 P3 才投。</li>
+</ul>
+<h4>6.2.2 老架构边跑边换，怎么不出事</h4>
+<p><strong>问题</strong>：老系统要维护、迭代不能停、要跑着换底座、还不能影响线上数据——四件事同时做。无条件 big-bang 重写的线上风险不可承受；但不换底座，AI 能力就只能以旁路形式贴在老架构上，永远成不了 AI Native。老架构这边怎么办？</p>
+<p><strong>解法</strong>：绞杀者双轨——存量不停、增量先行、逐模块替换；默认渐进，重写不封死。</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 470" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <marker id="killArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#3A9A3A"/>
+    </marker>
+  </defs>
+
+  <text x="40" y="34" font-size="19" font-weight="bold" fill="#1F2A3A">总路线：绞杀者双轨 —— 业务不停车，跑着换轮子</text>
+
+  <!-- ============ 存量轨（橙） ============ -->
+  <rect x="40" y="58" width="720" height="132" rx="10" fill="#FFF8E8" stroke="#E08020" stroke-width="1.6"/>
+  <rect x="40" y="58" width="96" height="132" rx="10" fill="#E08020"/>
+  <text x="88" y="112" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">存量轨</text>
+  <text x="88" y="132" text-anchor="middle" font-size="9.5" fill="#FFF2DC">老系统不停</text>
+  <text x="88" y="146" text-anchor="middle" font-size="9.5" fill="#FFF2DC">业务照常迭代</text>
+
+  <rect x="150" y="78" width="140" height="66" rx="8" fill="#FFFFFF" stroke="#E8B06A"/>
+  <text x="220" y="104" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#7A4000">Agent 工具铺开</text>
+  <text x="220" y="122" text-anchor="middle" font-size="9.5" fill="#A07430">IDE ＋ CLI 全员可用</text>
+  <text x="220" y="136" text-anchor="middle" font-size="9.5" fill="#A07430">模型分流规范</text>
+
+  <rect x="302" y="78" width="140" height="66" rx="8" fill="#FFFFFF" stroke="#E8B06A"/>
+  <text x="372" y="104" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#7A4000">Spec 规范进场</text>
+  <text x="372" y="122" text-anchor="middle" font-size="9.5" fill="#A07430">数据字典 v1</text>
+  <text x="372" y="136" text-anchor="middle" font-size="9.5" fill="#A07430">改动有契约可依</text>
+
+  <rect x="454" y="78" width="140" height="66" rx="8" fill="#FFFFFF" stroke="#E8B06A"/>
+  <text x="524" y="104" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#7A4000">特征化测试</text>
+  <text x="524" y="122" text-anchor="middle" font-size="9.5" fill="#A07430">AI 生成 · 锁定现状</text>
+  <text x="524" y="136" text-anchor="middle" font-size="9.5" fill="#A07430">老模块安全网</text>
+
+  <rect x="606" y="78" width="140" height="66" rx="8" fill="#FFFFFF" stroke="#E8B06A"/>
+  <text x="676" y="104" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#7A4000">轻量 Verify</text>
+  <text x="676" y="122" text-anchor="middle" font-size="9.5" fill="#A07430">L0 编译门禁</text>
+  <text x="676" y="136" text-anchor="middle" font-size="9.5" fill="#A07430">L1 纯逻辑单测</text>
+
+  <text x="390" y="172" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#7A4000">目标：让老代码「可被 AI 安全修改」</text>
+
+  <!-- ============ 共用接缝（深色强制） ============ -->
+  <rect x="40" y="204" width="720" height="60" rx="10" fill="#2D3E56"/>
+  <text x="390" y="230" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">共用接缝：一套 SDD 规格 · 一部企业数据字典 · 一套分层 Verify · 一组度量 · 一套 Agent 配置</text>
+  <text x="390" y="250" text-anchor="middle" font-size="10" fill="#AEB9C8">两轨是一套体系，不是两摊事 —— 工程师在两条轨道上使用完全相同的工作方式</text>
+
+  <!-- ============ 增量轨（绿） ============ -->
+  <rect x="40" y="278" width="720" height="132" rx="10" fill="#E8F8E8" stroke="#3A9A3A" stroke-width="1.6"/>
+  <rect x="40" y="278" width="96" height="132" rx="10" fill="#3A9A3A"/>
+  <text x="88" y="332" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">增量轨</text>
+  <text x="88" y="352" text-anchor="middle" font-size="9.5" fill="#DCF2DC">新页面/新模块</text>
+  <text x="88" y="366" text-anchor="middle" font-size="9.5" fill="#DCF2DC">从第一天原生</text>
+
+  <rect x="150" y="298" width="140" height="66" rx="8" fill="#FFFFFF" stroke="#7CC47C"/>
+  <text x="220" y="324" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1A5A1A">纯 TS 三层</text>
+  <text x="220" y="342" text-anchor="middle" font-size="9.5" fill="#3A7A3A">UI / 逻辑 / 契约</text>
+  <text x="220" y="356" text-anchor="middle" font-size="9.5" fill="#3A7A3A">lint ＋ AI CR 强制</text>
+
+  <rect x="302" y="298" width="140" height="66" rx="8" fill="#FFFFFF" stroke="#7CC47C"/>
+  <text x="372" y="324" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1A5A1A">契约先行</text>
+  <text x="372" y="342" text-anchor="middle" font-size="9.5" fill="#3A7A3A">OpenAPI ＝ Spec</text>
+  <text x="372" y="356" text-anchor="middle" font-size="9.5" fill="#3A7A3A">AI 生码即合规</text>
+
+  <rect x="454" y="298" width="140" height="66" rx="8" fill="#FFFFFF" stroke="#7CC47C"/>
+  <text x="524" y="324" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1A5A1A">组件 Catalog 白名单</text>
+  <text x="524" y="342" text-anchor="middle" font-size="9.5" fill="#3A7A3A">D2C 只能引用</text>
+  <text x="524" y="356" text-anchor="middle" font-size="9.5" fill="#3A7A3A">注册过的组件</text>
+
+  <rect x="606" y="298" width="140" height="66" rx="8" fill="#FFFFFF" stroke="#7CC47C"/>
+  <text x="676" y="324" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1A5A1A">A2UI ＋ 隔离降级</text>
+  <text x="676" y="342" text-anchor="middle" font-size="9.5" fill="#3A7A3A">受约束渲染</text>
+  <text x="676" y="356" text-anchor="middle" font-size="9.5" fill="#3A7A3A">主链路零依赖</text>
+
+  <text x="390" y="392" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1A5A1A">目标：新代码天生 AI 友好，长在同一套骨架上</text>
+
+  <!-- ============ 右侧绞杀替换弧 ============ -->
+  <path d="M 770,124 C 862,124 862,344 770,344" fill="none" stroke="#3A9A3A" stroke-width="3" stroke-dasharray="7,5" marker-end="url(#killArrow)"/>
+  <g transform="rotate(-90 800 234)">
+    <rect x="730" y="220" width="140" height="28" rx="14" fill="#2D3E56"/>
+    <text x="800" y="239" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">绞杀者替换</text>
+  </g>
+  <text x="872" y="180" font-size="10" fill="#5A6472">叶子模块先行</text>
+  <text x="872" y="240" font-size="10" fill="#5A6472">同契约对照</text>
+  <text x="872" y="300" font-size="10" fill="#5A6472">灰度 · 可回滚</text>
+
+  <!-- ============ 底部注脚 ============ -->
+  <text x="40" y="440" font-size="11" fill="#5A6472">存量每被替换一块，新体系覆盖面自然扩大一块 —— 不需要额外的「迁移运动」；不一致时由人裁定：老行为是期望，还是历史缺陷。</text>
+  <text x="940" y="440" text-anchor="end" font-size="10.5" font-weight="bold" fill="#2B5090">默认渐进 · 重写不封死：闭环模块可独立重构</text>
+</svg>
+<figcaption>绞杀者双轨</figcaption></figure>
+
+<ul>
+<li><strong>存量轨</strong>：让老代码"可被 AI 安全修改"——先做特征化测试锁住现状行为，再补 Code Docs 和数据字典，让 AI 有上下文可用；不追生码率。</li>
+<li><strong>增量轨</strong>：新模块天生 AI 原生，按 6.1 的骨架落位；与存量轨共用同一套 Spec、数据字典与 Verify。</li>
+<li><strong>替换顺序</strong>：叶子模块先行、同契约对照、灰度可回滚；每替换一个模块都是一次退路演练。</li>
+<li><strong>重写不是禁区</strong>：模块自身闭环、不影响其他业务时可独立重写；是否重写按重建成本与业务窗口评估清单决策，不按立场决策。</li>
+</ul>
+<hr />
+<h2 id="s7">7. 组织阵型与路线图</h2>
+<p><strong>结论：一个 5–6 人 Harness 小队承载三条线，AICoding 先行半步、跨端 P2 主战、架构 P1 最小骨架 P3 主导；三线共用同一个试验田。</strong></p>
+<p>小队构成（5–6 人）：技术负责人 1（三线裁决）· Harness 工程师 1（AICoding Owner）· 全栈工程师 3–4（跨端 Owner）· Spec/质量 1 可兼（契约/数据字典/度量）。</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 630" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="34" font-size="19" font-weight="bold" fill="#1F2A3A">三条线 × 三阶段：投入与节奏全景</text>
+
+  <!-- ============ 列头 ============ -->
+  <rect x="210" y="52" width="274" height="44" rx="8" fill="#2D3E56"/>
+  <text x="347" y="72" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#FFFFFF">P1 试验田（0–3 月）</text>
+  <text x="347" y="89" text-anchor="middle" font-size="9.5" fill="#AEB9C8">拿到自己的真实数据</text>
+  <rect x="500" y="52" width="274" height="44" rx="8" fill="#2D3E56"/>
+  <text x="637" y="72" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#FFFFFF">P2 KO 推广（3–6 月）</text>
+  <text x="637" y="89" text-anchor="middle" font-size="9.5" fill="#AEB9C8">个人技巧 → 团队默认流程</text>
+  <rect x="790" y="52" width="274" height="44" rx="8" fill="#2D3E56"/>
+  <text x="927" y="72" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#FFFFFF">P3 常态演进（6–12 月）</text>
+  <text x="927" y="89" text-anchor="middle" font-size="9.5" fill="#AEB9C8">新代码原生，老代码退场</text>
+
+  <!-- ============ 行1 AICoding（绿） ============ -->
+  <rect x="40" y="110" width="154" height="140" rx="8" fill="#3A9A3A"/>
+  <text x="117" y="162" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#FFFFFF">线一</text>
+  <text x="117" y="182" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#FFFFFF">AICoding</text>
+  <text x="117" y="204" text-anchor="middle" font-size="9.5" fill="#DCF2DC">先行线</text>
+  <text x="117" y="220" text-anchor="middle" font-size="9.5" fill="#DCF2DC">P1 投入最重</text>
+
+  <rect x="210" y="110" width="274" height="140" rx="8" fill="#F2FAF2" stroke="#7CC47C" stroke-width="1.3"/>
+  <circle cx="226" cy="132" r="3" fill="#3A9A3A"/><text x="236" y="136" font-size="10.5" fill="#2A4A2A">工具全员铺开，模型分流规范</text>
+  <circle cx="226" cy="154" r="3" fill="#3A9A3A"/><text x="236" y="158" font-size="10.5" fill="#2A4A2A">Spec 模板 ＋ 数据字典 v1</text>
+  <circle cx="226" cy="176" r="3" fill="#3A9A3A"/><text x="236" y="180" font-size="10.5" fill="#2A4A2A">L0 编译门禁 ＋ L1 纯 TS 单测</text>
+  <circle cx="226" cy="198" r="3" fill="#3A9A3A"/><text x="236" y="202" font-size="10.5" fill="#2A4A2A">1 个存量模块特征化测试</text>
+  <rect x="222" y="216" width="250" height="24" rx="4" fill="#3A9A3A"/>
+  <text x="347" y="232" text-anchor="middle" font-size="9.5" fill="#FFFFFF">退出：≥1 需求端到端走完 SDD，拿到基线</text>
+
+  <rect x="500" y="110" width="274" height="140" rx="8" fill="#F2FAF2" stroke="#7CC47C" stroke-width="1.3"/>
+  <circle cx="516" cy="132" r="3" fill="#3A9A3A"/><text x="526" y="136" font-size="10.5" fill="#2A4A2A">SDD 进入默认研发流</text>
+  <circle cx="516" cy="154" r="3" fill="#3A9A3A"/><text x="526" y="158" font-size="10.5" fill="#2A4A2A">L2 半白盒：mock ＋ 状态 inspect</text>
+  <circle cx="516" cy="176" r="3" fill="#3A9A3A"/><text x="526" y="180" font-size="10.5" fill="#2A4A2A">L3 组件化 UI 走查</text>
+  <circle cx="516" cy="198" r="3" fill="#3A9A3A"/><text x="526" y="202" font-size="10.5" fill="#2A4A2A">AI CR 规则库 ＋ 数据安全分级</text>
+  <rect x="512" y="216" width="250" height="24" rx="4" fill="#3A9A3A"/>
+  <text x="637" y="232" text-anchor="middle" font-size="9.5" fill="#FFFFFF">退出：自测覆盖 50–70%，非敏感代码全走 Agent</text>
+
+  <rect x="790" y="110" width="274" height="140" rx="8" fill="#F2FAF2" stroke="#7CC47C" stroke-width="1.3"/>
+  <circle cx="806" cy="132" r="3" fill="#3A9A3A"/><text x="816" y="136" font-size="10.5" fill="#2A4A2A">L4 需求级验收：case 矩阵＋证据报告</text>
+  <circle cx="806" cy="154" r="3" fill="#3A9A3A"/><text x="816" y="158" font-size="10.5" fill="#2A4A2A">度量全量运行，驱动复盘</text>
+  <circle cx="806" cy="176" r="3" fill="#3A9A3A"/><text x="816" y="180" font-size="10.5" fill="#2A4A2A">外循环 Skill / 规则自沉淀</text>
+  <rect x="802" y="216" width="250" height="24" rx="4" fill="#3A9A3A"/>
+  <text x="927" y="232" text-anchor="middle" font-size="9.5" fill="#FFFFFF">退出：渗透/采纳双高，排障建议稳定采纳</text>
+
+  <!-- ============ 行2 全栈跨端（蓝） ============ -->
+  <rect x="40" y="264" width="154" height="140" rx="8" fill="#3D6FB0"/>
+  <text x="117" y="316" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#FFFFFF">线二</text>
+  <text x="117" y="336" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#FFFFFF">全栈跨端</text>
+  <text x="117" y="358" text-anchor="middle" font-size="9.5" fill="#D6E4F7">P1 轻试</text>
+  <text x="117" y="374" text-anchor="middle" font-size="9.5" fill="#D6E4F7">P2 主战</text>
+
+  <rect x="210" y="264" width="274" height="140" rx="8" fill="#F0F6FF" stroke="#8AB2E4" stroke-width="1.3"/>
+  <circle cx="226" cy="286" r="3" fill="#3D6FB0"/><text x="236" y="290" font-size="10.5" fill="#24406B">纯 TS 三层规范 ＋ lint 强约束</text>
+  <circle cx="226" cy="308" r="3" fill="#3D6FB0"/><text x="236" y="312" font-size="10.5" fill="#24406B">1–2 个 RN 试验田页面</text>
+  <circle cx="226" cy="330" r="3" fill="#3D6FB0"/><text x="236" y="334" font-size="10.5" fill="#24406B">RNOH 鸿蒙环境跑通验证</text>
+  <rect x="222" y="370" width="250" height="24" rx="4" fill="#3D6FB0"/>
+  <text x="347" y="386" text-anchor="middle" font-size="9.5" fill="#FFFFFF">退出：三端可运行，逻辑层 PC 单测可跑</text>
+
+  <rect x="500" y="264" width="274" height="140" rx="8" fill="#F0F6FF" stroke="#8AB2E4" stroke-width="1.3"/>
+  <circle cx="516" cy="286" r="3" fill="#3D6FB0"/><text x="526" y="290" font-size="10.5" fill="#24406B">混合路由壳工程 ＋ 组件 Catalog v1</text>
+  <circle cx="516" cy="308" r="3" fill="#3D6FB0"/><text x="526" y="312" font-size="10.5" fill="#24406B">一人三端 2–3 个需求试点</text>
+  <circle cx="516" cy="330" r="3" fill="#3D6FB0"/><text x="526" y="334" font-size="10.5" fill="#24406B">Spec 驱动 AI 双生成补鸿蒙缺口</text>
+  <rect x="512" y="370" width="250" height="24" rx="4" fill="#3D6FB0"/>
+  <text x="637" y="386" text-anchor="middle" font-size="9.5" fill="#FFFFFF">退出：鸿蒙与主端同节拍交付 ≥1 个需求</text>
+
+  <rect x="790" y="264" width="274" height="140" rx="8" fill="#F0F6FF" stroke="#8AB2E4" stroke-width="1.3"/>
+  <circle cx="806" cy="286" r="3" fill="#3D6FB0"/><text x="816" y="290" font-size="10.5" fill="#24406B">增量需求默认一人三端</text>
+  <circle cx="806" cy="308" r="3" fill="#3D6FB0"/><text x="816" y="312" font-size="10.5" fill="#24406B">原端工程师转型评审 / 暗知识角色</text>
+  <circle cx="806" cy="330" r="3" fill="#3D6FB0"/><text x="816" y="334" font-size="10.5" fill="#24406B">按热点评审 JSI 下沉（KMP 不预投）</text>
+  <rect x="802" y="370" width="250" height="24" rx="4" fill="#3D6FB0"/>
+  <text x="927" y="386" text-anchor="middle" font-size="9.5" fill="#FFFFFF">退出：真实页面级退路切换 ≥1 次且无感</text>
+
+  <!-- ============ 行3 AI Native 架构（紫） ============ -->
+  <rect x="40" y="418" width="154" height="140" rx="8" fill="#6D4A9C"/>
+  <text x="117" y="464" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">线三</text>
+  <text x="117" y="483" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#FFFFFF">AI Native 架构</text>
+  <text x="117" y="506" text-anchor="middle" font-size="9.5" fill="#E2D6F2">P1 最小骨架</text>
+  <text x="117" y="522" text-anchor="middle" font-size="9.5" fill="#E2D6F2">P3 主导绞杀</text>
+
+  <rect x="210" y="418" width="274" height="140" rx="8" fill="#F5F0FC" stroke="#B794DA" stroke-width="1.3"/>
+  <circle cx="226" cy="440" r="3" fill="#6D4A9C"/><text x="236" y="444" font-size="10.5" fill="#3E2A60">企业数据领域模型 SDK v1（头号）</text>
+  <circle cx="226" cy="462" r="3" fill="#6D4A9C"/><text x="236" y="466" font-size="10.5" fill="#3E2A60">MVI ＋ 网络基座</text>
+  <circle cx="226" cy="484" r="3" fill="#6D4A9C"/><text x="236" y="488" font-size="10.5" fill="#3E2A60">统一路由 / Deeplink</text>
+  <rect x="222" y="524" width="250" height="24" rx="4" fill="#6D4A9C"/>
+  <text x="347" y="540" text-anchor="middle" font-size="9.5" fill="#FFFFFF">退出：新基座支撑试验田页面上线</text>
+
+  <rect x="500" y="418" width="274" height="140" rx="8" fill="#F5F0FC" stroke="#B794DA" stroke-width="1.3"/>
+  <circle cx="516" cy="440" r="3" fill="#6D4A9C"/><text x="526" y="444" font-size="10.5" fill="#3E2A60">场景容器 ＋ 组件层 ＋ 协议注入</text>
+  <circle cx="516" cy="462" r="3" fill="#6D4A9C"/><text x="526" y="466" font-size="10.5" fill="#3E2A60">A2UI 渲染器 ＋ 风险结论卡样板</text>
+  <circle cx="516" cy="484" r="3" fill="#6D4A9C"/><text x="526" y="488" font-size="10.5" fill="#3E2A60">隔离熔断开关 ＋ 引用溯源强制</text>
+  <rect x="512" y="524" width="250" height="24" rx="4" fill="#6D4A9C"/>
+  <text x="637" y="540" text-anchor="middle" font-size="9.5" fill="#FFFFFF">退出：故障注入演练通过，主链路不受影响</text>
+
+  <rect x="790" y="418" width="274" height="140" rx="8" fill="#F5F0FC" stroke="#B794DA" stroke-width="1.3"/>
+  <circle cx="806" cy="440" r="3" fill="#6D4A9C"/><text x="816" y="444" font-size="10.5" fill="#3E2A60">新模块全部按 AI 原生架构建设</text>
+  <circle cx="806" cy="462" r="3" fill="#6D4A9C"/><text x="816" y="466" font-size="10.5" fill="#3E2A60">存量按叶子模块绞杀替换</text>
+  <circle cx="806" cy="484" r="3" fill="#6D4A9C"/><text x="816" y="488" font-size="10.5" fill="#3E2A60">B 端报告模板化；端智能仅评审</text>
+  <rect x="802" y="524" width="250" height="24" rx="4" fill="#6D4A9C"/>
+  <text x="927" y="540" text-anchor="middle" font-size="9.5" fill="#FFFFFF">退出：替换零事故，专项变为默认架构</text>
+
+  <!-- ============ 底部协同逻辑 ============ -->
+  <rect x="40" y="576" width="1024" height="40" rx="8" fill="#2D3E56"/>
+  <text x="552" y="594" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">协同节奏：AICoding 先行半步供弹 → 架构 P1 只做最小骨架 → 跨端 P1 最轻、P2 主战</text>
+  <text x="552" y="610" text-anchor="middle" font-size="9.5" fill="#AEB9C8">三线共用同一个试验田需求（付费产品营销页 / 风险列表筛选器 / B 端报告模板），一次投入、三线同时验证</text>
+</svg>
+<figcaption>三线三阶段路线</figcaption></figure>
+
+<ul>
+<li><strong>P1（0–3 月）</strong>：工具+规范+L0/L1+数据字典 v1+架构基线+Golden 任务集；1 个 RN 页 + 1 个存量模块特征化测试；退出标准——≥1 需求端到端走通、拿到自家基线。</li>
+<li><strong>P2（3–6 月）</strong>：路由壳+Catalog、一人三端 2–3 个需求、鸿蒙同节拍交付、A2UI 样板与故障注入演练；联动准入与一致性门禁上线；退出标准——跨端有稳定样本、AI 通道灰度健康。</li>
+<li><strong>P3（6–12 月）</strong>：新模块默认 AI 原生、存量绞杀零事故、退路真实切换演练 ≥1 次；专项消失，成为默认工作方式。</li>
+<li><strong>试验田</strong>：付费产品营销页 / 风险列表筛选器 / B 端报告模板；不选关系图谱与付费链路。</li>
+<li><strong>预期</strong>：P1 写 Spec、补测试、搭基座，可能比以前慢；用 P1 的确定性投入换 P2/P3 的结构性收益。</li>
+</ul>
+<hr />
+<h2 id="s8">8. 风险与不做清单</h2>
+<p><strong>结论：三个致命风险（线上事故、品牌损伤、数据合规）均有工程对策；七条"不做"是方案可信度的来源。各范式的核心难点与应对见 4.2 / 5.2 / 6.2，此处只列行业共性的坑。</strong></p>
+<p>三个致命风险的兜底：绞杀者+灰度回滚（线上）｜引用溯源+人审+白名单（品牌）｜分级通道+只读权限+审计（合规）。</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 780" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="38" font-size="19" font-weight="bold" fill="#1F2A3A">三个方向的落地难点：行业已经踩过的坑，同类团队必须提前防</text>
+  <text x="1060" y="38" text-anchor="end" font-size="10.5" fill="#7A8494">没有难点的事别人早做完了 —— 难的不是生码，是存量适配、验证闭环、可信与责任</text>
+
+  <!-- ============ 列1 AICoding ============ -->
+  <rect x="40" y="58" width="330" height="690" rx="12" fill="#F2FAF2" stroke="#3A9A3A" stroke-width="1.6"/>
+  <rect x="40" y="58" width="330" height="48" rx="12" fill="#3A9A3A"/>
+  <text x="205" y="82" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">AICoding · 真实难点</text>
+
+  <!-- 难点卡 1 -->
+  <rect x="58" y="120" width="294" height="106" rx="8" fill="#FFFFFF" stroke="#7CC47C"/>
+  <text x="72" y="142" font-size="11.5" font-weight="bold" fill="#1A5A1A">① 存量工程适配，红利快速衰减</text>
+  <text x="72" y="162" font-size="9.5" fill="#3A7A3A">行业：生码速度红利后，AI 读不懂存量</text>
+  <text x="72" y="177" font-size="9.5" fill="#3A7A3A">结构、业务约束、暗知识，质量骤降</text>
+  <line x1="72" y1="186" x2="338" y2="186" stroke="#DDF0DD"/>
+  <text x="72" y="202" font-size="9.5" font-weight="bold" fill="#C0504D">同类团队：知识库冷启动为空</text>
+  <text x="72" y="217" font-size="9.5" fill="#C0504D">→ 数据字典+Code Docs 先行，边用边补</text>
+
+  <!-- 难点卡 2 -->
+  <rect x="58" y="238" width="294" height="106" rx="8" fill="#FFFFFF" stroke="#7CC47C"/>
+  <text x="72" y="260" font-size="11.5" font-weight="bold" fill="#1A5A1A">② 会验收 AI 的人极度稀缺</text>
+  <text x="72" y="280" font-size="9.5" fill="#3A7A3A">行业实测：能有效验收 AI 测试/代码者</text>
+  <text x="72" y="295" font-size="9.5" fill="#3A7A3A">初期仅 10%–20%；假测试 assertNotCrash</text>
+  <line x1="72" y1="304" x2="338" y2="304" stroke="#DDF0DD"/>
+  <text x="72" y="320" font-size="9.5" font-weight="bold" fill="#C0504D">同类团队：小团队没有备份人力</text>
+  <text x="72" y="335" font-size="9.5" fill="#C0504D">→ SOP＋核心人员 Review 准入＋先培训</text>
+
+  <!-- 难点卡 3 -->
+  <rect x="58" y="356" width="294" height="106" rx="8" fill="#FFFFFF" stroke="#7CC47C"/>
+  <text x="72" y="378" font-size="11.5" font-weight="bold" fill="#1A5A1A">③ 反馈闭环是最重的基建</text>
+  <text x="72" y="398" font-size="9.5" fill="#3A7A3A">行业：生码 80% 但效率未释放；编译</text>
+  <text x="72" y="413" font-size="9.5" fill="#3A7A3A">验证慢、mock/观测全靠人</text>
+  <line x1="72" y1="422" x2="338" y2="422" stroke="#DDF0DD"/>
+  <text x="72" y="438" font-size="9.5" font-weight="bold" fill="#C0504D">同类团队：三端 Verify 从零起</text>
+  <text x="72" y="453" font-size="9.5" fill="#C0504D">→ 纯 TS 逻辑层吃 PC 单测红利，L2 克制建</text>
+
+  <!-- 难点卡 4 -->
+  <rect x="58" y="474" width="294" height="106" rx="8" fill="#FFFFFF" stroke="#7CC47C"/>
+  <text x="72" y="496" font-size="11.5" font-weight="bold" fill="#1A5A1A">④ 成本与个人技巧团队化</text>
+  <text x="72" y="516" font-size="9.5" fill="#3A7A3A">行业：单人单日 Token 可达两千万；</text>
+  <text x="72" y="531" font-size="9.5" fill="#3A7A3A">技巧锁在个人会话，产物难评审</text>
+  <line x1="72" y1="540" x2="338" y2="540" stroke="#DDF0DD"/>
+  <text x="72" y="556" font-size="9.5" font-weight="bold" fill="#C0504D">同类团队：预算与磁盘内存双约束</text>
+  <text x="72" y="571" font-size="9.5" fill="#C0504D">→ 模型分流＋P1 统一模板/Skill/云环境</text>
+
+  <!-- 底部根因 -->
+  <rect x="58" y="594" width="294" height="134" rx="8" fill="#2D3E56"/>
+  <text x="72" y="618" font-size="11" font-weight="bold" fill="#FFD27A">根因一句话</text>
+  <text x="72" y="640" font-size="10" fill="#D6DEE9">AI Coding 的上限不取决于模型，</text>
+  <text x="72" y="656" font-size="10" fill="#D6DEE9">取决于基础设施是否 AI 友好：</text>
+  <text x="72" y="678" font-size="10" fill="#FFFFFF">上下文质量 ＞ 模型强弱</text>
+  <text x="72" y="700" font-size="10" fill="#FFFFFF">验证闭环 ＞ 生码速度</text>
+  <text x="72" y="718" font-size="9.5" fill="#8FA0B8">（阿里千问/快手直播共同结论）</text>
+
+  <!-- ============ 列2 全栈跨端 ============ -->
+  <rect x="385" y="58" width="330" height="690" rx="12" fill="#F0F6FF" stroke="#3D6FB0" stroke-width="1.6"/>
+  <rect x="385" y="58" width="330" height="48" rx="12" fill="#3D6FB0"/>
+  <text x="550" y="82" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">全栈跨端 · 真实难点</text>
+
+  <rect x="403" y="120" width="294" height="106" rx="8" fill="#FFFFFF" stroke="#8AB2E4"/>
+  <text x="417" y="142" font-size="11.5" font-weight="bold" fill="#2B5090">① 对端 Review 依赖去不掉</text>
+  <text x="417" y="162" font-size="9.5" fill="#4A70A8">行业：spec review/CR 仍依赖对端同学；</text>
+  <text x="417" y="177" font-size="9.5" fill="#4A70A8">平台高级特性与暗知识要求人判断</text>
+  <line x1="417" y1="186" x2="683" y2="186" stroke="#D6E4F7"/>
+  <text x="417" y="202" font-size="9.5" font-weight="bold" fill="#C0504D">同类团队：小团队可能没有对端可问</text>
+  <text x="417" y="217" font-size="9.5" fill="#C0504D">→ AI CR 规则库＋外部专家评审＋严控准入</text>
+
+  <rect x="403" y="238" width="294" height="106" rx="8" fill="#FFFFFF" stroke="#8AB2E4"/>
+  <text x="417" y="260" font-size="11.5" font-weight="bold" fill="#2B5090">② RN 性能与复杂交互天花板</text>
+  <text x="417" y="280" font-size="9.5" fill="#4A70A8">行业：长列表/动画/高刷屏有真实差距；</text>
+  <text x="417" y="295" font-size="9.5" fill="#4A70A8">主链路 RN 实验有 AB 不达标先例</text>
+  <line x1="417" y1="304" x2="683" y2="304" stroke="#D6E4F7"/>
+  <text x="417" y="320" font-size="9.5" font-weight="bold" fill="#C0504D">同类团队：长报告/关系图谱是雷区</text>
+  <text x="417" y="335" font-size="9.5" fill="#C0504D">→ 三道退路＋原生保留地＋需求画像准入</text>
+
+  <rect x="403" y="356" width="294" height="106" rx="8" fill="#FFFFFF" stroke="#8AB2E4"/>
+  <text x="417" y="378" font-size="11.5" font-weight="bold" fill="#2B5090">③ 鸿蒙生态不成熟</text>
+  <text x="417" y="398" font-size="9.5" fill="#4A70A8">RNOH 跟版滞后官方、三方插件缺口、</text>
+  <text x="417" y="413" font-size="9.5" fill="#4A70A8">ArkTS 暗知识积累少、招人难</text>
+  <line x1="417" y1="422" x2="683" y2="422" stroke="#D6E4F7"/>
+  <text x="417" y="438" font-size="9.5" font-weight="bold" fill="#C0504D">同类团队：还要与主端同频迭代</text>
+  <text x="417" y="453" font-size="9.5" fill="#C0504D">→ Spec 双生成补缺口＋能力点白名单管控</text>
+
+  <rect x="403" y="474" width="294" height="106" rx="8" fill="#FFFFFF" stroke="#8AB2E4"/>
+  <text x="417" y="496" font-size="11.5" font-weight="bold" fill="#2B5090">④ 一人三端的责任与质量</text>
+  <text x="417" y="516" font-size="9.5" fill="#4A70A8">三端一个人＝无冗余；事故责任、</text>
+  <text x="417" y="531" font-size="9.5" fill="#4A70A8">QA 配比、绩效口径都要重定义</text>
+  <line x1="417" y1="540" x2="683" y2="540" stroke="#D6E4F7"/>
+  <text x="417" y="556" font-size="9.5" font-weight="bold" fill="#C0504D">同类团队：双端一致性即品牌一致性</text>
+  <text x="417" y="571" font-size="9.5" fill="#C0504D">→ 三端共用 Verify＋灰度开关＋结对起步</text>
+
+  <rect x="403" y="594" width="294" height="134" rx="8" fill="#2D3E56"/>
+  <text x="417" y="618" font-size="11" font-weight="bold" fill="#FFD27A">根因一句话</text>
+  <text x="417" y="640" font-size="10" fill="#D6DEE9">AI 抹平的是「写」的成本，</text>
+  <text x="417" y="656" font-size="10" fill="#D6DEE9">抹不平平台差异与「判对错」；</text>
+  <text x="417" y="678" font-size="10" fill="#FFFFFF">适合的需求画像 ＞ 跨端率指标</text>
+  <text x="417" y="700" font-size="10" fill="#FFFFFF">退路架构 ＞ 框架选型本身</text>
+  <text x="417" y="718" font-size="9.5" fill="#8FA0B8">（快手跨栈 3 需求实测结论）</text>
+
+  <!-- ============ 列3 AI Native 架构 ============ -->
+  <rect x="730" y="58" width="330" height="690" rx="12" fill="#F5F0FC" stroke="#6D4A9C" stroke-width="1.6"/>
+  <rect x="730" y="58" width="330" height="48" rx="12" fill="#6D4A9C"/>
+  <text x="895" y="82" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">AI Native 架构 · 真实难点</text>
+
+  <rect x="748" y="120" width="294" height="106" rx="8" fill="#FFFFFF" stroke="#B794DA"/>
+  <text x="762" y="142" font-size="11.5" font-weight="bold" fill="#4A2070">① 幻觉与可信度（致命）</text>
+  <text x="762" y="162" font-size="9.5" fill="#6B4A92">生成式结论没有标准答案；一条错误</text>
+  <text x="762" y="177" font-size="9.5" fill="#6B4A92">法律/风险结论就是品牌事故</text>
+  <line x1="762" y1="186" x2="1028" y2="186" stroke="#E4D8F4"/>
+  <text x="762" y="202" font-size="9.5" font-weight="bold" fill="#C0504D">同类团队：吃品牌，B 端还要交付客户</text>
+  <text x="762" y="217" font-size="9.5" fill="#C0504D">→ 引用溯源＋Golden Set＋敏感结论人审</text>
+
+  <rect x="748" y="238" width="294" height="106" rx="8" fill="#FFFFFF" stroke="#B794DA"/>
+  <text x="762" y="260" font-size="11.5" font-weight="bold" fill="#4A2070">② 数据飞轮转不起来</text>
+  <text x="762" y="280" font-size="9.5" fill="#6B4A92">反馈稀疏（赞踩率低）、标注贵、</text>
+  <text x="762" y="295" font-size="9.5" fill="#6B4A92">冷启动无数据；AB 实验难做</text>
+  <line x1="762" y1="304" x2="1028" y2="304" stroke="#E4D8F4"/>
+  <text x="762" y="320" font-size="9.5" font-weight="bold" fill="#C0504D">同类团队：专业标注只能靠业务/法务专家</text>
+  <text x="762" y="335" font-size="9.5" fill="#C0504D">→ 人工回流起步＋证据级埋点＋红线否决</text>
+
+  <rect x="748" y="356" width="294" height="106" rx="8" fill="#FFFFFF" stroke="#B794DA"/>
+  <text x="762" y="378" font-size="11.5" font-weight="bold" fill="#4A2070">③ 成本、延迟与稳定性</text>
+  <text x="762" y="398" font-size="9.5" fill="#6B4A92">多轮工具调用慢且贵；Agent 依赖</text>
+  <text x="762" y="413" font-size="9.5" fill="#6B4A92">故障会成为新的线上事故源</text>
+  <line x1="762" y1="422" x2="1028" y2="422" stroke="#E4D8F4"/>
+  <text x="762" y="438" font-size="9.5" font-weight="bold" fill="#C0504D">同类团队：付费产品场景对成本极敏感</text>
+  <text x="762" y="453" font-size="9.5" fill="#C0504D">→ System1/2 分流＋路径隔离＋多级降级</text>
+
+  <rect x="748" y="474" width="294" height="106" rx="8" fill="#FFFFFF" stroke="#B794DA"/>
+  <text x="762" y="496" font-size="11.5" font-weight="bold" fill="#4A2070">④ 数据合规与组织能力</text>
+  <text x="762" y="516" font-size="9.5" fill="#6B4A92">客户数据能否训练；PM 不会设计</text>
+  <text x="762" y="531" font-size="9.5" fill="#6B4A92">Agent 交互，传统团队技能断层</text>
+  <line x1="762" y1="540" x2="1028" y2="540" stroke="#E4D8F4"/>
+  <text x="762" y="556" font-size="9.5" font-weight="bold" fill="#C0504D">同类团队：政府/大厂客户数据是红线</text>
+  <text x="762" y="571" font-size="9.5" fill="#C0504D">→ 默认隔离授权使用＋产品技术共建小队</text>
+
+  <rect x="748" y="594" width="294" height="134" rx="8" fill="#2D3E56"/>
+  <text x="762" y="618" font-size="11" font-weight="bold" fill="#FFD27A">根因一句话</text>
+  <text x="762" y="640" font-size="10" fill="#D6DEE9">模型负责概率性，工程负责把它</text>
+  <text x="762" y="656" font-size="10" fill="#D6DEE9">变成可计费、可评估、可追责的服务；</text>
+  <text x="762" y="678" font-size="10" fill="#FFFFFF">可信 ＞ 聪明</text>
+  <text x="762" y="700" font-size="10" fill="#FFFFFF">数据回路 ＞ 功能数量</text>
+  <text x="762" y="718" font-size="9.5" fill="#8FA0B8">（阿里 AIDC/腾讯 TDesign 共同结论）</text>
+</svg>
+<figcaption>三大方向落地难点地图</figcaption></figure>
+
+<ul>
+<li><strong>AICoding</strong>：存量适配是红利后的真墙（先建数据字典/Code Docs）· 会验收的人仅一两成（Review 准入不授权）· Token 成本与个人技巧团队化（模型分流、两周一轮收敛）。</li>
+<li><strong>全栈跨端</strong>：没有"对端同学"兜底（AI CR 做厚 + 准入硬卡）· RN 性能天花板（三道退路第一天就位）· 鸿蒙生态不成熟（缺口交 AI 双生成）· 一人三端无冗余（结对起步、共用 Verify）。</li>
+<li><strong>AI Native 架构</strong>：幻觉对吃品牌业务致命（无来源不出结论 + Golden Set 红线）· 数据飞轮易空转（专家人工回流起步）· 成本延迟与新故障源（System1/2 分流 + 隔离降级）· 训练合规与组织断层（默认隔离授权；共建小组先培养人）。</li>
+</ul>
+<p><strong>七条不做</strong>：
+1. 不做未经评估的全系统重写（闭环模块可独立重构，系统级按清单评估）；
+2. 不自研模型、不自研 Agent 平台；
+3. 不建大厂级重型测试/稳定性平台，第三方 APM 先行；
+4. 不同时维护两套跨端栈，Flutter/KMP 是条件触发项；
+5. 不在刚需出现前提前上端侧智能，P3 前云侧为主；
+6. 不把生码率当唯一 KPI；
+7. 不追求 100% 跨端、100% 无人工。</p>
+<p>三句收口：<strong>上下文质量 ＞ 模型强弱；退路架构 ＞ 框架选型；可信 ＞ 聪明。</strong></p>
+<hr />
+<h2 id="s9">9. 实施前的四个关键决策</h2>
+<p><strong>结论：四个决策确定后 P1 即可启动；六项待确认影响选型细节，不影响启动。</strong></p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 480" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <text x="40" y="38" font-size="19" font-weight="bold" fill="#1F2A3A">实施前的四个关键决策</text>
+  <text x="40" y="60" font-size="11" fill="#6B7A8C">决策确定后 P1 即可启动；下方六项待确认影响的是选型细节，不影响启动</text>
+
+  <rect x="40" y="80" width="490" height="130" rx="10" fill="#EEF3FA" stroke="#3D6FB0" stroke-width="1.5"/>
+  <circle cx="68" cy="108" r="14" fill="#3D6FB0"/><text x="68" y="113" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">1</text>
+  <text x="92" y="113" font-size="13.5" font-weight="bold" fill="#1F3A5F">确定小队规模：5–6 人 Harness 小队承载三条线</text>
+  <text x="60" y="142" font-size="11.5" fill="#1F3A5F">技术负责人 1（三线裁决）· Harness 工程师 1（AICoding Owner）</text>
+  <text x="60" y="162" font-size="11.5" fill="#1F3A5F">全栈工程师 3–4（跨端 Owner）· Spec/质量 1 可兼</text>
+  <text x="60" y="190" font-size="11" fill="#6B7A8C">决策点：成员从既有团队抽调，还是外部补充</text>
+
+  <rect x="550" y="80" width="490" height="130" rx="10" fill="#EEF7EE" stroke="#3A9A3A" stroke-width="1.5"/>
+  <circle cx="578" cy="108" r="14" fill="#3A9A3A"/><text x="578" y="113" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">2</text>
+  <text x="602" y="113" font-size="13.5" font-weight="bold" fill="#2A4A2A">选定 P1 试验田（三选一或二）</text>
+  <text x="570" y="142" font-size="11.5" fill="#2A4A2A">候选：付费产品营销页 / 风险列表筛选器 / B 端报告模板</text>
+  <text x="570" y="162" font-size="11.5" fill="#2A4A2A">排除：关系图谱、付费链路（原生保留地 + 不可逆风险）</text>
+  <text x="570" y="190" font-size="11" fill="#6B7A8C">决策点：对应产品 / QA 的排期窗口与协作意愿</text>
+
+  <rect x="40" y="230" width="490" height="130" rx="10" fill="#FFF8E8" stroke="#E08020" stroke-width="1.5"/>
+  <circle cx="68" cy="258" r="14" fill="#E08020"/><text x="68" y="263" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">3</text>
+  <text x="92" y="263" font-size="13.5" font-weight="bold" fill="#7A4000">明确 P1 的度量口径与"可能更慢"的预期</text>
+  <text x="60" y="292" font-size="11.5" fill="#7A4000">P1 退出标准：≥1 需求端到端走通、拿到自家效率基线</text>
+  <text x="60" y="312" font-size="11.5" fill="#7A4000">不设生码率单一 KPI；渗透率与完整采纳率分开记</text>
+  <text x="60" y="340" font-size="11" fill="#6B7A8C">决策点：P1 期间是否暂缓按常规交付速度评估</text>
+
+  <rect x="550" y="230" width="490" height="130" rx="10" fill="#FDEDED" stroke="#D9534F" stroke-width="1.5"/>
+  <circle cx="578" cy="258" r="14" fill="#D9534F"/><text x="578" y="263" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">4</text>
+  <text x="602" y="263" font-size="13.5" font-weight="bold" fill="#9A2A28">定数据合规口径</text>
+  <text x="570" y="292" font-size="11.5" fill="#9A2A28">代码与工程上下文能否经过外部 SaaS 大模型？</text>
+  <text x="570" y="312" font-size="11.5" fill="#9A2A28">私有化部署边界在哪？客户数据训练默认隔离、授权使用</text>
+  <text x="570" y="340" font-size="11" fill="#6B7A8C">决策点：决定 P1 工具链选型与模型分流方案</text>
+
+  <!-- 待确认 -->
+  <rect x="40" y="380" width="1000" height="80" rx="8" fill="#F5F7FA" stroke="#9AA7B8"/>
+  <text x="60" y="404" font-size="12" font-weight="bold" fill="#1F2A3A">启动后两周内现场确认（以团队实际情况为准）</text>
+  <text x="60" y="426" font-size="11" fill="#4A5A6A">① 客户端技术栈基线与 RN/H5 占比 ② 鸿蒙人力配置与同频痛点 ③ 端上系统与云端服务的边界现状</text>
+  <text x="60" y="446" font-size="11" fill="#4A5A6A">④ 团队 Flutter 积累与技术背景分布 ⑤ 试验田业务排期窗口 ⑥ 合规口径的书面确认</text>
+</svg>
+<figcaption>实施前的关键决策</figcaption></figure>
+
+<ol>
+<li><strong>小队规模</strong>：确定 5–6 人 Harness 小队；成员从既有团队抽调还是外部补充。</li>
+<li><strong>试验田</strong>：付费产品营销页 / 风险列表筛选器 / B 端报告模板三选一或二；对应产品/QA 的排期窗口。</li>
+<li><strong>P1 度量口径与指标体系</strong>：明确三层指标（北极星 / 目标 / 过程）；P1 按退出标准评估（≥1 需求端到端走通、拿到全部基线），P1 期间是否暂缓按常规交付速度评估。</li>
+<li><strong>数据合规口径</strong>：代码与工程上下文能否经外部 SaaS 大模型、私有化边界——直接决定 P1 工具链与模型分流方案；相关方案需通过所在组织的合规评审。</li>
+</ol>
+<hr />
+<p>*版本：v1.0（通用版）｜ 2026-10-28*</p>
+</main>
+</div>
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var byId = {};
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) byId[id] = a;
+  });
+  var ids = Object.keys(byId);
+  function setActive(id) {
+    links.forEach(function (a) {
+      a.classList.toggle('active', a === byId[id]);
+    });
+  }
+  var visible = {};
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) visible[e.target.id] = true; else delete visible[e.target.id];
+    });
+    for (var i = 0; i < ids.length; i++) {
+      if (visible[ids[i]]) { setActive(ids[i]); return; }
+    }
+  }, { rootMargin: '0px 0px -75% 0px', threshold: 0 });
+  ids.forEach(function (id) { var el = byId[id] && document.getElementById(id); if (el) io.observe(el); });
+
+  links.forEach(function (a) { a.addEventListener('click', function () { setActive(decodeURIComponent(a.getAttribute('href').slice(1))); }); });
+})();
+</script>
+</body></html>

@@ -40,7 +40,7 @@
 
 主站 AI Native 白皮书对于 AI Coding 给出了指向性建议：基于研发知识体系、数据 & 度量体系的数字资产，利用和搭建 AI Infra、AI 友好架构、Agent DEV & OPS & 脚手架，提供研发全链路的 AI 能力，最终完成需求交付。
 
- ![主站AI_Native白皮书](./png/ai_native_framework.png)
+ ![主站AI_Native白皮书](./png/ai_native_framework.webp)
 
 核心路径可以概括为：
 
@@ -235,7 +235,7 @@ AI 甜点区的共同特征：**上下文明确 + 任务结构化 + 有可参照
 
 礼物贴纸-营收效率提升迭代
 
-<img src="./images/image-20260415191910278.png" alt="image-20260415191910278" style="zoom: 25%;" />
+<img src="./images/image-20260415191910278.webp" alt="image-20260415191910278" style="zoom: 25%;" loading="lazy" decoding="async" />
 
 ##### 模块拆解
 
@@ -292,7 +292,7 @@ AI 甜点区的共同特征：**上下文明确 + 任务结构化 + 有可参照
 
 #####  简易直播间外显多人PK血条分数
 
-![image-20260416163209138](images/image-20260416163209138.png)
+![image-20260416163209138](images/image-20260416163209138.webp)
 
 
 
