@@ -10,9 +10,9 @@ const PROJECT_META: Record<string, { desc: string; mdPath?: string }> = {
     desc: "6年完整周期 · 外部变化驱动内部调整 · 4阶段×4维度演进全景",
     mdPath: "/docs/05-engineering.md",
   },
-  hongbao: { desc: "K4A 晋升核心项目 · 开发成本-85% · 年挽回30亿" },
-  lianping: { desc: "E11 晋升核心项目 · 五层插件化架构 · PK营收翻倍" },
-  ai: { desc: "E11 晋升核心项目 · 零额外码率 · CPU-82.6%" },
+  hongbao: { desc: "开发成本-85% · 年挽回30亿" },
+  lianping: { desc: "五层插件化架构 · PK营收翻倍" },
+  ai: { desc: "零额外码率 · CPU-82.6%" },
 };
 
 /**
@@ -42,7 +42,7 @@ export function useProjects(category: MaterialCategory = "project"): ProjectMate
         desc: meta.desc,
         mdPath: meta.mdPath,
         pdfPath: p.pdfUrl ?? undefined,
-        tags: p.tags,
+        tags: p.tags.filter((tag) => !/^(?:E\d+|K4A)$/i.test(tag.trim())),
       };
     });
   }, [query.data, category]);

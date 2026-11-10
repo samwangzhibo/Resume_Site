@@ -100,8 +100,8 @@ async function mutateLocal<T>(fn: (list: ProjectMeta[]) => { list: ProjectMeta[]
 /** 默认条目（数据库和本地文件都没有时作为初始数据；PDF 由 pdfStore 按 id 扫描关联） */
 const DEFAULT_PROJECTS: Omit<ProjectMeta, "pdfPath" | "pdfSize">[] = [
   { id: "engineering", label: "直播工程体系演进", tags: ["架构演进", "工程体系", "全链路"], sortOrder: 0, pdfName: null, category: "project" },
-  { id: "hongbao", label: "红包架构重构", tags: ["架构重构", "K4A", "商业化"], sortOrder: 1, pdfName: null, category: "project" },
-  { id: "lianping", label: "连屏技术体系演进", tags: ["架构演进", "E11", "音视频"], sortOrder: 2, pdfName: null, category: "project" },
+  { id: "hongbao", label: "红包架构重构", tags: ["架构重构", "工程提效", "商业化"], sortOrder: 1, pdfName: null, category: "project" },
+  { id: "lianping", label: "连屏技术体系演进", tags: ["架构演进", "插件化", "音视频"], sortOrder: 2, pdfName: null, category: "project" },
   { id: "ai", label: "本地 AI 人脸特效", tags: ["AI Native", "成本优化", "端侧推理"], sortOrder: 3, pdfName: null, category: "project" },
   { id: "research-ads", label: "广告商业化行业观察", tags: ["商业化", "广告", "行业调研"], sortOrder: 10, pdfName: null, category: "research" },
   { id: "research-llm", label: "大模型的下半场", tags: ["大模型", "Agent", "行业调研"], sortOrder: 11, pdfName: null, category: "research" },

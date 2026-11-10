@@ -92,7 +92,7 @@ function MainApp() {
               <span className="ml-2 text-[10px] font-normal text-gray-500">{APP_VERSION}</span>
             </h1>
             <p className="text-[10px] text-gray-500 truncate">
-              快手直播连屏互动方向架构负责人 · E10→E11
+              快手直播连屏互动方向架构负责人
             </p>
           </div>
           <div className="ml-auto flex items-center gap-2 shrink-0">

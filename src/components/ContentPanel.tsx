@@ -96,7 +96,7 @@ function ProfilePage() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-2">
-            {["1994年/31岁", "2019-至今 快手6年+", "E7→E10", "19项专利", "团队92% AI生码率"].map(
+            {["1994年/31岁", "2019-至今 快手6年+", "19项专利", "团队92% AI生码率"].map(
               (tag) => (
                 <span
                   key={tag}
@@ -172,7 +172,7 @@ function ProfilePage() {
                 {
                   company: "快手",
                   period: "2019.04-至今(25岁-至今)",
-                  role: "客户端技术专家 / 架构师  E7→E10",
+                  role: "客户端技术专家 / 架构师",
                   highlight: true,
                   icon: <Sparkles size={14} className="text-[#e94560]" />,
                 },
@@ -219,14 +219,14 @@ function ProfilePage() {
                   points: ["连屏/红包双百亿级", "本地AI通用架构", "跨业务复用范式"],
                 },
                 {
-                  title: "团队管理提效",
+                  title: "协同合作",
                   icon: <Users size={16} />,
-                  points: ["虚线管理10人+团队", "AI Coding体系落地", "生码渗透率92%"],
+                  points: ["协同10人+团队", "AI Coding体系落地", "生码渗透率92%"],
                 },
                 {
                   title: "行业技术影响力",
                   icon: <Award size={16} />,
-                  points: ["19项国家发明专利", "公司级技术讲师", "E8/E9晋升评委"],
+                  points: ["19项国家发明专利", "公司级技术讲师", "技术评审评委"],
                 },
               ].map((a) => (
                 <div key={a.title} className="p-3 rounded-xl bg-[#12122a] border border-[#1a1a3e]">
@@ -341,8 +341,8 @@ function ProfilePage() {
               />
               <ProfileProjectCard
                 title="直播红包业务全链路架构重构"
-                period="2021-2022 · 主R · K4A"
-                tags={["K4A·主R", "商业化", "资损治理"]}
+                period="2021-2022 · 主R"
+                tags={["主R", "商业化", "资损治理"]}
                 sectionId="hongbao"
                 pdfPath={pdfOf("hongbao")}
                 situation="直播红包为日千万级流水的营收核心业务，覆盖亿级用户；历史5类红包烟囱式发展，逻辑重复、UI混乱、无统一监控体系，存在迭代效率低、退款率高、黑产套利等核心问题。"
@@ -395,10 +395,10 @@ function ProfilePage() {
                   ],
                 },
                 {
-                  dim: "团队管理",
+                  dim: "协同合作",
                   icon: <Users size={16} />,
                   points: [
-                    "虚线团队管理",
+                    "跨团队协同合作",
                     "人才梯队建设",
                     "技术评审SOP机制",
                     "跨多部门协同推进",
@@ -539,7 +539,7 @@ function ProfileProjectCard({
       </div>
       <div className="px-5 py-3 space-y-2.5">
         <StarRow label="S" labelColor="bg-blue-500" title="背景" content={situation} />
-        <StarRow label="T" labelColor="bg-orange-500" title="挑战" content={challenge} />
+        <StarRow label="T" labelColor="bg-sky-400" title="挑战" content={challenge} />
         <StarRow label="A" labelColor="bg-purple-500" title="方案与行动" content={action} />
         <StarRow label="R" labelColor="bg-green-500" title="结果" content={result} highlight highlightNumbers />
       </div>
@@ -654,10 +654,10 @@ function ModelPage() {
   ];
   const cases = [
     { cell: "想 × 事", project: "红包重构：抽象统一生命周期+UI骨架，架构推演从35pd→5pd" },
-    { cell: "说 × 机制", project: "建立评审SOP+晋升辅导体系，推动标准化落地" },
+    { cell: "说 × 机制", project: "建立评审SOP+成长辅导体系，推动标准化落地" },
     { cell: "做 × 人", project: "连屏合演专项：周末主动体验竞品，梳理核心链路同步全团队" },
     { cell: "学 × 事", project: "全局技术领域盘点（蓝海期）→ 建立Karpathy范式知识库" },
-    { cell: "管 × 人", project: "连屏人才梯队1人→5人（1.5年E8、4年E9）" },
+    { cell: "管 × 人", project: "连屏人才梯队1人→5人" },
   ];
 
   return (
