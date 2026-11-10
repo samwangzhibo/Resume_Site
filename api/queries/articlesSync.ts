@@ -419,6 +419,8 @@ async function performSync(): Promise<SyncResult> {
     let lastFetchErr = "";
     // 本次实际使用的仓库内容目录：git 通道为 .repo-cache；备用通道为 .repo-tarball
     let srcDir = repoDir;
+    // 缓存完好但增量更新失败时置位：此时绝不能再走克隆分支（克隆前的 rmrf 会毁掉完好缓存）
+    let skipClone = false;
 
     // 第一步：本地已有仓库 → 优先增量更新（pull），避免每次全量克隆
     if (hasLocalRepo(repoDir)) {
@@ -443,12 +445,16 @@ async function performSync(): Promise<SyncResult> {
         }
         // 增量失败但缓存完好：保留缓存，绝不因网络抖动删除 200MB 缓存（否则下次必全量克隆）。
         // 同一网络下全量克隆大概率同样失败，直接转备用通道即可。
-        if (!fetched) log("增量更新失败，保留本地仓库缓存，转备用通道");
+        if (!fetched) {
+          log("增量更新失败，保留本地仓库缓存，转备用通道");
+          skipClone = true;
+        }
       }
     }
 
     // 第二步：无本地仓库（首次同步 / 缓存损坏已清理）→ 全量浅克隆（最多尝试 2 次，间隔 3s，应对偶发网络抖动）
-    for (let attempt = 1; attempt <= 2 && !fetched; attempt++) {
+    // skipClone：缓存完好但增量失败时不进此分支——克隆前的 rmrf 会毁掉完好缓存
+    for (let attempt = 1; attempt <= 2 && !fetched && !skipClone; attempt++) {
       if (attempt > 1) {
         log(`等待 3s 后重试克隆（第 ${attempt}/2 次）...`);
         await new Promise((r) => setTimeout(r, 3000));
