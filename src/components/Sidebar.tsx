@@ -160,11 +160,11 @@ export function Sidebar({
                 <span className="text-[9px] text-gray-600 font-medium">项目</span>
               </div>
             ) : (
-              <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-2 px-3">
-                项目材料
-              </p>
+                <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1 px-3">
+                  项目材料
+                </p>
             )}
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               {projects.map((p) => (
                 <ProjectCard
                   key={p.id}
@@ -178,17 +178,17 @@ export function Sidebar({
           </div>
 
           {research.length > 0 && (
-            <div className={`mt-3 ${isCollapsed ? "px-1" : "px-2"}`}>
+            <div className={`mt-2 ${isCollapsed ? "px-1" : "px-2"}`}>
               {isCollapsed ? (
                 <div className="text-center mb-1.5">
                   <span className="text-[9px] text-gray-600 font-medium">调研</span>
                 </div>
               ) : (
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-2 px-3">
+                <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1 px-3">
                   行业调研
                 </p>
               )}
-              <div className="space-y-1.5">
+              <div className="space-y-1">
                 {research.map((p) => (
                   <ResearchCard
                     key={p.id}
@@ -203,13 +203,13 @@ export function Sidebar({
           )}
 
           {onSelectArticle && (
-            <div className={`mt-3 ${isCollapsed ? "px-1" : "px-2"}`}>
+            <div className={`mt-2 ${isCollapsed ? "px-1" : "px-2"}`}>
               {isCollapsed ? (
                 <div className="text-center mb-1.5">
                   <span className="text-[9px] text-gray-600 font-medium">文章</span>
                 </div>
               ) : (
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-2 px-3">
+                <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1 px-3">
                   技术文章
                 </p>
               )}
@@ -271,19 +271,16 @@ function ProjectCard({
           </span>
         </>
       ) : (
-        <div className="flex items-center gap-2.5 px-3 py-2.5">
-          <span className={isActive ? "text-[#e94560]" : "text-gray-500"}>
+        <div className="flex items-center gap-2 px-2.5 py-1.5" title={project.desc}>
+          <span className={`shrink-0 ${isActive ? "text-[#e94560]" : "text-gray-500"}`}>
             {PROJECT_ICONS[project.id]}
           </span>
-          <div className="min-w-0 flex-1">
-            <p
-              className={`text-xs font-medium truncate ${isActive ? "text-[#e94560]" : "text-gray-300"}`}
-            >
-              {project.label}
-            </p>
-            <p className="text-[10px] text-gray-500 truncate">{project.desc}</p>
-          </div>
-          <FileText size={12} className={isActive ? "text-[#e94560]" : "text-gray-600"} />
+          <span
+            className={`min-w-0 flex-1 text-xs font-medium truncate ${isActive ? "text-[#e94560]" : "text-gray-300"}`}
+          >
+            {project.label}
+          </span>
+          <FileText size={12} className={`shrink-0 ${isActive ? "text-[#e94560]" : "text-gray-600"}`} />
         </div>
       )}
     </button>
@@ -321,19 +318,17 @@ function ResearchCard({
           </span>
         </>
       ) : (
-        <div className="flex items-center gap-2.5 px-3 py-2.5">
-          <span className={isActive ? "text-[#e94560]" : "text-gray-500"}>{RESEARCH_ICON}</span>
-          <div className="min-w-0 flex-1">
-            <p
-              className={`text-xs font-medium truncate ${isActive ? "text-[#e94560]" : "text-gray-300"}`}
-            >
-              {project.label}
-            </p>
-            {project.tags.length > 0 && (
-              <p className="text-[10px] text-gray-500 truncate">{project.tags.join(" · ")}</p>
-            )}
-          </div>
-          <FileText size={12} className={isActive ? "text-[#e94560]" : "text-gray-600"} />
+        <div
+          className="flex items-center gap-2 px-2.5 py-1.5"
+          title={project.tags.length > 0 ? project.tags.join(" · ") : project.label}
+        >
+          <span className={`shrink-0 ${isActive ? "text-[#e94560]" : "text-gray-500"}`}>{RESEARCH_ICON}</span>
+          <span
+            className={`min-w-0 flex-1 text-xs font-medium truncate ${isActive ? "text-[#e94560]" : "text-gray-300"}`}
+          >
+            {project.label}
+          </span>
+          <FileText size={12} className={`shrink-0 ${isActive ? "text-[#e94560]" : "text-gray-600"}`} />
         </div>
       )}
     </button>
@@ -419,13 +414,13 @@ function ArticleList({
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       {groups.map(([dir, items]) => (
         <div key={dir}>
-          <p className="text-[10px] font-medium text-gray-500 px-3 mb-1 truncate" title={dir}>
+          <p className="text-[10px] font-medium text-gray-500 px-3 mb-0.5 truncate" title={dir}>
             {dir}
           </p>
-          <div className="space-y-1">
+          <div className="space-y-0.5">
             {items.map((a) => {
               const active = activeArticlePath === a.path;
               return (
@@ -433,14 +428,15 @@ function ArticleList({
                   key={a.path}
                   ref={active ? activeRef : undefined}
                   onClick={() => onSelectArticle(a.path)}
-                  className={`w-full text-left rounded-lg border transition-all overflow-hidden px-3 py-2 ${
+                  className={`w-full flex items-center gap-2 text-left rounded-md border transition-all overflow-hidden px-2.5 py-1 ${
                     active
                       ? "bg-[#e94560]/10 border-[#e94560]/40"
                       : "bg-[#12122a] border-[#1a1a3e] hover:border-[#2a2a4e]"
                   }`}
                   title={a.title}
                 >
-                  <span className={`text-xs truncate block ${active ? "text-[#e94560]" : "text-gray-300"}`}>
+                  <FileText size={12} className={`shrink-0 ${active ? "text-[#e94560]" : "text-gray-500"}`} />
+                  <span className={`min-w-0 flex-1 text-xs truncate ${active ? "text-[#e94560]" : "text-gray-300"}`}>
                     {a.title}
                   </span>
                 </button>
