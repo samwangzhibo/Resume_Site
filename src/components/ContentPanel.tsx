@@ -1310,6 +1310,8 @@ function ArticleViewer({ mdPath }: { mdPath: string }) {
     }
   })();
   const articleDir = relPath.includes("/") ? relPath.slice(0, relPath.lastIndexOf("/") + 1) : "";
+  /** 独立 HTML 文章：不走 Markdown 渲染，直接用 iframe 展示（保留文章自带样式） */
+  const isHtml = /\.html?$/i.test(relPath);
 
   /** 相对路径拼接（处理 ./ 与 ../ 引用） */
   const resolveImageSrc = (src?: string) => {
@@ -1326,6 +1328,10 @@ function ArticleViewer({ mdPath }: { mdPath: string }) {
   };
 
   useEffect(() => {
+    if (isHtml) {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     fetch(mdPath)
       .then((r) => r.text())
@@ -1340,12 +1346,21 @@ function ArticleViewer({ mdPath }: { mdPath: string }) {
         setContent("# 加载失败");
         setLoading(false);
       });
-  }, [mdPath]);
+  }, [mdPath, isHtml]);
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  if (isHtml)
+    return (
+      <iframe
+        src={mdPath}
+        title="技术文章"
+        className="w-full h-full border-0 bg-white"
+      />
+    );
 
   if (loading)
     return (

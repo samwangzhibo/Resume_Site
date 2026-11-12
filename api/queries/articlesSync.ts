@@ -129,17 +129,20 @@ export interface ArticleEntry {
   dir: string;
   /** 文件名 */
   file: string;
-  /** 文章标题 = md 文件名（去 .md 后缀、去 [高] 类优先级前缀） */
+  /** 文章标题 = 文件名（去 .md/.html 后缀、去 [高] 类优先级前缀） */
   title: string;
   path: string;
 }
 
-/** 从 md 文件名生成展示标题：去 .md 后缀，去 [高]/[中]/[低] 类前缀 */
+/** 支持的文章文件扩展名：Markdown 与独立 HTML 文章 */
+const ARTICLE_FILE_RE = /\.(md|html?)$/i;
+
+/** 从文件名生成展示标题：去 .md/.html 后缀，去 [高]/[中]/[低] 类前缀 */
 function mdTitle(fileName: string): string {
-  return fileName.replace(/\.md$/i, "").replace(/^\s*\[[^\]]{1,6}\]\s*/, "");
+  return fileName.replace(ARTICLE_FILE_RE, "").replace(/^\s*\[[^\]]{1,6}\]\s*/, "");
 }
 
-/** 扫描 uploads/articles 下的 md 文件（按顶层目录分组），重建 manifest.json */
+/** 扫描 uploads/articles 下的文章文件（md/html，按顶层目录分组），重建 manifest.json */
 async function rebuildManifest(): Promise<ArticleEntry[]> {
   const entries: ArticleEntry[] = [];
   async function scan(dir: string, group: string) {
@@ -150,7 +153,7 @@ async function rebuildManifest(): Promise<ArticleEntry[]> {
       const abs = join(dir, item.name);
       if (item.isDirectory()) {
         await scan(abs, group ? `${group}/${item.name}` : item.name);
-      } else if (item.name.toLowerCase().endsWith(".md") && group) {
+      } else if (ARTICLE_FILE_RE.test(item.name) && group) {
         const rel = relative(ARTICLES_DIR, abs).split("\\").join("/");
         entries.push({
           dir: group.split("/")[0],
@@ -195,7 +198,9 @@ export async function readArticleFile(relPath: string): Promise<{ buf: Buffer; c
     const contentType =
       ext === ".md"
         ? "text/markdown; charset=utf-8"
-        : ext === ".svg"
+        : ext === ".html" || ext === ".htm"
+          ? "text/html; charset=utf-8"
+          : ext === ".svg"
           ? "image/svg+xml"
           : ext === ".png"
             ? "image/png"
